@@ -1,4 +1,10 @@
 <?php
+
+namespace RECHARGE\models;
+
+use Flight;
+use PDOException;
+
 class SystemConfig {
     private $db;
 

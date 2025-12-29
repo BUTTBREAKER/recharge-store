@@ -11,5 +11,10 @@
             "php -r \"if (!file_exists('.env')) copy('.env.example', '.env');\""
         ],
         "serve": "php -S localhost:61001 -t public"
+    },
+    "autoload": {
+        "psr-4": {
+            "RECHARGE\\": "app"
+        }
     }
 }

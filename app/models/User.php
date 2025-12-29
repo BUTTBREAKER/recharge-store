@@ -1,4 +1,9 @@
 <?php
+
+namespace RECHARGE\models;
+
+use PDO;
+
 class User extends BaseModel {
     protected $table = 'users';
 

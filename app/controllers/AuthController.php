@@ -1,4 +1,10 @@
 <?php
+
+namespace RECHARGE\controllers;
+
+use Flight;
+use RECHARGE\models\User;
+
 class AuthController {
     public static function loginView() {
         if (session_status() === PHP_SESSION_NONE) session_start();

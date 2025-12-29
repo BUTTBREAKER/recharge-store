@@ -1,5 +1,10 @@
 <?php
+
+namespace RECHARGE\controllers;
+
 use Flight;
+use RECHARGE\models\Pago;
+use RECHARGE\models\Pedido;
 
 class PaymentController {
     public static function pagomovil($id) {

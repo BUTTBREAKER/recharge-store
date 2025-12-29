@@ -1,4 +1,7 @@
 <?php
+
+namespace RECHARGE\models;
+
 class Admin extends BaseModel {
     public function login($usuario, $password) {
         $stmt = $this->db->prepare("SELECT * FROM admins WHERE usuario = ?");

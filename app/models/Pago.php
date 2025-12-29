@@ -1,4 +1,7 @@
 <?php
+
+namespace RECHARGE\models;
+
 class Pago extends BaseModel {
     public function registrar($data) {
         $sql = "INSERT INTO pagos (pedido_id, referencia, comprobante, provider, estado) 

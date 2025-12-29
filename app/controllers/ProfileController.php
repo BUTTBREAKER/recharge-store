@@ -1,4 +1,11 @@
 <?php
+
+namespace RECHARGE\controllers;
+
+use Flight;
+use RECHARGE\models\Pedido;
+use RECHARGE\models\User;
+
 class ProfileController {
     
     public static function checkAuth() {

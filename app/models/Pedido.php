@@ -1,4 +1,9 @@
 <?php
+
+namespace RECHARGE\models;
+
+use PDOException;
+
 class Pedido extends BaseModel {
     public function crear($data) {
         $sql = "INSERT INTO pedidos (juego, player_id, server_id, paquete, monto, metodo_pago, telefono, estado) 

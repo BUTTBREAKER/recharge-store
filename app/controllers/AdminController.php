@@ -1,4 +1,16 @@
 <?php
+
+namespace RECHARGE\controllers;
+
+use Flight;
+use RECHARGE\models\Analytics;
+use RECHARGE\models\Pago;
+use RECHARGE\models\PaymentConfig;
+use RECHARGE\models\Pedido;
+use RECHARGE\models\Producto;
+use RECHARGE\models\SystemConfig;
+use RECHARGE\models\User;
+
 class AdminController {
     public static function checkAdmin() {
         if (session_status() === PHP_SESSION_NONE) session_start();

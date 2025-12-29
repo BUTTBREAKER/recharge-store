@@ -17,22 +17,6 @@ Flight::register('db', 'PDO', [
 // Configurar la ruta de las vistas
 Flight::set('flight.views.path', __DIR__ . '/../app/views');
 
-// Autoload manual para clases MVC (o usar composer psr-4)
-spl_autoload_register(function ($class) {
-    $paths = [
-        __DIR__ . '/../app/controllers/',
-        __DIR__ . '/../app/models/',
-        __DIR__ . '/../app/middlewares/'
-    ];
-    foreach ($paths as $path) {
-        $file = $path . $class . '.php';
-        if (file_exists($file)) {
-            require_once $file;
-            return;
-        }
-    }
-});
-
 // Cargar rutas
 require __DIR__ . '/../app/routes/web.php';
 require __DIR__ . '/../app/routes/admin.php';

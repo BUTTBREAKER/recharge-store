@@ -1,4 +1,11 @@
 <?php
+
+namespace RECHARGE\controllers;
+
+use Flight;
+use RECHARGE\models\Pedido;
+use RECHARGE\models\SystemConfig;
+
 class MainController {
     public static function home() {
         Flight::render('home', [], 'content');

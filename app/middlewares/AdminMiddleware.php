@@ -1,4 +1,9 @@
 <?php
+
+namespace RECHARGE\middlewares;
+
+use Flight;
+
 class AdminMiddleware {
     public function before() {
         if (session_status() === PHP_SESSION_NONE) {

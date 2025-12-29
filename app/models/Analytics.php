@@ -1,4 +1,9 @@
 <?php
+
+namespace RECHARGE\models;
+
+use Flight;
+
 class Analytics {
     private $db;
 
