@@ -5,20 +5,25 @@ use RECHARGE\models\Pedido;
 
 ?>
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es" class="scroll-smooth">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
     <title><?= $title ?? 'SisifoStore - Recargas MLBB' ?></title>
     <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
 
     <!-- Tailwind CSS (CDN - Development Mode) -->
-    <!-- Note: "cdn.tailwindcss.com should not be used in production" warning is expected. We use it for rapid MVP development. -->
+    <!--
+        Note: "cdn.tailwindcss.com should not be used in production" warning is expected.
+        We use it for rapid MVP development.
+    -->
     <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'media',
@@ -41,98 +46,133 @@ use RECHARGE\models\Pedido;
                     },
                     keyframes: {
                         fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                            '0%': {
+                                opacity: '0',
+                                transform: 'translateY(10px)'
+                            },
+                            '100%': {
+                                opacity: '1',
+                                transform: 'translateY(0)'
+                            },
                         },
                         float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
+                            '0%, 100%': {
+                                transform: 'translateY(0)'
+                            },
+                            '50%': {
+                                transform: 'translateY(-10px)'
+                            },
                         }
                     }
                 }
             }
-        }
+        };
     </script>
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
+
         body.light-mode {
             background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #e9d5ff 100%);
         }
+
         body.dark-mode {
             background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 50%, #4a2c6d 100%);
             color: #e0d5f0;
         }
+
         .glass-nav {
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             transition: background-color 0.3s ease;
         }
+
         body.light-mode .glass-nav {
             background: rgba(255, 255, 255, 0.8);
         }
+
         body.dark-mode .glass-nav {
             background: rgba(42, 24, 70, 0.9);
             border-bottom-color: rgba(139, 92, 246, 0.3);
         }
+
         body.dark-mode .bg-white {
             background-color: #2a1847 !important;
             border-color: #4a2c6d !important;
         }
+
         body.dark-mode .text-gray-900 {
             color: #f0e7ff !important;
         }
+
         body.dark-mode .text-gray-800 {
             color: #e0d5f0 !important;
         }
+
         body.dark-mode .text-gray-700 {
             color: #d0c0e8 !important;
         }
+
         body.dark-mode .text-gray-600 {
             color: #c8b8e0 !important;
         }
+
         body.dark-mode .text-gray-500 {
             color: #b8a7d0 !important;
         }
+
         body.dark-mode .text-gray-400 {
             color: #a895c0 !important;
         }
+
         body.dark-mode .border-gray-100 {
             border-color: #4a2c6d !important;
         }
+
         body.dark-mode .border-gray-200 {
             border-color: #5a3c7d !important;
         }
+
         body.dark-mode .bg-gray-50 {
             background-color: #1f0d3a !important;
         }
+
         body.dark-mode .bg-gray-100 {
             background-color: #2a1847 !important;
         }
+
         body.dark-mode .bg-violet-50 {
             background-color: #3d2660 !important;
         }
+
         body.dark-mode .bg-violet-100 {
             background-color: #4a2c6d !important;
         }
+
         body.dark-mode .hover\:bg-violet-50:hover {
             background-color: #3d2660 !important;
         }
+
         body.dark-mode .hover\:text-violet-600:hover {
             color: #a78bfa !important;
         }
+
         body.dark-mode .text-violet-600 {
             color: #a78bfa !important;
         }
+
         body.dark-mode .text-violet-700 {
             color: #8b5cf6 !important;
         }
+
         body.dark-mode footer {
             background-color: #1a0a2e !important;
             border-top-color: #4a2c6d !important;
         }
+
         /* Dark mode toggle button */
         .dark-mode-toggle {
             position: relative;
@@ -143,9 +183,11 @@ use RECHARGE\models\Pedido;
             cursor: pointer;
             transition: background 0.3s;
         }
+
         body.dark-mode .dark-mode-toggle {
             background: #8b5cf6;
         }
+
         .dark-mode-toggle-circle {
             position: absolute;
             top: 3px;
@@ -157,14 +199,15 @@ use RECHARGE\models\Pedido;
             transition: transform 0.3s;
             display: flex;
             align-items: center;
-            justify-center;
         }
+
         body.dark-mode .dark-mode-toggle-circle {
             transform: translateX(30px);
             background: #1a0a2e;
         }
     </style>
 </head>
+
 <body class="light-mode bg-gray-50 text-gray-800 flex flex-col min-h-screen">
     <!-- Navbar -->
     <nav class="fixed w-full z-50 glass-nav border-b border-gray-100 transition-all duration-300">
@@ -195,10 +238,12 @@ use RECHARGE\models\Pedido;
                             $notificationCount = $pedidoModel->contarActivosPorUsuario(Session::get('user_id'));
                             $notificationLink = '/notifications';
                         }
-                        ?>
+                    ?>
                         <!-- Notification Bell -->
                         <a href="<?= $notificationLink ?>" class="relative text-gray-600 hover:text-violet-600 transition">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                            </svg>
                             <?php if ($notificationCount > 0) : ?>
                                 <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                                     <?= $notificationCount > 9 ? '9+' : $notificationCount ?>
@@ -213,7 +258,9 @@ use RECHARGE\models\Pedido;
                         <div class="relative group">
                             <button class="flex items-center text-gray-700 hover:text-violet-600 font-medium transition">
                                 <span class="mr-2">Hola, <?= htmlspecialchars(Session::get('user_name') ?? 'Usuario') ?></span>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
                             </button>
                             <div class="absolute right-0 w-48 bg-white rounded-xl shadow-lg py-2 mt-2 hidden group-hover:block border border-gray-100 animate-fade-in z-50">
                                 <?php if (Session::has('user_role') && Session::get('user_role') === 'admin') : ?>
@@ -241,7 +288,9 @@ use RECHARGE\models\Pedido;
                     </div>
 
                     <a href="/#games" class="bg-gray-900 text-white px-4 py-2 rounded-full font-bold hover:bg-black transition shadow-lg flex items-center">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
                         Recargar
                     </a>
                 </div>
@@ -321,8 +370,8 @@ use RECHARGE\models\Pedido;
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div class="md:flex md:justify-between">
                 <div class="mb-8 md:mb-0">
-                     <h2 class="text-lg font-bold text-gray-900">SisifoStore</h2>
-                     <p class="mt-2 text-sm text-gray-500">Recargas seguras y rápidas para Mobile Legends.</p>
+                    <h2 class="text-lg font-bold text-gray-900">SisifoStore</h2>
+                    <p class="mt-2 text-sm text-gray-500">Recargas seguras y rápidas para Mobile Legends.</p>
                 </div>
                 <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                     <div>
@@ -334,7 +383,7 @@ use RECHARGE\models\Pedido;
                     </div>
                 </div>
             </div>
-             <div class="mt-8 border-t border-gray-200 pt-8 text-center md:text-left">
+            <div class="mt-8 border-t border-gray-200 pt-8 text-center md:text-left">
                 <p class="text-sm text-gray-400">&copy; <?= date('Y') ?> SisifoStore. Todos los derechos reservados.</p>
                 <p class="text-xs text-gray-300 mt-2">Este sitio no está afiliado a Moonton. Mobile Legends: Bang Bang es marca registrada de Moonton.</p>
             </div>
@@ -353,7 +402,7 @@ use RECHARGE\models\Pedido;
         function toggleDarkMode() {
             const body = document.body;
             const isDark = body.classList.contains('dark-mode');
-            
+
             if (isDark) {
                 body.classList.remove('dark-mode');
                 body.classList.add('light-mode');
@@ -375,4 +424,5 @@ use RECHARGE\models\Pedido;
         });
     </script>
 </body>
+
 </html>
