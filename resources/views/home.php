@@ -1,3 +1,9 @@
+<?php
+
+// ...
+
+?>
+
 <!-- Hero Section -->
 <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-violet-100 to-indigo-50 mb-16 animate-fade-in">
     <div class="max-w-7xl mx-auto">
@@ -48,13 +54,13 @@
                 <h3 class="text-2xl font-bold text-gray-900 mb-2">Mobile Legends</h3>
                 <p class="text-sm text-gray-500 mb-6 uppercase tracking-wide font-semibold">Moonton</p>
                 <p class="text-gray-600 mb-6 line-clamp-2">Recarga diamantes directos a tu ID. Proceso 100% seguro y automático.</p>
-                
+
                 <a href="/juego/mobile-legends" class="block w-full text-center bg-violet-50 text-violet-700 font-bold py-3 px-6 rounded-xl hover:bg-violet-600 hover:text-white transition-all duration-300">
                     Ver Paquetes &rarr;
                 </a>
             </div>
         </div>
-        
+
         <!-- Coming Soon Card -->
         <div class="relative bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 p-8 flex flex-col items-center justify-center text-center opacity-75">
             <span class="text-5xl mb-4 grayscale">🎮</span>

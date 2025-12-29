@@ -78,10 +78,15 @@ class Analytics extends BaseModel
                 SUM(CASE WHEN estado IN ('confirmado', 'realizada') THEN monto ELSE 0 END) as total_ventas,
                 AVG(CASE WHEN estado IN ('confirmado', 'realizada') THEN monto ELSE NULL END) as promedio_venta,
                 SUM(CASE WHEN DATE(fecha) = CURDATE() THEN 1 ELSE 0 END) as pedidos_hoy,
-                SUM(CASE WHEN DATE(fecha) = CURDATE() AND estado IN ('confirmado', 'realizada') THEN monto ELSE 0 END) as ventas_hoy
+                SUM(CASE
+                    WHEN DATE(fecha) = CURDATE() AND estado IN ('confirmado', 'realizada') THEN monto
+                    ELSE 0
+                END) as ventas_hoy
             FROM pedidos
         ";
+
         $stmt = $this->db->query($sql);
+
         return $stmt->fetch();
     }
 
@@ -116,7 +121,10 @@ class Analytics extends BaseModel
             SELECT 
                 COUNT(*) as total_pedidos,
                 SUM(CASE WHEN estado IN ('confirmado', 'realizada') THEN 1 ELSE 0 END) as pedidos_completados,
-                ROUND((SUM(CASE WHEN estado IN ('confirmado', 'realizada') THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2) as tasa_conversion
+                ROUND((SUM(CASE
+                    WHEN estado IN ('confirmado', 'realizada') THEN 1
+                    ELSE 0
+                END) / COUNT(*)) * 100, 2) as tasa_conversion
             FROM pedidos
         ";
         $stmt = $this->db->query($sql);

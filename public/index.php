@@ -14,8 +14,6 @@ const ROOT_FOLDER = __DIR__ . '/..';
 
 require_once ROOT_FOLDER . '/vendor/autoload.php';
 
-define('BASE_HREF', str_replace('index.php', '', $_SERVER['SCRIPT_NAME']));
-
 ///////////////////////////
 // ENVIRONMENT VARIABLES //
 ///////////////////////////
