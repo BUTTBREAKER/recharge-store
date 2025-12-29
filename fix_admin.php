@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/config/config.php';
+$config = require __DIR__ . '/config/config.php';
 
 try {
     $dsn = "mysql:host={$config['database']['host']};dbname={$config['database']['name']};charset=utf8mb4";
