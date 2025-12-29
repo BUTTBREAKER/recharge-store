@@ -22,8 +22,15 @@ Container::getInstance()->singleton(PDO::class, static function (): PDO {
 
 Flight::registerContainerHandler(Container::getInstance());
 
-// Configurar la ruta de las vistas
-Flight::set('flight.views.path', __DIR__ . '/../app/views');
+Flight::set('flight.base_url', null);
+Flight::set('flight.case_sensitive', false);
+Flight::set('flight.handle_errors', true);
+Flight::set('flight.log_errors', false);
+Flight::set('flight.content_length', true);
+Flight::set('flight.v2.output_buffering', false);
+Flight::view()->extension = '.php';
+Flight::view()->path = __DIR__ . '/../app/views';
+Flight::view()->preserveVars = false;
 
 // Cargar rutas
 require __DIR__ . '/../app/routes/web.php';
