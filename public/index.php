@@ -7,10 +7,23 @@ use Leaf\Helpers\Password;
 use RECHARGE\Enums\Role;
 use Symfony\Component\Dotenv\Dotenv;
 
-require __DIR__ . '/../vendor/autoload.php';
+///////////////
+// CONSTANTS //
+///////////////
+const ROOT_FOLDER = __DIR__ . '/..';
 
-(new Dotenv())->load(__DIR__ . '/../.env.example', __DIR__ . '/../.env');
+require_once ROOT_FOLDER . '/vendor/autoload.php';
 
+define('BASE_HREF', str_replace('index.php', '', $_SERVER['SCRIPT_NAME']));
+
+///////////////////////////
+// ENVIRONMENT VARIABLES //
+///////////////////////////
+(new Dotenv())->load(ROOT_FOLDER . '/.env.example', ROOT_FOLDER . '/.env');
+
+/////////////////////////////////////
+// DEPENDENCIES INJECTOR CONTAINER //
+/////////////////////////////////////
 Container::getInstance()->singleton(PDO::class, static fn(): PDO => new PDO(
     "mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']};charset=utf8mb4",
     $_ENV['DB_USER'],
@@ -20,12 +33,16 @@ Container::getInstance()->singleton(PDO::class, static fn(): PDO => new PDO(
 Container::getInstance()->singleton(Auth::class);
 Container::getInstance()->singleton(Db::class);
 
+//////////////////////////////
+// FLIGHTPHP CONFIGURATIONS //
+//////////////////////////////
 Flight::registerContainerHandler(Container::getInstance());
 
 Flight::set(
     'flight.base_url',
     str_replace('/index.php', '', $_SERVER['SCRIPT_NAME'])
 );
+
 Flight::set('flight.case_sensitive', false);
 Flight::set('flight.handle_errors', true);
 Flight::set('flight.log_errors', false);
@@ -35,6 +52,9 @@ Flight::view()->extension = '.php';
 Flight::view()->path = __DIR__ . '/../resources/views';
 Flight::view()->preserveVars = false;
 
+///////////////////////////////
+// LEAFS/AUTH CONFIGURATIONS //
+///////////////////////////////
 $auth = Container::getInstance()->get(Auth::class);
 $db = Container::getInstance()->get(Db::class);
 
@@ -78,6 +98,7 @@ $auth->createRoles([
     ],
 ]);
 
+// DISABLE SSL
 // $guzzle = $auth->client('google')->getHttpClient();
 // $refleccionPropiedad = new ReflectionProperty($guzzle, 'config');
 // $refleccionPropiedad->setAccessible(true);
@@ -88,10 +109,11 @@ $auth->createRoles([
 //     ['verify' => false] + $configuracionDeGuzzle
 // );
 
+// DATABASE INSTANCE AS SINGLETON
 $db->connection(Container::getInstance()->get(PDO::class));
 (new ReflectionProperty($auth, 'db'))->setValue($auth, $db);
 
-// Cargar rutas
+// LOAD ROUTES
 foreach (glob(__DIR__ . '/../routes/*.php') as $routes) {
     require_once $routes;
 }
