@@ -2,5 +2,16 @@
     "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
     "formatter": {
         "useEditorconfig": true
+    },
+    "files": {
+        "includes": [
+            "public",
+            "resources",
+            "biome.json",
+            "composer.*",
+            "package-lock.json",
+            "package.json",
+            "*.sublime-*"
+        ]
     }
 }
