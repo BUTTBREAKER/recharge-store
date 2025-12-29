@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="./tailwindcss.min.css" />
 </head>
 
-<body class="light-mode">
+<body class="light-mode transition-all duration-300">
     <?php Flight::render('components/navbar') ?>
 
     <!-- Main Content -->
