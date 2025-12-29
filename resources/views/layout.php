@@ -11,200 +11,22 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title><?= $title ?? 'SisifoStore - Recargas MLBB' ?></title>
+    <base href="<?= str_replace('index.php', '', $_SERVER['SCRIPT_NAME']) ?>" />
+
     <!-- Google Fonts: Inter -->
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet" />
 
-    <!-- Tailwind CSS (CDN - Development Mode) -->
     <!--
+        Tailwind CSS (CDN - Development Mode)
         Note: "cdn.tailwindcss.com should not be used in production" warning is expected.
         We use it for rapid MVP development.
     -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <script>
-        tailwind.config = {
-            darkMode: 'media',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        primary: '#FEF3C7', // Amarillo pastel
-                        'primary-dark': '#FDE047',
-                        secondary: '#DDD6FE', // Violeta pastel
-                        'secondary-dark': '#C4B5FD',
-                        dark: '#111827',
-                        light: '#F9FAFB',
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.5s ease-out',
-                        'float': 'float 3s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': {
-                                opacity: '0',
-                                transform: 'translateY(10px)'
-                            },
-                            '100%': {
-                                opacity: '1',
-                                transform: 'translateY(0)'
-                            },
-                        },
-                        float: {
-                            '0%, 100%': {
-                                transform: 'translateY(0)'
-                            },
-                            '50%': {
-                                transform: 'translateY(-10px)'
-                            },
-                        }
-                    }
-                }
-            }
-        };
-    </script>
-
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        body.light-mode {
-            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #e9d5ff 100%);
-        }
-
-        body.dark-mode {
-            background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 50%, #4a2c6d 100%);
-            color: #e0d5f0;
-        }
-
-        .glass-nav {
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: background-color 0.3s ease;
-        }
-
-        body.light-mode .glass-nav {
-            background: rgba(255, 255, 255, 0.8);
-        }
-
-        body.dark-mode .glass-nav {
-            background: rgba(42, 24, 70, 0.9);
-            border-bottom-color: rgba(139, 92, 246, 0.3);
-        }
-
-        body.dark-mode .bg-white {
-            background-color: #2a1847 !important;
-            border-color: #4a2c6d !important;
-        }
-
-        body.dark-mode .text-gray-900 {
-            color: #f0e7ff !important;
-        }
-
-        body.dark-mode .text-gray-800 {
-            color: #e0d5f0 !important;
-        }
-
-        body.dark-mode .text-gray-700 {
-            color: #d0c0e8 !important;
-        }
-
-        body.dark-mode .text-gray-600 {
-            color: #c8b8e0 !important;
-        }
-
-        body.dark-mode .text-gray-500 {
-            color: #b8a7d0 !important;
-        }
-
-        body.dark-mode .text-gray-400 {
-            color: #a895c0 !important;
-        }
-
-        body.dark-mode .border-gray-100 {
-            border-color: #4a2c6d !important;
-        }
-
-        body.dark-mode .border-gray-200 {
-            border-color: #5a3c7d !important;
-        }
-
-        body.dark-mode .bg-gray-50 {
-            background-color: #1f0d3a !important;
-        }
-
-        body.dark-mode .bg-gray-100 {
-            background-color: #2a1847 !important;
-        }
-
-        body.dark-mode .bg-violet-50 {
-            background-color: #3d2660 !important;
-        }
-
-        body.dark-mode .bg-violet-100 {
-            background-color: #4a2c6d !important;
-        }
-
-        body.dark-mode .hover\:bg-violet-50:hover {
-            background-color: #3d2660 !important;
-        }
-
-        body.dark-mode .hover\:text-violet-600:hover {
-            color: #a78bfa !important;
-        }
-
-        body.dark-mode .text-violet-600 {
-            color: #a78bfa !important;
-        }
-
-        body.dark-mode .text-violet-700 {
-            color: #8b5cf6 !important;
-        }
-
-        body.dark-mode footer {
-            background-color: #1a0a2e !important;
-            border-top-color: #4a2c6d !important;
-        }
-
-        /* Dark mode toggle button */
-        .dark-mode-toggle {
-            position: relative;
-            width: 60px;
-            height: 30px;
-            background: #e5e7eb;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        body.dark-mode .dark-mode-toggle {
-            background: #8b5cf6;
-        }
-
-        .dark-mode-toggle-circle {
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 24px;
-            height: 24px;
-            background: white;
-            border-radius: 50%;
-            transition: transform 0.3s;
-            display: flex;
-            align-items: center;
-        }
-
-        body.dark-mode .dark-mode-toggle-circle {
-            transform: translateX(30px);
-            background: #1a0a2e;
-        }
-    </style>
+    <script src="./index.js"></script>
+    <link rel="stylesheet" href="./index.css" />
 </head>
 
 <body class="light-mode">
