@@ -3,17 +3,13 @@
 namespace RECHARGE\middlewares;
 
 use Flight;
+use Leaf\Http\Session;
 
 class AdminMiddleware
 {
     public function before()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        $url = Flight::request()->url;
-        if ($url !== '/admin/login' && !isset($_SESSION['admin_id'])) {
+        if (Flight::request()->url !== '/admin/login' && !Session::has('admin_id')) {
             Flight::redirect('/admin/login');
             return false;
         }

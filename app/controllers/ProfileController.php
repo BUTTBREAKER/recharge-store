@@ -3,6 +3,7 @@
 namespace RECHARGE\controllers;
 
 use Flight;
+use Leaf\Http\Session;
 use RECHARGE\models\Pedido;
 use RECHARGE\models\User;
 
@@ -10,10 +11,7 @@ class ProfileController
 {
     public static function checkAuth()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        if (!isset($_SESSION['user_id'])) {
+        if (!Session::has('user_id')) {
             Flight::redirect('/login');
             exit;
         }
@@ -27,9 +25,7 @@ class ProfileController
         self::checkAuth();
 
         $userModel = new User();
-        $pedidoModel = new Pedido();
-
-        $user = $userModel->obtenerPorId($_SESSION['user_id']);
+        $user = $userModel->obtenerPorId(Session::get('user_id'));
 
         // Obtener pedidos del usuario (necesitaremos agregar esta funcionalidad)
         $pedidos = []; // Por ahora vacío, se puede implementar después
@@ -49,13 +45,12 @@ class ProfileController
         self::checkAuth();
 
         $userModel = new User();
-        $userModel->actualizarPerfil($_SESSION['user_id'], [
+        $userModel->actualizarPerfil(Session::get('user_id'), [
             'name' => Flight::request()->data->name,
             'email' => Flight::request()->data->email
         ]);
 
-        $_SESSION['user_name'] = Flight::request()->data->name;
-
+        Session::set('user_name', Flight::request()->data->name);
         Flight::redirect('/profile?success=1');
     }
 
@@ -76,10 +71,10 @@ class ProfileController
         }
 
         $userModel = new User();
-        $user = $userModel->obtenerPorId($_SESSION['user_id']);
+        $user = $userModel->obtenerPorId(Session::get('user_id'));
 
         if (password_verify($currentPassword, $user['password'])) {
-            $userModel->cambiarPassword($_SESSION['user_id'], $newPassword);
+            $userModel->cambiarPassword(Session::get('user_id'), $newPassword);
             Flight::redirect('/profile?password_success=1');
         } else {
             Flight::redirect('/profile?password_error=incorrect');

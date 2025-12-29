@@ -3,17 +3,15 @@
 namespace RECHARGE\controllers;
 
 use Flight;
+use Leaf\Http\Session;
 use RECHARGE\models\User;
 
 class AuthController
 {
     public static function loginView()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        if (isset($_SESSION['user_id'])) {
-            if ($_SESSION['user_role'] === 'admin') {
+        if (Session::has('user_id')) {
+            if (Session::get('user_role') === 'admin') {
                 Flight::redirect('/admin/dashboard');
             } else {
                 Flight::redirect('/');
@@ -26,10 +24,7 @@ class AuthController
 
     public static function registerView()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        if (isset($_SESSION['user_id'])) {
+        if (Session::has('user_id')) {
             Flight::redirect('/');
         }
 
@@ -46,12 +41,9 @@ class AuthController
         $user = $userModel->login($email, $password);
 
         if ($user) {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_name'] = $user['name'];
-            $_SESSION['user_role'] = $user['role'];
+            Session::set('user_id', $user['id']);
+            Session::set('user_name', $user['name']);
+            Session::set('user_role', $user['role']);
 
             if ($user['role'] === 'admin') {
                 Flight::redirect('/admin/dashboard');
@@ -76,19 +68,16 @@ class AuthController
         $userModel = new User();
         if (
             $userModel->register([
-            'name' => $data->name,
-            'email' => $data->email,
-            'password' => $data->password
+                'name' => $data->name,
+                'email' => $data->email,
+                'password' => $data->password
             ])
         ) {
             // Auto login
             $user = $userModel->login($data->email, $data->password);
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_name'] = $user['name'];
-            $_SESSION['user_role'] = $user['role'];
+            Session::set('user_id', $user['id']);
+            Session::set('user_name', $user['name']);
+            Session::set('user_role', $user['role']);
             Flight::redirect('/');
         } else {
             Flight::redirect('/register?error=email_exists');
@@ -97,10 +86,7 @@ class AuthController
 
     public static function logout()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        session_destroy();
+        Session::destroy();
         Flight::redirect('/login');
     }
 }

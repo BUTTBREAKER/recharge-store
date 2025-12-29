@@ -4,6 +4,7 @@ namespace RECHARGE\controllers;
 
 use Flight;
 use flight\Container;
+use Leaf\Http\Session;
 use PDO;
 use RECHARGE\models\Pedido;
 use RECHARGE\models\SystemConfig;
@@ -16,7 +17,7 @@ class MainController
         Flight::render('layout', ['title' => 'Inicio - WinStore']);
     }
 
-    public static function game($slug = 'mobile-legends')
+    public static function game()
     {
         $configModel = new SystemConfig();
         $exchangeRate = $configModel->getExchangeRate();
@@ -93,16 +94,13 @@ class MainController
      */
     public static function notifications()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        if (!isset($_SESSION['user_id'])) {
+        if (!Session::has('user_id')) {
             Flight::redirect('/login');
             return;
         }
 
         $pedidoModel = new Pedido();
-        $pedidos = $pedidoModel->obtenerPorUsuario($_SESSION['user_id']);
+        $pedidos = $pedidoModel->obtenerPorUsuario(Session::get('user_id'));
 
         Flight::render('notifications', ['pedidos' => $pedidos], 'content');
         Flight::render('layout', ['title' => 'Mis Notificaciones']);

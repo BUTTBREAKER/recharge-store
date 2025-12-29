@@ -1,3 +1,10 @@
+<?php
+
+use Leaf\Http\Session;
+use RECHARGE\models\Pedido;
+
+?>
+
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
 <head>
@@ -8,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- Tailwind CSS (CDN - Development Mode) -->
     <!-- Note: "cdn.tailwindcss.com should not be used in production" warning is expected. We use it for rapid MVP development. -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -47,7 +54,7 @@
         }
     </script>
     <style>
-        body { 
+        body {
             font-family: 'Inter', sans-serif;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -175,19 +182,17 @@
                 <div class="hidden md:flex space-x-8 items-center">
                     <a href="/" class="text-gray-600 hover:text-violet-600 font-medium transition">Inicio</a>
                     <a href="/#games" class="text-gray-600 hover:text-violet-600 font-medium transition">Juegos</a>
-                    
+
                     <?php
-                    if (session_status() === PHP_SESSION_NONE) {
-                        session_start();
-                    }
-                    if (isset($_SESSION['user_id'])) :
+
+                    if (Session::has('user_id')) :
                         // Calcular notificaciones
                         $pedidoModel = new Pedido();
-                        if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+                        if (Session::has('user_role') && Session::get('user_role') === 'admin') {
                             $notificationCount = $pedidoModel->contarPorEstado('pendiente');
                             $notificationLink = '/admin/orders?estado=pendiente';
                         } else {
-                            $notificationCount = $pedidoModel->contarActivosPorUsuario($_SESSION['user_id']);
+                            $notificationCount = $pedidoModel->contarActivosPorUsuario(Session::get('user_id'));
                             $notificationLink = '/notifications';
                         }
                         ?>
@@ -200,18 +205,18 @@
                                 </span>
                             <?php endif; ?>
                         </a>
-                        
-                        <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') : ?>
+
+                        <?php if (Session::has('user_role') && Session::get('user_role') === 'admin') : ?>
                             <a href="/admin/dashboard" class="text-violet-600 font-bold hover:text-violet-800 transition">Panel Admin</a>
                         <?php endif; ?>
-                        
+
                         <div class="relative group">
                             <button class="flex items-center text-gray-700 hover:text-violet-600 font-medium transition">
-                                <span class="mr-2">Hola, <?= htmlspecialchars($_SESSION['user_name'] ?? 'Usuario') ?></span>
+                                <span class="mr-2">Hola, <?= htmlspecialchars(Session::get('user_name') ?? 'Usuario') ?></span>
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
                             <div class="absolute right-0 w-48 bg-white rounded-xl shadow-lg py-2 mt-2 hidden group-hover:block border border-gray-100 animate-fade-in z-50">
-                                <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') : ?>
+                                <?php if (Session::has('user_role') && Session::get('user_role') === 'admin') : ?>
                                     <a href="/admin/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-50">Mi Perfil</a>
                                 <?php else : ?>
                                     <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-50">Mi Perfil</a>
@@ -227,14 +232,14 @@
                             Unirse
                         </a>
                     <?php endif; ?>
-                    
+
                     <!-- Dark Mode Toggle -->
                     <div class="dark-mode-toggle" onclick="toggleDarkMode()" title="Cambiar tema">
                         <div class="dark-mode-toggle-circle">
                             <span class="text-xs">🌙</span>
                         </div>
                     </div>
-                    
+
                     <a href="/#games" class="bg-gray-900 text-white px-4 py-2 rounded-full font-bold hover:bg-black transition shadow-lg flex items-center">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         Recargar
@@ -257,17 +262,17 @@
             <div class="px-4 pt-2 pb-4 space-y-2">
                 <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-violet-600 hover:bg-violet-50">Inicio</a>
                 <a href="/#games" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-violet-600 hover:bg-violet-50">Juegos</a>
-                
-                <?php if (isset($_SESSION['user_id'])) : ?>
-                    <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') : ?>
+
+                <?php if (Session::has('user_id')) : ?>
+                    <?php if (Session::has('user_role') && Session::get('user_role') === 'admin') : ?>
                         <a href="/admin/dashboard" class="block px-3 py-2 rounded-md text-base font-bold text-violet-600 bg-violet-50">Panel Admin</a>
                     <?php endif; ?>
                     <div class="border-t border-gray-100 my-2 pt-2">
                         <p class="px-3 text-sm text-gray-400 mb-2">Cuenta</p>
-                        <span class="block px-3 py-2 text-gray-800 font-bold"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Usuario') ?></span>
-                        
+                        <span class="block px-3 py-2 text-gray-800 font-bold"><?= htmlspecialchars(Session::get('user_name') ?? 'Usuario') ?></span>
+
                         <!-- Notifications -->
-                        <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') : ?>
+                        <?php if (Session::has('user_role') && Session::get('user_role') === 'admin') : ?>
                             <a href="/admin/orders?estado=pendiente" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-violet-50 flex items-center justify-between">
                                 <span>Recargas Pendientes</span>
                                 <?php if ($notificationCount > 0) : ?>
@@ -286,8 +291,8 @@
                                 <?php endif; ?>
                             </a>
                         <?php endif; ?>
-                        
-                        <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') : ?>
+
+                        <?php if (Session::has('user_role') && Session::get('user_role') === 'admin') : ?>
                             <a href="/admin/profile" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-violet-50">Mi Perfil</a>
                         <?php else : ?>
                             <a href="/profile" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-violet-50">Mi Perfil</a>

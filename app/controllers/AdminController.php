@@ -3,6 +3,7 @@
 namespace RECHARGE\controllers;
 
 use Flight;
+use Leaf\Http\Session;
 use RECHARGE\models\Analytics;
 use RECHARGE\models\Pago;
 use RECHARGE\models\PaymentConfig;
@@ -15,11 +16,9 @@ class AdminController
 {
     public static function checkAdmin()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+        if (!Session::has('user_id') || Session::get('user_role') !== 'admin') {
             Flight::redirect('/login');
+
             exit;
         }
     }
@@ -169,7 +168,7 @@ class AdminController
         self::checkAdmin();
 
         $userModel = new User();
-        $user = $userModel->obtenerPorId($_SESSION['user_id']);
+        $user = $userModel->obtenerPorId(Session::get('user_id'));
 
         Flight::render('admin/admin_profile', ['user' => $user], 'content');
         Flight::render('layout', ['title' => 'Mi Perfil - Admin']);
@@ -183,13 +182,12 @@ class AdminController
         self::checkAdmin();
 
         $userModel = new User();
-        $userModel->actualizarPerfil($_SESSION['user_id'], [
+        $userModel->actualizarPerfil(Session::get('user_id'), [
             'name' => Flight::request()->data->name,
             'email' => Flight::request()->data->email
         ]);
 
-        $_SESSION['user_name'] = Flight::request()->data->name;
-
+        Session::set('user_name', Flight::request()->data->name);
         Flight::redirect('/admin/profile?success=1');
     }
 
@@ -204,10 +202,10 @@ class AdminController
         $newPassword = Flight::request()->data->new_password;
 
         $userModel = new User();
-        $user = $userModel->obtenerPorId($_SESSION['user_id']);
+        $user = $userModel->obtenerPorId(Session::get('user_id'));
 
         if (password_verify($currentPassword, $user['password'])) {
-            $userModel->cambiarPassword($_SESSION['user_id'], $newPassword);
+            $userModel->cambiarPassword(Session::get('user_id'), $newPassword);
             Flight::redirect('/admin/profile?password_success=1');
         } else {
             Flight::redirect('/admin/profile?password_error=1');
