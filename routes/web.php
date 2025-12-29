@@ -36,10 +36,10 @@ Flight::route('/notifications', MainController::notifications(...));
 Flight::route('/legal', MainController::legal(...));
 Flight::route('/reembolsos', MainController::reembolsos(...));
 
-Flight::group('/admin', function() {
+Flight::group('/admin', function () {
     // Dashboard & Analytics
     Flight::route('/dashboard', AdminController::dashboard(...));
-    
+
     // Price Management
     Flight::route('/prices', AdminController::managePrices(...));
     Flight::route('POST /prices/update', AdminController::updatePrice(...));
