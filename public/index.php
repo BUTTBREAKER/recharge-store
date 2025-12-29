@@ -33,7 +33,8 @@ Flight::view()->path = __DIR__ . '/../app/views';
 Flight::view()->preserveVars = false;
 
 // Cargar rutas
-require __DIR__ . '/../app/routes/web.php';
-require __DIR__ . '/../app/routes/admin.php';
+foreach (glob(__DIR__ . '/../routes/*.php') as $routes) {
+    require_once $routes;
+}
 
 Flight::start();
