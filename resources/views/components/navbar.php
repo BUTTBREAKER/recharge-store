@@ -8,13 +8,7 @@ use RECHARGE\models\Pedido;
 <nav class="fixed w-full z-50 glass-nav border-b border-gray-100 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
-            <!-- Logo -->
-            <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.location='/'">
-                <span class="text-3xl animate-float">💎</span>
-                <h1 class="text-xl font-bold tracking-tight text-gray-900">
-                    Sisifo<span class="text-violet-500">Store</span>
-                </h1>
-            </div>
+            <?php Flight::render('components/logo') ?>
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-8 items-center">
