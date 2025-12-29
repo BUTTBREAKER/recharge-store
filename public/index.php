@@ -29,7 +29,7 @@ Flight::set('flight.log_errors', false);
 Flight::set('flight.content_length', true);
 Flight::set('flight.v2.output_buffering', false);
 Flight::view()->extension = '.php';
-Flight::view()->path = __DIR__ . '/../app/views';
+Flight::view()->path = __DIR__ . '/../resources/views';
 Flight::view()->preserveVars = false;
 
 // Cargar rutas
