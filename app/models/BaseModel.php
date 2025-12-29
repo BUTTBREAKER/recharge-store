@@ -2,12 +2,13 @@
 
 namespace RECHARGE\models;
 
-use Flight;
+use flight\Container;
+use PDO;
 
 class BaseModel {
     protected $db;
 
     public function __construct() {
-        $this->db = Flight::db();
+        $this->db = Container::getInstance()->get(PDO::class);
     }
 }

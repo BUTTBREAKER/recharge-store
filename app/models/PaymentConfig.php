@@ -2,15 +2,7 @@
 
 namespace RECHARGE\models;
 
-use Flight;
-
-class PaymentConfig {
-    private $db;
-
-    public function __construct() {
-        $this->db = Flight::db();
-    }
-
+class PaymentConfig extends BaseModel {
     /**
      * Obtiene configuración de un método de pago
      */

@@ -3,6 +3,8 @@
 namespace RECHARGE\controllers;
 
 use Flight;
+use flight\Container;
+use PDO;
 use RECHARGE\models\Pedido;
 use RECHARGE\models\SystemConfig;
 
@@ -58,7 +60,7 @@ class MainController {
         }
 
         // Actualizar método de pago final
-        $db = Flight::db();
+        $db = Container::getInstance()->get(PDO::class);
         $stmt = $db->prepare("UPDATE pedidos SET metodo_pago = ? WHERE id = ?");
         $stmt->execute([$metodo, $pedidoId]);
 

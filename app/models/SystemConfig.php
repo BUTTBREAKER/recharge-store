@@ -2,16 +2,9 @@
 
 namespace RECHARGE\models;
 
-use Flight;
 use PDOException;
 
-class SystemConfig {
-    private $db;
-
-    public function __construct() {
-        $this->db = Flight::db();
-    }
-
+class SystemConfig extends BaseModel {
     /**
      * Obtener configuración por clave
      */

@@ -2,15 +2,7 @@
 
 namespace RECHARGE\models;
 
-use Flight;
-
-class Producto {
-    private $db;
-
-    public function __construct() {
-        $this->db = Flight::db();
-    }
-
+class Producto extends BaseModel {
     public function listarTodos($juego = null, $soloActivos = true) {
         $sql = "SELECT * FROM productos WHERE 1=1";
         $params = [];

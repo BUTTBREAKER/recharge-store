@@ -2,15 +2,7 @@
 
 namespace RECHARGE\models;
 
-use Flight;
-
-class Analytics {
-    private $db;
-
-    public function __construct() {
-        $this->db = Flight::db();
-    }
-
+class Analytics extends BaseModel {
     /**
      * Obtiene ventas por hora del día actual
      */
