@@ -19,7 +19,7 @@
         </div>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <?php 
+            <?php
             $paquetes = [
                 ['id' => 1, 'nombre' => '86 Diamantes', 'precio' => 2.00, 'bonus' => '+ 8 Bonus'],
                 ['id' => 2, 'nombre' => '172 Diamantes', 'precio' => 4.00, 'bonus' => '+ 16 Bonus'],
@@ -28,18 +28,18 @@
                 ['id' => 5, 'nombre' => '2195 Diamantes', 'precio' => 45.00, 'bonus' => '+ 210 Bonus'],
                 ['id' => 6, 'nombre' => 'Twilight Pass', 'precio' => 10.00, 'tag' => 'Popular'],
             ];
-            foreach ($paquetes as $p): ?>
+            foreach ($paquetes as $p) : ?>
             <label class="relative group">
                 <input type="radio" name="paquete_radio" value="<?= $p['nombre'] ?>" data-precio="<?= $p['precio'] ?>" class="peer sr-only" onchange="updateSelection(this)">
                 <div class="h-full bg-white border-2 border-gray-100 p-5 rounded-2xl cursor-pointer hover:border-violet-300 hover:shadow-lg peer-checked:border-violet-500 peer-checked:bg-violet-50 peer-checked:shadow-violet-200 peer-checked:shadow-xl transition-all duration-300 flex flex-col justify-between">
-                    <?php if(isset($p['tag'])): ?>
+                    <?php if (isset($p['tag'])) : ?>
                         <span class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-lg shadow-sm">Popular</span>
                     <?php endif; ?>
                     
                     <div class="mb-4 text-center">
                         <div class="text-4xl mb-2 drop-shadow-sm">💎</div>
                         <div class="font-bold text-gray-800 text-lg"><?= $p['nombre'] ?></div>
-                        <?php if(isset($p['bonus'])): ?>
+                        <?php if (isset($p['bonus'])) : ?>
                             <div class="text-xs font-medium text-emerald-500 bg-emerald-50 inline-block px-2 py-1 rounded-full mt-1"><?= $p['bonus'] ?></div>
                         <?php endif; ?>
                     </div>

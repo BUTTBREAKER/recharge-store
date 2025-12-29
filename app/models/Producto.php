@@ -2,8 +2,10 @@
 
 namespace RECHARGE\models;
 
-class Producto extends BaseModel {
-    public function listarTodos($juego = null, $soloActivos = true) {
+class Producto extends BaseModel
+{
+    public function listarTodos($juego = null, $soloActivos = true)
+    {
         $sql = "SELECT * FROM productos WHERE 1=1";
         $params = [];
 
@@ -23,27 +25,32 @@ class Producto extends BaseModel {
         return $stmt->fetchAll();
     }
 
-    public function obtenerPorId($id) {
+    public function obtenerPorId($id)
+    {
         $stmt = $this->db->prepare("SELECT * FROM productos WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch();
     }
 
-    public function actualizarPrecio($id, $precio) {
+    public function actualizarPrecio($id, $precio)
+    {
         $stmt = $this->db->prepare("UPDATE productos SET precio = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?");
         return $stmt->execute([$precio, $id]);
     }
 
-    public function toggleActivo($id) {
+    public function toggleActivo($id)
+    {
         $stmt = $this->db->prepare("UPDATE productos SET activo = NOT activo WHERE id = ?");
         return $stmt->execute([$id]);
     }
 
-    public function obtenerPorJuego($juego) {
+    public function obtenerPorJuego($juego)
+    {
         return $this->listarTodos($juego, true);
     }
 
-    public function crear($datos) {
+    public function crear($datos)
+    {
         $stmt = $this->db->prepare("
             INSERT INTO productos (juego, nombre, cantidad, precio, precio_original, orden, activo)
             VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -60,7 +67,8 @@ class Producto extends BaseModel {
         return $this->db->lastInsertId();
     }
 
-    public function actualizar($id, $datos) {
+    public function actualizar($id, $datos)
+    {
         $stmt = $this->db->prepare("
             UPDATE productos 
             SET juego = ?, nombre = ?, cantidad = ?, precio = ?, precio_original = ?, orden = ?, activo = ?

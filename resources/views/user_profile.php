@@ -9,7 +9,7 @@
         </a>
     </div>
 
-    <?php if(isset($_GET['success'])): ?>
+    <?php if (isset($_GET['success'])) : ?>
     <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded-r-xl">
         <div class="flex items-center">
             <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
@@ -18,7 +18,7 @@
     </div>
     <?php endif; ?>
 
-    <?php if(isset($_GET['password_success'])): ?>
+    <?php if (isset($_GET['password_success'])) : ?>
     <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded-r-xl">
         <div class="flex items-center">
             <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
@@ -27,7 +27,7 @@
     </div>
     <?php endif; ?>
 
-    <?php if(isset($_GET['password_error'])): ?>
+    <?php if (isset($_GET['password_error'])) : ?>
     <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r-xl">
         <div class="flex items-center">
             <svg class="w-5 h-5 text-red-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
@@ -136,7 +136,7 @@
                     <h3 class="text-lg font-bold text-gray-900">Mis Pedidos Recientes</h3>
                 </div>
                 <div class="p-6">
-                    <?php if(empty($pedidos)): ?>
+                    <?php if (empty($pedidos)) : ?>
                     <div class="text-center py-8">
                         <div class="text-5xl mb-3 opacity-20">📦</div>
                         <p class="text-gray-500">No tienes pedidos aún</p>
@@ -144,9 +144,9 @@
                             Explorar Productos →
                         </a>
                     </div>
-                    <?php else: ?>
+                    <?php else : ?>
                     <div class="space-y-3">
-                        <?php foreach($pedidos as $pedido): ?>
+                        <?php foreach ($pedidos as $pedido) : ?>
                         <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
                             <div>
                                 <p class="font-bold text-gray-900"><?= $pedido['paquete'] ?></p>

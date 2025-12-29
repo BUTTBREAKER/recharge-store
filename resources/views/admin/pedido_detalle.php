@@ -71,7 +71,7 @@
     <div class="lg:col-span-1">
         <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 h-fit sticky top-24">
             <h2 class="text-xl font-bold mb-6 text-gray-900">Comprobante de Pago</h2>
-            <?php if($pago): ?>
+            <?php if ($pago) : ?>
                 <div class="space-y-6">
                     <div class="flex items-center p-3 bg-gray-50 rounded-xl">
                          <div class="w-10 h-10 <?= $pago['provider'] == 'binance' ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600' ?> rounded-full flex items-center justify-center mr-3">
@@ -83,14 +83,14 @@
                         </div>
                     </div>
 
-                    <?php if($pago['referencia']): ?>
+                    <?php if ($pago['referencia']) : ?>
                     <div class="block">
                          <span class="text-xs text-gray-500 uppercase font-bold">Referencia</span>
                          <div class="font-mono bg-gray-100 p-2 rounded-lg mt-1 text-center select-all"><?= $pago['referencia'] ?></div>
                     </div>
                     <?php endif; ?>
 
-                    <?php if($pago['comprobante']): ?>
+                    <?php if ($pago['comprobante']) : ?>
                          <div class="group relative cursor-pointer" onclick="window.open('/<?= $pago['comprobante'] ?>', '_blank')">
                             <span class="text-xs text-gray-500 uppercase font-bold mb-2 block">Imagen Adjunta</span>
                             <div class="relative overflow-hidden rounded-2xl border-2 border-gray-100 group-hover:border-violet-200 transition-all">
@@ -100,13 +100,13 @@
                                 </div>
                             </div>
                         </div>
-                    <?php else: ?>
+                    <?php else : ?>
                         <div class="p-6 border-2 border-dashed border-gray-200 rounded-2xl text-center">
                             <span class="text-gray-400 text-sm">Sin comprobante visual</span>
                         </div>
                     <?php endif; ?>
                 </div>
-            <?php else: ?>
+            <?php else : ?>
                 <div class="text-center py-8">
                     <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl grayscale">🏺</div>
                     <p class="text-gray-500 text-sm italic">El cliente aún no ha reportado el pago.</p>

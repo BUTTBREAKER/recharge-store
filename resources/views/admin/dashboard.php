@@ -160,7 +160,7 @@ foreach ($ventasMensuales as $v) {
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
-                <?php foreach($ultimosPedidos as $p): ?>
+                <?php foreach ($ultimosPedidos as $p) : ?>
                 <tr class="hover:bg-gray-50 transition">
                     <td class="px-6 py-4 font-mono text-sm text-gray-500">#<?= str_pad($p['id'], 5, '0', STR_PAD_LEFT) ?></td>
                     <td class="px-6 py-4">

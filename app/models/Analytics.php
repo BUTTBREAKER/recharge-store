@@ -2,11 +2,13 @@
 
 namespace RECHARGE\models;
 
-class Analytics extends BaseModel {
+class Analytics extends BaseModel
+{
     /**
      * Obtiene ventas por hora del día actual
      */
-    public function ventasDiarias() {
+    public function ventasDiarias()
+    {
         $sql = "
             SELECT 
                 HOUR(fecha) as hora,
@@ -25,7 +27,8 @@ class Analytics extends BaseModel {
     /**
      * Obtiene ventas de los últimos 7 días
      */
-    public function ventasSemanales() {
+    public function ventasSemanales()
+    {
         $sql = "
             SELECT 
                 DATE(fecha) as fecha,
@@ -45,7 +48,8 @@ class Analytics extends BaseModel {
     /**
      * Obtiene ventas del mes actual por día
      */
-    public function ventasMensuales() {
+    public function ventasMensuales()
+    {
         $sql = "
             SELECT 
                 DAY(fecha) as dia,
@@ -66,7 +70,8 @@ class Analytics extends BaseModel {
     /**
      * Resumen general de ventas
      */
-    public function resumenVentas() {
+    public function resumenVentas()
+    {
         $sql = "
             SELECT 
                 COUNT(*) as total_pedidos,
@@ -83,7 +88,8 @@ class Analytics extends BaseModel {
     /**
      * Top productos más vendidos
      */
-    public function topProductos($limit = 5) {
+    public function topProductos($limit = 5)
+    {
         $limit = intval($limit); // Sanitizar límite
         $sql = "
             SELECT 
@@ -104,7 +110,8 @@ class Analytics extends BaseModel {
     /**
      * Tasa de conversión (pedidos completados vs total)
      */
-    public function tasaConversion() {
+    public function tasaConversion()
+    {
         $sql = "
             SELECT 
                 COUNT(*) as total_pedidos,

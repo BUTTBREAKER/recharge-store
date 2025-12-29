@@ -9,7 +9,7 @@
         </a>
     </div>
 
-    <?php if(empty($pedidos)): ?>
+    <?php if (empty($pedidos)) : ?>
     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-16 text-center">
         <div class="text-6xl mb-4 opacity-20">📭</div>
         <h3 class="text-xl font-bold text-gray-900 mb-2">No tienes recargas aún</h3>
@@ -18,11 +18,10 @@
             Ver Paquetes
         </a>
     </div>
-    <?php else: ?>
-    
+    <?php else : ?>
     <!-- Timeline de Pedidos -->
     <div class="space-y-6">
-        <?php foreach($pedidos as $pedido): ?>
+        <?php foreach ($pedidos as $pedido) : ?>
         <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden transition hover:shadow-xl">
             <div class="p-6">
                 <div class="flex items-start justify-between mb-4">
@@ -50,7 +49,7 @@
                 ">
                     <div class="flex items-center justify-between">
                         <div class="flex-items-center">
-                            <?php if($pedido['estado'] == 'pendiente'): ?>
+                            <?php if ($pedido['estado'] == 'pendiente') : ?>
                                 <div class="flex items-center">
                                     <div class="w-10 h-10 rounded-full bg-yellow-500 flex items-center justify-center text-white mr-3 animate-pulse">
                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -62,7 +61,7 @@
                                 </div>
                             <?php endif; ?>
 
-                            <?php if($pedido['estado'] == 'confirmado'): ?>
+                            <?php if ($pedido['estado'] == 'confirmado') : ?>
                                 <div class="flex items-center">
                                     <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white mr-3 animate-pulse">
                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
@@ -74,7 +73,7 @@
                                 </div>
                             <?php endif; ?>
 
-                            <?php if($pedido['estado'] == 'realizada'): ?>
+                            <?php if ($pedido['estado'] == 'realizada') : ?>
                                 <div class="flex items-center">
                                     <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white mr-3">
                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -86,7 +85,7 @@
                                 </div>
                             <?php endif; ?>
 
-                            <?php if($pedido['estado'] == 'cancelado'): ?>
+                            <?php if ($pedido['estado'] == 'cancelado') : ?>
                                 <div class="flex items-center">
                                     <div class="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white mr-3">
                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>

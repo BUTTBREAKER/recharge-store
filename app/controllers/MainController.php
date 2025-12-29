@@ -8,23 +8,27 @@ use PDO;
 use RECHARGE\models\Pedido;
 use RECHARGE\models\SystemConfig;
 
-class MainController {
-    public static function home() {
+class MainController
+{
+    public static function home()
+    {
         Flight::render('home', [], 'content');
         Flight::render('layout', ['title' => 'Inicio - WinStore']);
     }
 
-    public static function game($slug = 'mobile-legends') {
+    public static function game($slug = 'mobile-legends')
+    {
         $configModel = new SystemConfig();
         $exchangeRate = $configModel->getExchangeRate();
-        
+
         Flight::render('game', ['exchangeRate' => $exchangeRate], 'content');
         Flight::render('layout', ['title' => 'Mobile Legends - SisifoStore']);
     }
 
-    public static function checkout() {
+    public static function checkout()
+    {
         $data = Flight::request()->data;
-        
+
         if (empty($data->player_id) || empty($data->paquete)) {
             Flight::redirect('/');
             return;
@@ -46,7 +50,8 @@ class MainController {
         Flight::render('layout', ['title' => 'Checkout - WinStore']);
     }
 
-    public static function procesarPago() {
+    public static function procesarPago()
+    {
         $data = Flight::request()->data;
         $pedidoId = $data->pedido_id;
         $metodo = $data->metodo;
@@ -71,12 +76,14 @@ class MainController {
         }
     }
 
-    public static function legal() {
+    public static function legal()
+    {
         Flight::render('legal', [], 'content');
         Flight::render('layout', ['title' => 'Aviso Legal']);
     }
 
-    public static function reembolsos() {
+    public static function reembolsos()
+    {
         Flight::render('reembolsos', [], 'content');
         Flight::render('layout', ['title' => 'Política de Reembolsos']);
     }
@@ -84,16 +91,19 @@ class MainController {
     /**
      * Notificaciones para usuarios
      */
-    public static function notifications() {
-        if (session_status() === PHP_SESSION_NONE) session_start();
+    public static function notifications()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         if (!isset($_SESSION['user_id'])) {
             Flight::redirect('/login');
             return;
         }
-        
+
         $pedidoModel = new Pedido();
         $pedidos = $pedidoModel->obtenerPorUsuario($_SESSION['user_id']);
-        
+
         Flight::render('notifications', ['pedidos' => $pedidos], 'content');
         Flight::render('layout', ['title' => 'Mis Notificaciones']);
     }

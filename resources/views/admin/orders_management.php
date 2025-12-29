@@ -9,15 +9,23 @@
     </a>
 </div>
 
-<?php if(isset($_GET['success'])): ?>
+<?php if (isset($_GET['success'])) : ?>
 <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded-r-xl">
     <div class="flex items-center">
         <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
         <p class="text-green-700 font-medium">
-            <?php if($_GET['success'] == 'verified'): ?>Pago verificado correctamente<?php endif; ?>
-            <?php if($_GET['success'] == 'completed'): ?>Recarga completada correctamente<?php endif; ?>
-            <?php if($_GET['success'] == 'rejected'): ?>Pago rechazado<?php endif; ?>
-            <?php if($_GET['success'] == 'updated'): ?>Estado del pedido actualizado correctamente<?php endif; ?>
+            <?php if ($_GET['success'] == 'verified') :
+                ?>Pago verificado correctamente<?php
+            endif; ?>
+            <?php if ($_GET['success'] == 'completed') :
+                ?>Recarga completada correctamente<?php
+            endif; ?>
+            <?php if ($_GET['success'] == 'rejected') :
+                ?>Pago rechazado<?php
+            endif; ?>
+            <?php if ($_GET['success'] == 'updated') :
+                ?>Estado del pedido actualizado correctamente<?php
+            endif; ?>
         </p>
     </div>
 </div>
@@ -28,7 +36,7 @@
     <div class="flex flex-wrap gap-3">
         <a href="/admin/orders?estado=pendiente" class="px-5 py-2.5 rounded-xl text-sm font-bold transition relative <?= $filtro == 'pendiente' ? 'bg-yellow-100 text-yellow-700 shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' ?>">
             Pendientes
-            <?php if($contadores['pendiente'] > 0): ?>
+            <?php if ($contadores['pendiente'] > 0) : ?>
                 <span class="absolute -top-2 -right-2 bg-yellow-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
                     <?= $contadores['pendiente'] ?>
                 </span>
@@ -36,7 +44,7 @@
         </a>
         <a href="/admin/orders?estado=confirmado" class="px-5 py-2.5 rounded-xl text-sm font-bold transition relative <?= $filtro == 'confirmado' ? 'bg-blue-100 text-blue-700 shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' ?>">
             Confirmados
-            <?php if($contadores['confirmado'] > 0): ?>
+            <?php if ($contadores['confirmado'] > 0) : ?>
                 <span class="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
                     <?= $contadores['confirmado'] ?>
                 </span>
@@ -44,7 +52,7 @@
         </a>
         <a href="/admin/orders?estado=realizada" class="px-5 py-2.5 rounded-xl text-sm font-bold transition relative <?= $filtro == 'realizada' ? 'bg-green-100 text-green-700 shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' ?>">
             Realizadas
-            <?php if($contadores['realizada'] > 0): ?>
+            <?php if ($contadores['realizada'] > 0) : ?>
                 <span class="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
                     <?= $contadores['realizada'] ?>
                 </span>
@@ -52,7 +60,7 @@
         </a>
         <a href="/admin/orders?estado=cancelado" class="px-5 py-2.5 rounded-xl text-sm font-bold transition relative <?= $filtro == 'cancelado' ? 'bg-red-100 text-red-700 shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' ?>">
             Cancelados
-            <?php if($contadores['cancelado'] > 0): ?>
+            <?php if ($contadores['cancelado'] > 0) : ?>
                 <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
                     <?= $contadores['cancelado'] ?>
                 </span>
@@ -77,7 +85,7 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
-                <?php foreach($pedidos as $p): ?>
+                <?php foreach ($pedidos as $p) : ?>
                 <tr class="hover:bg-gray-50 transition">
                     <td class="px-6 py-4 font-mono text-sm text-gray-500">#<?= str_pad($p['id'], 5, '0', STR_PAD_LEFT) ?></td>
                     <td class="px-6 py-4">
@@ -107,7 +115,7 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex items-center justify-end gap-2">
-                            <?php if($p['estado'] == 'pendiente'): ?>
+                            <?php if ($p['estado'] == 'pendiente') : ?>
                                 <form action="/admin/orders/verify/<?= $p['id'] ?>" method="POST" style="display: inline;" onsubmit="return confirm('¿Verificar este pago?');">
                                     <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -122,7 +130,7 @@
                                 </form>
                             <?php endif; ?>
                             
-                            <?php if($p['estado'] == 'confirmado'): ?>
+                            <?php if ($p['estado'] == 'confirmado') : ?>
                                 <form action="/admin/orders/complete/<?= $p['id'] ?>" method="POST" style="display: inline;" onsubmit="return confirm('¿Marcar esta recarga como completada?');">
                                     <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path></svg>
@@ -141,13 +149,21 @@
             </tbody>
         </table>
         
-        <?php if(empty($pedidos)): ?>
+        <?php if (empty($pedidos)) : ?>
             <div class="text-center py-16">
                 <div class="text-6xl mb-4 grayscale opacity-20">
-                    <?php if($filtro == 'pendiente'): ?>⏳<?php endif; ?>
-                    <?php if($filtro == 'confirmado'): ?>🔄<?php endif; ?>
-                    <?php if($filtro == 'realizada'): ?>✅<?php endif; ?>
-                    <?php if($filtro == 'cancelado'): ?>❌<?php endif; ?>
+                    <?php if ($filtro == 'pendiente') :
+                        ?>⏳<?php
+                    endif; ?>
+                    <?php if ($filtro == 'confirmado') :
+                        ?>🔄<?php
+                    endif; ?>
+                    <?php if ($filtro == 'realizada') :
+                        ?>✅<?php
+                    endif; ?>
+                    <?php if ($filtro == 'cancelado') :
+                        ?>❌<?php
+                    endif; ?>
                 </div>
                 <h3 class="text-gray-500 font-medium">No hay pedidos en estado "<?= ucfirst($filtro) ?>"</h3>
             </div>

@@ -176,30 +176,32 @@
                     <a href="/" class="text-gray-600 hover:text-violet-600 font-medium transition">Inicio</a>
                     <a href="/#games" class="text-gray-600 hover:text-violet-600 font-medium transition">Juegos</a>
                     
-                    <?php 
-                    if (session_status() === PHP_SESSION_NONE) session_start();
-                    if(isset($_SESSION['user_id'])): 
+                    <?php
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    if (isset($_SESSION['user_id'])) :
                         // Calcular notificaciones
                         $pedidoModel = new Pedido();
-                        if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+                        if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
                             $notificationCount = $pedidoModel->contarPorEstado('pendiente');
                             $notificationLink = '/admin/orders?estado=pendiente';
                         } else {
                             $notificationCount = $pedidoModel->contarActivosPorUsuario($_SESSION['user_id']);
                             $notificationLink = '/notifications';
                         }
-                    ?>
+                        ?>
                         <!-- Notification Bell -->
                         <a href="<?= $notificationLink ?>" class="relative text-gray-600 hover:text-violet-600 transition">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-                            <?php if($notificationCount > 0): ?>
+                            <?php if ($notificationCount > 0) : ?>
                                 <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                                     <?= $notificationCount > 9 ? '9+' : $notificationCount ?>
                                 </span>
                             <?php endif; ?>
                         </a>
                         
-                        <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                        <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') : ?>
                             <a href="/admin/dashboard" class="text-violet-600 font-bold hover:text-violet-800 transition">Panel Admin</a>
                         <?php endif; ?>
                         
@@ -209,15 +211,15 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
                             <div class="absolute right-0 w-48 bg-white rounded-xl shadow-lg py-2 mt-2 hidden group-hover:block border border-gray-100 animate-fade-in z-50">
-                                <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                                <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') : ?>
                                     <a href="/admin/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-50">Mi Perfil</a>
-                                <?php else: ?>
+                                <?php else : ?>
                                     <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-50">Mi Perfil</a>
                                 <?php endif; ?>
                                 <a href="/logout" class="block px-4 py-2 text-sm text-red-500 hover:bg-red-50">Cerrar Sesión</a>
                             </div>
                         </div>
-                    <?php else: ?>
+                    <?php else : ?>
                         <a href="/login" class="text-gray-500 hover:text-violet-600 text-sm font-medium transition flex items-center">
                             Iniciar Sesión
                         </a>
@@ -256,8 +258,8 @@
                 <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-violet-600 hover:bg-violet-50">Inicio</a>
                 <a href="/#games" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-violet-600 hover:bg-violet-50">Juegos</a>
                 
-                <?php if(isset($_SESSION['user_id'])): ?>
-                    <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                <?php if (isset($_SESSION['user_id'])) : ?>
+                    <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') : ?>
                         <a href="/admin/dashboard" class="block px-3 py-2 rounded-md text-base font-bold text-violet-600 bg-violet-50">Panel Admin</a>
                     <?php endif; ?>
                     <div class="border-t border-gray-100 my-2 pt-2">
@@ -265,19 +267,19 @@
                         <span class="block px-3 py-2 text-gray-800 font-bold"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Usuario') ?></span>
                         
                         <!-- Notifications -->
-                        <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                        <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') : ?>
                             <a href="/admin/orders?estado=pendiente" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-violet-50 flex items-center justify-between">
                                 <span>Recargas Pendientes</span>
-                                <?php if($notificationCount > 0): ?>
+                                <?php if ($notificationCount > 0) : ?>
                                     <span class="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                                         <?= $notificationCount ?>
                                     </span>
                                 <?php endif; ?>
                             </a>
-                        <?php else: ?>
+                        <?php else : ?>
                             <a href="/notifications" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-violet-50 flex items-center justify-between">
                                 <span>Mis Notificaciones</span>
-                                <?php if($notificationCount > 0): ?>
+                                <?php if ($notificationCount > 0) : ?>
                                     <span class="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                                         <?= $notificationCount ?>
                                     </span>
@@ -285,14 +287,14 @@
                             </a>
                         <?php endif; ?>
                         
-                        <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                        <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') : ?>
                             <a href="/admin/profile" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-violet-50">Mi Perfil</a>
-                        <?php else: ?>
+                        <?php else : ?>
                             <a href="/profile" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-violet-50">Mi Perfil</a>
                         <?php endif; ?>
                         <a href="/logout" class="block px-3 py-2 rounded-md text-base font-medium text-red-500 hover:bg-red-50">Cerrar Sesión</a>
                     </div>
-                <?php else: ?>
+                <?php else : ?>
                     <div class="grid grid-cols-2 gap-4 mt-4">
                         <a href="/login" class="text-center py-3 border border-gray-200 rounded-xl font-bold text-gray-600">Entrar</a>
                         <a href="/register" class="text-center py-3 bg-violet-600 text-white rounded-xl font-bold shadow-lg shadow-violet-200">Unirse</a>

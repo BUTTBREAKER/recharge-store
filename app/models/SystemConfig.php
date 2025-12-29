@@ -4,11 +4,13 @@ namespace RECHARGE\models;
 
 use PDOException;
 
-class SystemConfig extends BaseModel {
+class SystemConfig extends BaseModel
+{
     /**
      * Obtener configuración por clave
      */
-    public function get($key) {
+    public function get($key)
+    {
         try {
             $stmt = $this->db->prepare("SELECT config_value FROM system_config WHERE config_key = ?");
             $stmt->execute([$key]);
@@ -22,7 +24,8 @@ class SystemConfig extends BaseModel {
     /**
      * Actualizar configuración
      */
-    public function set($key, $value, $description = null) {
+    public function set($key, $value, $description = null)
+    {
         try {
             $stmt = $this->db->prepare("
                 INSERT INTO system_config (config_key, config_value, description) 
@@ -38,7 +41,8 @@ class SystemConfig extends BaseModel {
     /**
      * Obtener tasa de cambio USD a Bolívares
      */
-    public function getExchangeRate() {
+    public function getExchangeRate()
+    {
         $rate = $this->get('exchange_rate_usd_bs');
         return $rate ? floatval($rate) : 36.50; // Default 36.50 Bs
     }
@@ -46,14 +50,16 @@ class SystemConfig extends BaseModel {
     /**
      * Actualizar tasa de cambio
      */
-    public function setExchangeRate($rate) {
+    public function setExchangeRate($rate)
+    {
         return $this->set('exchange_rate_usd_bs', $rate, 'Tasa de cambio USD a Bolívares para Pago Móvil');
     }
 
     /**
      * Convertir USD a Bolívares
      */
-    public function convertUsdToBs($usd) {
+    public function convertUsdToBs($usd)
+    {
         $rate = $this->getExchangeRate();
         return round($usd * $rate, 2);
     }
