@@ -11,9 +11,9 @@ use RECHARGE\models\SystemConfig;
 
 class MainController
 {
-    public static function home()
+    public static function home(): void
     {
-        Flight::render('home', [], 'content');
+        Flight::render('pages/home', [], 'content');
         Flight::render('layout', ['title' => 'Inicio - WinStore']);
     }
 
