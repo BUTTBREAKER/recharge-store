@@ -11,18 +11,11 @@ require __DIR__ . '/../vendor/autoload.php';
 
 (new Dotenv())->load(__DIR__ . '/../.env.example', __DIR__ . '/../.env');
 
-Container::getInstance()->singleton(PDO::class, static function (): PDO {
-    $pdo = new PDO(
-        "mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']};charset=utf8mb4",
-        $_ENV['DB_USER'],
-        $_ENV['DB_PASS'],
-    );
-
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-
-    return $pdo;
-});
+Container::getInstance()->singleton(PDO::class, static fn(): PDO => new PDO(
+    "mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']};charset=utf8mb4",
+    $_ENV['DB_USER'],
+    $_ENV['DB_PASS'],
+));
 
 Container::getInstance()->singleton(Auth::class);
 Container::getInstance()->singleton(Db::class);
