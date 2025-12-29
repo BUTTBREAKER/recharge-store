@@ -1,4 +1,4 @@
-# WinStore - MVP de Tienda de Recargas (Mobile Legends)
+# Store - MVP de Tienda de Recargas (Mobile Legends)
 
 Este es un sistema web completo para la gestión de recargas de diamantes de Mobile Legends, construido con **Flight PHP**, **MySQL** y **Tailwind CSS**.
 
