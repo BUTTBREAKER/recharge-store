@@ -23,10 +23,11 @@
         Note: "cdn.tailwindcss.com should not be used in production" warning is expected.
         We use it for rapid MVP development.
     -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 
-    <script src="./index.js"></script>
+    <!-- <script src="./index.js"></script> -->
     <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./tailwindcss.min.css" />
 </head>
 
 <body class="light-mode">
