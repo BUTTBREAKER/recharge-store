@@ -2,7 +2,7 @@
     "name": "manus/recharge-store",
     "description": "MVP Recharge Store",
     "require": {
-        "flightphp/core": "^3.0",
+        "flightphp/core": "^3.17",
         "vlucas/phpdotenv": "^5.5"
     },
     "authors": [
