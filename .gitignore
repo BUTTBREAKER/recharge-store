@@ -1,3 +1,4 @@
 vendor
 *.sublime-*
 .env
+node_modules
