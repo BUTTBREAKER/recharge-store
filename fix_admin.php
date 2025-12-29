@@ -1,10 +1,14 @@
 <?php
 
-$config = require __DIR__ . '/config/config.php';
+use Symfony\Component\Dotenv\Dotenv;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+(new Dotenv)->load(__DIR__ . '/../.env.example', __DIR__ . '/../.env');
 
 try {
-    $dsn = "mysql:host={$config['database']['host']};dbname={$config['database']['name']};charset=utf8mb4";
-    $pdo = new PDO($dsn, $config['database']['user'], $config['database']['pass']);
+    $dsn = "mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']};charset=utf8mb4";
+    $pdo = new PDO($dsn, $_ENV['DB_USER'], $_ENV['DB_PASS']);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Hash for 'password123'

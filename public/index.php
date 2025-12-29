@@ -1,15 +1,16 @@
 <?php
 
+use Symfony\Component\Dotenv\Dotenv;
+
 require __DIR__ . '/../vendor/autoload.php';
 
-// Cargar configuración
-$config = require __DIR__ . '/../config/config.php';
+(new Dotenv)->load(__DIR__ . '/../.env.example', __DIR__ . '/../.env');
 
 // Registrar base de datos en Flight
 Flight::register('db', PDO::class, [
-    "mysql:host={$config['database']['host']};dbname={$config['database']['name']};charset=utf8mb4",
-    $config['database']['user'],
-    $config['database']['pass'],
+    "mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']};charset=utf8mb4",
+    $_ENV['DB_USER'],
+    $_ENV['DB_PASS'],
 ], function (PDO $db): void {
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
