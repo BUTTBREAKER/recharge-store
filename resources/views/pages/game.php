@@ -1,13 +1,22 @@
 <?php
 
-$paquetes = [
-    ['id' => 1, 'nombre' => '86 Diamantes', 'precio' => 2.00, 'bonus' => '+ 8 Bonus'],
-    ['id' => 2, 'nombre' => '172 Diamantes', 'precio' => 4.00, 'bonus' => '+ 16 Bonus'],
-    ['id' => 3, 'nombre' => '257 Diamantes', 'precio' => 6.00, 'bonus' => '+ 25 Bonus'],
-    ['id' => 4, 'nombre' => '706 Diamantes', 'precio' => 15.00, 'bonus' => '+ 70 Bonus'],
-    ['id' => 5, 'nombre' => '2195 Diamantes', 'precio' => 45.00, 'bonus' => '+ 210 Bonus'],
-    ['id' => 6, 'nombre' => 'Twilight Pass', 'precio' => 10.00, 'tag' => 'Popular'],
-];
+foreach ($packages ?? [] as $index => $package) {
+    $packages[$index]['id'] = $index + 1;
+
+    if (rand(0, 1)) {
+        $packages[$index]['bonus'] = '+ ' . rand(8, 210) . ' Bonus';
+        $packages[$index]['tag'] = 'Popular';
+    }
+}
+
+// $packages = [
+//     ['id' => 1, 'nombre' => '86 Diamantes', 'precio' => 2.00, 'bonus' => '+ 8 Bonus'],
+//     ['id' => 2, 'nombre' => '172 Diamantes', 'precio' => 4.00, 'bonus' => '+ 16 Bonus'],
+//     ['id' => 3, 'nombre' => '257 Diamantes', 'precio' => 6.00, 'bonus' => '+ 25 Bonus'],
+//     ['id' => 4, 'nombre' => '706 Diamantes', 'precio' => 15.00, 'bonus' => '+ 70 Bonus'],
+//     ['id' => 5, 'nombre' => '2195 Diamantes', 'precio' => 45.00, 'bonus' => '+ 210 Bonus'],
+//     ['id' => 6, 'nombre' => 'Twilight Pass', 'precio' => 10.00, 'tag' => 'Popular'],
+// ];
 
 ?>
 
@@ -28,13 +37,15 @@ $paquetes = [
         <div class="flex items-center space-x-4 mb-6">
             <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-violet-600 rounded-xl flex items-center justify-center text-2xl shadow-lg">📱</div>
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 leading-tight">Mobile Legends</h1>
+                <h1 class="text-3xl font-bold text-gray-900 leading-tight">
+                    <?= $packages[0]['juego'] ?? 'Mobile Legends' ?>
+                </h1>
                 <p class="text-gray-500">Selecciona tu paquete de diamantes</p>
             </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <?php foreach ($paquetes as $p) : ?>
+            <?php foreach ($packages ?? [] as $p) : ?>
                 <label class="relative group">
                     <input
                         type="radio"

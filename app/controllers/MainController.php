@@ -4,6 +4,7 @@ namespace RECHARGE\controllers;
 
 use Flight;
 use flight\Container;
+use Leaf\Db;
 use Leaf\Http\Session;
 use PDO;
 use RECHARGE\models\Pedido;
@@ -20,8 +21,10 @@ class MainController
     public static function game(string $slug): void
     {
         $exchangeRate = Container::getInstance()->get(SystemConfig::class)->getExchangeRate();
+        $db = Container::getInstance()->get(Db::class);
+        $packages = $db->select('productos')->where('juego', '?')->bind(str_replace('-', ' ', $slug))->fetchAll();
 
-        Flight::render('pages/game', compact('exchangeRate'), 'content');
+        Flight::render('pages/game', compact('exchangeRate', 'packages'), 'content');
         Flight::render('layout', ['title' => 'Mobile Legends - SisifoStore']);
     }
 

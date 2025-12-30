@@ -6,6 +6,8 @@ use Leaf\Db;
 use Leaf\Helpers\Password;
 use RECHARGE\Enums\Role;
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 ///////////////
 // CONSTANTS //
@@ -30,6 +32,7 @@ Container::getInstance()->singleton(PDO::class, static fn(): PDO => new PDO(
 
 Container::getInstance()->singleton(Auth::class);
 Container::getInstance()->singleton(Db::class);
+Container::getInstance()->singleton(SluggerInterface::class, AsciiSlugger::class);
 
 //////////////////////////////
 // FLIGHTPHP CONFIGURATIONS //
