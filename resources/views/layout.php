@@ -29,10 +29,9 @@
     <link rel="stylesheet" href="./index.css" />
 </head>
 
-<body class="light-mode transition-all duration-300">
+<body class="light-mode transition-colors duration-300">
     <?php Flight::render('components/navbar') ?>
 
-    <!-- Main Content -->
     <main class="pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <?= $content ?>
     </main>
