@@ -1,41 +1,13 @@
 @import "tailwindcss";
 @config "../../tailwind.config.mjs";
 
-.dark-mode-toggle {
-    position: relative;
-    width: 60px;
-    height: 30px;
-    background: #e5e7eb;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: background 300ms;
-}
-
-.dark-mode-toggle-circle {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 24px;
-    height: 24px;
-    background: white;
-    border-radius: 50%;
-    transition: transform 300ms;
-    display: flex;
-    align-items: center;
-}
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 body {
-    &.light-mode {
-        background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #e9d5ff 100%);
-
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.8);
-        }
-    }
+    background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #e9d5ff 100%);
 
     &.dark-mode {
         background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 50%, #4a2c6d 100%);
-        color: #e0d5f0;
 
         .glass-nav {
             background: rgba(42, 24, 70, 0.9);
@@ -114,15 +86,6 @@ body {
         footer {
             background-color: #1a0a2e !important;
             border-top-color: #4a2c6d !important;
-        }
-
-        .dark-mode-toggle {
-            background: #8b5cf6;
-        }
-
-        .dark-mode-toggle-circle {
-            transform: translateX(30px);
-            background: #1a0a2e;
         }
     }
 }

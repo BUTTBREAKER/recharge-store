@@ -9,11 +9,11 @@ use RECHARGE\Enums\SessionKey;
 <html
     lang="es"
     class="scroll-smooth"
-    data-bs-theme="<?= Session::get(SessionKey::UI_THEME->name, '') ?>"
-    :data-bs-theme="tema"
+    data-theme="<?= Session::get(SessionKey::UI_THEME->name, '') ?>"
+    :data-theme="tema"
     x-data='{
         tema: (
-            document.documentElement.dataset.bsTheme
+            document.documentElement.dataset.theme
             || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
         ),
 
@@ -50,6 +50,10 @@ use RECHARGE\Enums\SessionKey;
     <title><?= $title ?? 'SisifoStore - Recargas MLBB' ?></title>
     <base href="<?= str_replace('index.php', '', $_SERVER['SCRIPT_NAME']) ?>" />
 
+    <link
+        rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.85em' font-size='90'>💎</text></svg>" />
+
     <!-- Google Fonts: Inter -->
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
@@ -61,7 +65,7 @@ use RECHARGE\Enums\SessionKey;
 </head>
 
 <body
-    class="transition-colors duration-300"
+    class="transition-colors duration-300 dark:text-[#e0d5f0]"
     :class="`${tema}-mode`">
     <?php Flight::render('components/navbar') ?>
 
