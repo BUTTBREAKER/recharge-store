@@ -2,3 +2,4 @@ vendor
 *.sublime-*
 .env
 node_modules
+public/index.css

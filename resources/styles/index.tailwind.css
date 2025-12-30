@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@config "../../tailwind.config.mjs";
+
 .glass-nav {
     backdrop-filter: blur(10px);
     transition: background-color 300ms ease;
