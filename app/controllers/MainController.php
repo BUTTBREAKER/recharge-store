@@ -96,6 +96,7 @@ class MainController
     {
         if (!Session::has('user_id')) {
             Flight::redirect('/login');
+
             return;
         }
 

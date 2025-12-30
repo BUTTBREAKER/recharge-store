@@ -23,11 +23,10 @@
         Note: "cdn.tailwindcss.com should not be used in production" warning is expected.
         We use it for rapid MVP development.
     -->
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- <script src="./index.js"></script> -->
+    <script src="./index.js"></script>
     <link rel="stylesheet" href="./index.css" />
-    <link rel="stylesheet" href="./tailwindcss.min.css" />
 </head>
 
 <body class="light-mode transition-all duration-300">
@@ -41,6 +40,42 @@
     </main>
 
     <?php Flight::render('components/footer') ?>
+
+    <script>
+        // Mobile menu toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Dark mode toggle
+        function toggleDarkMode() {
+            const body = document.body;
+            const isDark = body.classList.contains('dark-mode');
+
+            if (isDark) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+
+            if (savedTheme === 'dark') {
+                document.body.classList.remove('light-mode');
+                document.body.classList.add('dark-mode');
+            }
+        });
+    </script>
 </body>
 
 </html>
