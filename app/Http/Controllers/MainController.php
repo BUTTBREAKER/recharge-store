@@ -1,6 +1,6 @@
 <?php
 
-namespace RECHARGE\Controllers;
+namespace RECHARGE\Http\Controllers;
 
 use Flight;
 use flight\Container;
