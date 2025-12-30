@@ -21,7 +21,7 @@ if (Session::get('user_role') === 'admin') {
 
 ?>
 
-<nav class="fixed w-full z-50 glass-nav border-b border-gray-100 transition-all duration-300">
+<nav class="sticky top-0 z-50 glass-nav transition-colors duration-300 backdrop-blur-xs border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-16 items-center">
         <?php Flight::render('components/logo') ?>
         <?php Flight::render('components/desktop-menu', compact('links', 'notificationLink', 'notificationCount')) ?>
