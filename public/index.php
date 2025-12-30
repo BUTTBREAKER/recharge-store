@@ -112,7 +112,7 @@ $db->connection(Container::getInstance()->get(PDO::class));
 (new ReflectionProperty($auth, 'db'))->setValue($auth, $db);
 
 // LOAD ROUTES
-foreach (glob(__DIR__ . '/../routes/*.php') as $routes) {
+foreach (glob(__DIR__ . '/../routes/*.php') ?: [] as $routes) {
     require_once $routes;
 }
 
