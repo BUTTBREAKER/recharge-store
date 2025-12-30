@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Flight;
 use Leaf\Http\Session;
-use App\models\Pedido;
-use App\models\User;
+use App\Models\Pedido;
+use App\Models\User;
 
 class ProfileController
 {

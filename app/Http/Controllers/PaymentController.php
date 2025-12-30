@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Flight;
-use App\models\Pago;
-use App\models\Pedido;
+use App\Models\Pago;
+use App\Models\Pedido;
 
 class PaymentController
 {

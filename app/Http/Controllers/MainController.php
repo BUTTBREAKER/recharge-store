@@ -7,8 +7,8 @@ use flight\Container;
 use Leaf\Db;
 use Leaf\Http\Session;
 use PDO;
-use App\models\Pedido;
-use App\models\SystemConfig;
+use App\Models\Pedido;
+use App\Models\SystemConfig;
 
 class MainController
 {

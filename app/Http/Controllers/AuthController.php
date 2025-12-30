@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Flight;
 use Leaf\Http\Session;
-use App\models\User;
+use App\Models\User;
 
 class AuthController
 {

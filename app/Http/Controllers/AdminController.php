@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Flight;
 use Leaf\Http\Session;
-use App\models\Analytics;
-use App\models\Pago;
-use App\models\PaymentConfig;
-use App\models\Pedido;
-use App\models\Producto;
-use App\models\SystemConfig;
-use App\models\User;
+use App\Models\Analytics;
+use App\Models\Pago;
+use App\Models\PaymentConfig;
+use App\Models\Pedido;
+use App\Models\Producto;
+use App\Models\SystemConfig;
+use App\Models\User;
 
 class AdminController
 {
