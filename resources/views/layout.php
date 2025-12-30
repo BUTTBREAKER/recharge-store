@@ -33,10 +33,8 @@
     <?php Flight::render('components/navbar') ?>
 
     <!-- Main Content -->
-    <main class="flex-grow pt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <?= $content ?>
-        </div>
+    <main class="pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <?= $content ?>
     </main>
 
     <?php Flight::render('components/footer') ?>
