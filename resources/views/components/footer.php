@@ -15,15 +15,27 @@
                 <div>
                     <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Legal</h3>
                     <ul class="mt-4 space-y-4">
-                        <li><a href="/legal" class="text-base text-gray-500 hover:text-gray-900">Aviso Legal</a></li>
-                        <li><a href="/reembolsos" class="text-base text-gray-500 hover:text-gray-900">Reembolsos</a></li>
+                        <li>
+                            <a href="./legal" class="text-base text-gray-500 hover:text-gray-900">
+                                Aviso Legal
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./reembolsos" class="text-base text-gray-500 hover:text-gray-900">
+                                Reembolsos
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="mt-8 border-t border-gray-200 pt-8 text-center md:text-left">
-            <p class="text-sm text-gray-400">&copy; <?= date('Y') ?> SisifoStore. Todos los derechos reservados.</p>
-            <p class="text-xs text-gray-300 mt-2">Este sitio no está afiliado a Moonton. Mobile Legends: Bang Bang es marca registrada de Moonton.</p>
+            <p class="text-sm text-gray-400">
+                &copy; <?= date('Y') ?> SisifoStore. Todos los derechos reservados.
+            </p>
+            <p class="text-xs text-gray-300 mt-2">
+                Este sitio no está afiliado a Moonton. Mobile Legends: Bang Bang es marca registrada de Moonton.
+            </p>
         </div>
     </div>
 </footer>
