@@ -1,6 +1,6 @@
 <?php
 
-namespace App\middlewares;
+namespace App\Http\Middleware;
 
 use Flight;
 use Leaf\Http\Session;
