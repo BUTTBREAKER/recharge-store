@@ -1,6 +1,6 @@
 <?php
 
-namespace RECHARGE\controllers;
+namespace RECHARGE\Controllers;
 
 use Flight;
 use Leaf\Http\Session;

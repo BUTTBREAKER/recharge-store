@@ -1,10 +1,10 @@
 <?php
 
-use RECHARGE\controllers\AdminController;
-use RECHARGE\controllers\AuthController;
-use RECHARGE\controllers\MainController;
-use RECHARGE\controllers\PaymentController;
-use RECHARGE\controllers\ProfileController;
+use RECHARGE\Controllers\AdminController;
+use RECHARGE\Controllers\AuthController;
+use RECHARGE\Controllers\MainController;
+use RECHARGE\Controllers\PaymentController;
+use RECHARGE\Controllers\ProfileController;
 
 Flight::route('GET /', MainController::home(...));
 Flight::route('GET /juego/@slug:[a-z0-9\-]+', MainController::game(...));
