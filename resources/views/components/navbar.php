@@ -1,7 +1,7 @@
 <?php
 
 use Leaf\Http\Session;
-use RECHARGE\models\Pedido;
+use App\models\Pedido;
 
 $links = [
     ['href' => './', 'slot' => 'Inicio'],

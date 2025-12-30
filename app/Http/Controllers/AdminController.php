@@ -1,16 +1,16 @@
 <?php
 
-namespace RECHARGE\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Flight;
 use Leaf\Http\Session;
-use RECHARGE\models\Analytics;
-use RECHARGE\models\Pago;
-use RECHARGE\models\PaymentConfig;
-use RECHARGE\models\Pedido;
-use RECHARGE\models\Producto;
-use RECHARGE\models\SystemConfig;
-use RECHARGE\models\User;
+use App\models\Analytics;
+use App\models\Pago;
+use App\models\PaymentConfig;
+use App\models\Pedido;
+use App\models\Producto;
+use App\models\SystemConfig;
+use App\models\User;
 
 class AdminController
 {

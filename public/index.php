@@ -4,7 +4,7 @@ use flight\Container;
 use Leaf\Auth;
 use Leaf\Db;
 use Leaf\Helpers\Password;
-use RECHARGE\Enums\Role;
+use App\Enums\Role;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\String\Slugger\SluggerInterface;

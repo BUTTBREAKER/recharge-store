@@ -1,11 +1,11 @@
 <?php
 
-namespace RECHARGE\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Flight;
 use Leaf\Http\Session;
-use RECHARGE\models\Pedido;
-use RECHARGE\models\User;
+use App\models\Pedido;
+use App\models\User;
 
 class ProfileController
 {

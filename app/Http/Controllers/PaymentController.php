@@ -1,10 +1,10 @@
 <?php
 
-namespace RECHARGE\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Flight;
-use RECHARGE\models\Pago;
-use RECHARGE\models\Pedido;
+use App\models\Pago;
+use App\models\Pedido;
 
 class PaymentController
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace RECHARGE\models;
+namespace App\models;
 
 use flight\Container;
 use PDO;

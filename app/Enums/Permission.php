@@ -1,6 +1,6 @@
 <?php
 
-namespace RECHARGE\Enums;
+namespace App\Enums;
 
 enum Permission
 {

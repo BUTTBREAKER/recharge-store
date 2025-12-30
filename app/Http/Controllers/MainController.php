@@ -1,14 +1,14 @@
 <?php
 
-namespace RECHARGE\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Flight;
 use flight\Container;
 use Leaf\Db;
 use Leaf\Http\Session;
 use PDO;
-use RECHARGE\models\Pedido;
-use RECHARGE\models\SystemConfig;
+use App\models\Pedido;
+use App\models\SystemConfig;
 
 class MainController
 {

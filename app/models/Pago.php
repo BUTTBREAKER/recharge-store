@@ -1,6 +1,6 @@
 <?php
 
-namespace RECHARGE\models;
+namespace App\models;
 
 class Pago extends BaseModel
 {

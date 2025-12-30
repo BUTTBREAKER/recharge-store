@@ -1,7 +1,7 @@
 <?php
 
 use Leaf\Http\Session;
-use RECHARGE\Enums\SessionKey;
+use App\Enums\SessionKey;
 
 Flight::group('/ajax', static function (): void {
     Flight::group('/ajustes', static function (): void {

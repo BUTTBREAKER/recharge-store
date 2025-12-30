@@ -1,10 +1,10 @@
 <?php
 
-namespace RECHARGE\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Flight;
 use Leaf\Http\Session;
-use RECHARGE\models\User;
+use App\models\User;
 
 class AuthController
 {
