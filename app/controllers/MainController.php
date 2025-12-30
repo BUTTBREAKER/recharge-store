@@ -17,12 +17,11 @@ class MainController
         Flight::render('layout', ['title' => 'Inicio - WinStore']);
     }
 
-    public static function game()
+    public static function game(string $slug): void
     {
-        $configModel = new SystemConfig();
-        $exchangeRate = $configModel->getExchangeRate();
+        $exchangeRate = Container::getInstance()->get(SystemConfig::class)->getExchangeRate();
 
-        Flight::render('game', ['exchangeRate' => $exchangeRate], 'content');
+        Flight::render('pages/game', compact('exchangeRate'), 'content');
         Flight::render('layout', ['title' => 'Mobile Legends - SisifoStore']);
     }
 

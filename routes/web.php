@@ -7,7 +7,7 @@ use RECHARGE\controllers\PaymentController;
 use RECHARGE\controllers\ProfileController;
 
 Flight::route('GET /', MainController::home(...));
-Flight::route('/juego/mobile-legends', MainController::game(...));
+Flight::route('GET /juego/@slug', MainController::game(...));
 Flight::route('POST /checkout', MainController::checkout(...));
 Flight::route('POST /procesar-pago', MainController::procesarPago(...));
 
