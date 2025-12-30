@@ -17,6 +17,8 @@ use RECHARGE\Enums\SessionKey;
         get temaInverso() {
           return this.tema === "dark" ? "light" : "dark";
         },
+
+        mobileMenuOpen: false,
     }'
     x-init='
         matchMedia("(prefers-color-scheme: dark)").addEventListener(
@@ -73,16 +75,6 @@ use RECHARGE\Enums\SessionKey;
     </main>
 
     <?php Flight::render('components/footer') ?>
-
-    <script>
-        // Mobile menu toggle
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-    </script>
 </body>
 
 </html>

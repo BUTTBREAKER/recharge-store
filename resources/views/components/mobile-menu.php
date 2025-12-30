@@ -4,7 +4,9 @@ use Leaf\Http\Session;
 
 ?>
 
-<div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full z-50 shadow-xl">
+<div
+    class="md:hidden bg-white border-t border-gray-100 absolute w-full z-50 shadow-xl"
+    :class="{ hidden: !mobileMenuOpen }">
     <div class="px-4 pt-2 pb-4 space-y-2">
         <?php foreach ($links ?? [] as $link) : ?>
             <?php Flight::render('components/mobile-menu-link', $link) ?>
