@@ -12,7 +12,10 @@ use RECHARGE\Enums\SessionKey;
     data-bs-theme="<?= Session::get(SessionKey::UI_THEME->name, '') ?>"
     :data-bs-theme="tema"
     x-data='{
-        tema: document.documentElement.dataset.bsTheme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"),
+        tema: (
+            document.documentElement.dataset.bsTheme
+            || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+        ),
 
         get temaInverso() {
           return this.tema === "dark" ? "light" : "dark";
