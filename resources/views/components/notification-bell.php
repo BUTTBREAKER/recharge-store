@@ -1,18 +1,7 @@
 <?php
 
-use Leaf\Http\Session;
-use RECHARGE\models\Pedido;
-
-// Calcular notificaciones
-$pedidoModel = new Pedido();
-
-if (Session::has('user_role') && Session::get('user_role') === 'admin') {
-    $notificationCount = $pedidoModel->contarPorEstado('pendiente');
-    $notificationLink = '/admin/orders?estado=pendiente';
-} else {
-    $notificationCount = $pedidoModel->contarActivosPorUsuario(Session::get('user_id'));
-    $notificationLink = '/notifications';
-}
+$notificationCount ??= 0;
+$notificationLink ??= 'javascript:';
 
 ?>
 

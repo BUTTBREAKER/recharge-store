@@ -5,12 +5,13 @@ use Leaf\Http\Session;
 ?>
 
 <div class="hidden md:flex space-x-8 items-center">
-    <?php foreach ([['href' => './', 'slot' => 'Inicio'], ['href' => './#games', 'slot' => 'Juegos']] as $link) : ?>
+    <?php foreach ($links ?? [] as $link) : ?>
         <?php Flight::render('components/desktop-menu-link', $link) ?>
     <?php endforeach ?>
 
     <?php if (Session::has('user_id')) : ?>
-        <?php Flight::render('components/notification-bell') ?>
+        <?php Flight::render('components/notification-bell', compact('notificationLink', 'notificationCount')) ?>
+
         <?php if (Session::get('user_role') === 'admin') : ?>
             <a
                 href="./admin/dashboard"
@@ -26,7 +27,7 @@ use Leaf\Http\Session;
             'slot' => 'Iniciar Sesión',
         ]) ?>
         <a
-            href="/register"
+            href="./register"
             class="bg-violet-100 text-violet-700 px-4 py-2 rounded-full font-semibold hover:bg-violet-200 transition shadow-sm text-sm">
             Unirse
         </a>
