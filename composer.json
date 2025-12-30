@@ -17,7 +17,10 @@
         "post-autoload-dump": [
             "php -r \"if (!file_exists('.env')) copy('.env.example', '.env');\""
         ],
-        "serve": "php -S localhost:61001 -t public",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "php -S localhost:61001 -t public"
+        ],
         "format": "phpcbf",
         "lint": "phpcs"
     },
