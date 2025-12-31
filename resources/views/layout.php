@@ -21,22 +21,22 @@ use App\Enums\SessionKey;
     }'
     x-init='
         matchMedia("(prefers-color-scheme: dark)").addEventListener(
-          "change",
-          (event) => {
-            theme = event.matches ? "dark" : "light";
-          },
+            "change",
+            (event) => {
+                theme = event.matches ? "dark" : "light";
+            },
         );
 
         $watch("theme", (newTheme) => {
-          fetch("./ajax/settings/theme", {
-            method: "post",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              theme: newTheme,
-            }),
-          });
+            fetch("./ajax/settings/theme", {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    theme: newTheme,
+                }),
+            });
         });
     '>
 
