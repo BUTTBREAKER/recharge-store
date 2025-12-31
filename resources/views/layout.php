@@ -49,10 +49,7 @@ use App\Enums\SessionKey;
     <meta name="viewport" content="width=device-width" />
     <title><?= $title ?? 'SisifoStore - Recargas MLBB' ?></title>
     <base href="<?= str_replace('index.php', '', $_SERVER['SCRIPT_NAME']) ?>" />
-
-    <link
-        rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.85em' font-size='90'>💎</text></svg>" />
+    <link rel="icon" href="./favicon.svg" />
 
     <!-- Google Fonts: Inter -->
     <link
@@ -60,7 +57,6 @@ use App\Enums\SessionKey;
         rel="stylesheet" />
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
     <link rel="stylesheet" href="./index.css" />
 </head>
 
