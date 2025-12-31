@@ -10,35 +10,31 @@ use App\Enums\SessionKey;
     lang="es"
     class="scroll-smooth"
     data-theme="<?= Session::get(SessionKey::UI_THEME->name, '') ?>"
-    :data-theme="tema"
+    :data-theme="theme"
     x-data='{
-        tema: (
+        theme: (
             document.documentElement.dataset.theme
             || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
         ),
-
-        get temaInverso() {
-          return this.tema === "dark" ? "light" : "dark";
-        },
 
         mobileMenuOpen: false,
     }'
     x-init='
         matchMedia("(prefers-color-scheme: dark)").addEventListener(
           "change",
-          (evento) => {
-            tema = evento.matches ? "dark" : "light";
+          (event) => {
+            theme = event.matches ? "dark" : "light";
           },
         );
 
-        $watch("tema", (nuevoTema) => {
-          fetch("./ajax/ajustes/tema", {
+        $watch("theme", (newTheme) => {
+          fetch("./ajax/settings/theme", {
             method: "post",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              tema: nuevoTema,
+              theme: newTheme,
             }),
           });
         });
@@ -62,7 +58,7 @@ use App\Enums\SessionKey;
 
 <body
     class="transition-colors duration-300 dark:text-[#e0d5f0]"
-    :class="`${tema}-mode`">
+    :class="`${theme}-mode`">
     <?php Flight::render('components/navbar') ?>
 
     <main class="pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
