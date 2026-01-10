@@ -28,6 +28,7 @@ Flight::route('/logout', AuthController::logout(...));
 Flight::route('/profile', ProfileController::userProfile(...));
 Flight::route('POST /profile/update', ProfileController::updateProfile(...));
 Flight::route('POST /profile/password', ProfileController::changePassword(...));
+Flight::route('/profile/orders', ProfileController::orderHistory(...));
 
 // Notifications
 Flight::route('/notifications', MainController::notifications(...));

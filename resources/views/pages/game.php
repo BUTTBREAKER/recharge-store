@@ -62,7 +62,23 @@ foreach ($packages ?? [] as $index => $package) {
                         <?php endif ?>
 
                         <div class="mb-4 text-center">
-                            <div class="text-4xl mb-2 drop-shadow-sm">💎</div>
+                            <?php
+                            // Determinar icono según tipo de producto
+                            $productIcon = '/assets/images/games/mobile-legends/products/';
+                            if (stripos($p['nombre'], 'Starlight') !== false) {
+                                $productIcon .= 'starlight.png';
+                            } elseif (stripos($p['nombre'], 'Twilight') !== false) {
+                                $productIcon .= 'twilight.png';
+                            } else {
+                                $productIcon .= 'diamonds.png';
+                            }
+                            $iconExists = file_exists(__DIR__ . '/../../public' . $productIcon);
+                            ?>
+                            <?php if ($iconExists): ?>
+                                <img src="<?= $productIcon ?>" alt="<?= $p['nombre'] ?>" class="w-16 h-16 mx-auto mb-2 drop-shadow-sm">
+                            <?php else: ?>
+                                <div class="text-4xl mb-2 drop-shadow-sm">💎</div>
+                            <?php endif; ?>
                             <div class="font-bold text-gray-800 text-lg"><?= $p['nombre'] ?></div>
                             <?php if (isset($p['bonus'])) : ?>
                                 <div class="text-xs font-medium text-emerald-500 bg-emerald-50 inline-block px-2 py-1 rounded-full mt-1">

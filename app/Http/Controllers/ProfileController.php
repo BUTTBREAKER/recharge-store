@@ -27,8 +27,9 @@ class ProfileController
         $userModel = new User();
         $user = $userModel->obtenerPorId(Session::get('user_id'));
 
-        // Obtener pedidos del usuario (necesitaremos agregar esta funcionalidad)
-        $pedidos = []; // Por ahora vacío, se puede implementar después
+        // Obtener últimos 5 pedidos del usuario
+        $pedidoModel = new Pedido();
+        $pedidos = $pedidoModel->obtenerPorUsuario(Session::get('user_id'), 5);
 
         Flight::render('user_profile', [
             'user' => $user,
@@ -79,5 +80,21 @@ class ProfileController
         } else {
             Flight::redirect('/profile?password_error=incorrect');
         }
+    }
+
+    /**
+     * Historial de pedidos del usuario
+     */
+    public static function orderHistory()
+    {
+        self::checkAuth();
+
+        $pedidoModel = new Pedido();
+        $pedidos = $pedidoModel->obtenerPorUsuario(Session::get('user_id'));
+
+        Flight::render('user/order-history', [
+            'pedidos' => $pedidos
+        ], 'content');
+        Flight::render('layout', ['title' => 'Historial de Pedidos - SisifoStore']);
     }
 }

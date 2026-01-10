@@ -38,7 +38,9 @@ class MainController
         }
 
         $pedidoModel = new Pedido();
-        $pedidoId = $pedidoModel->crear([
+        
+        // Preparar datos del pedido
+        $pedidoData = [
             'juego' => $data->juego,
             'player_id' => $data->player_id,
             'server_id' => $data->server_id,
@@ -46,7 +48,14 @@ class MainController
             'monto' => $data->monto,
             'metodo_pago' => 'pagomovil', // Temporal, se actualiza en el siguiente paso
             'telefono' => $data->telefono
-        ]);
+        ];
+        
+        // Agregar user_id si el usuario está logueado
+        if (Session::has('user_id')) {
+            $pedidoData['user_id'] = Session::get('user_id');
+        }
+        
+        $pedidoId = $pedidoModel->crear($pedidoData);
 
         $pedido = $pedidoModel->obtenerPorId($pedidoId);
         Flight::render('checkout', ['pedido' => $pedido], 'content');

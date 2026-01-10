@@ -132,8 +132,11 @@
 
             <!-- Historial de Pedidos -->
             <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-                <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
+                <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                     <h3 class="text-lg font-bold text-gray-900">Mis Pedidos Recientes</h3>
+                    <a href="/profile/orders" class="text-sm text-violet-600 hover:text-violet-700 font-bold">
+                        Ver Todos →
+                    </a>
                 </div>
                 <div class="p-6">
                     <?php if (empty($pedidos)) : ?>
@@ -147,7 +150,7 @@
                     <?php else : ?>
                     <div class="space-y-3">
                         <?php foreach ($pedidos as $pedido) : ?>
-                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
                             <div>
                                 <p class="font-bold text-gray-900"><?= $pedido['paquete'] ?></p>
                                 <p class="text-sm text-gray-500"><?= date('d/m/Y', strtotime($pedido['fecha'])) ?></p>
@@ -163,6 +166,9 @@
                         </div>
                         <?php endforeach; ?>
                     </div>
+                    <a href="/profile/orders" class="block mt-4 text-center bg-violet-50 text-violet-700 font-bold py-3 px-6 rounded-xl hover:bg-violet-100 transition-colors">
+                        Ver Historial Completo
+                    </a>
                     <?php endif; ?>
                 </div>
             </div>
