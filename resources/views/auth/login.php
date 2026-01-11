@@ -15,6 +15,7 @@
         <?php endif; ?>
 
         <form action="/login" method="POST" class="space-y-6">
+            <?php csrf_field() ?>
             <div>
                 <label class="block text-sm font-bold text-gray-700 mb-2">Correo Electrónico</label>
                 <div class="relative">

@@ -65,6 +65,7 @@
                     </td>
                     <td class="px-6 py-4">
                         <form action="/admin/prices/update" method="POST" class="flex items-center gap-2">
+                            <?php csrf_field() ?>
                             <input type="hidden" name="id" value="<?= $p['id'] ?>">
                             <div class="relative">
                                 <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-bold">$</span>
@@ -90,6 +91,7 @@
                     </td>
                     <td class="px-6 py-4 text-right">
                         <form action="/admin/prices/toggle" method="POST" class="inline" onsubmit="return confirm('¿Cambiar estado del producto?');">
+                            <?php csrf_field() ?>
                             <input type="hidden" name="id" value="<?= $p['id'] ?>">
                             <button type="submit" class="text-gray-400 hover:text-violet-600 transition p-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

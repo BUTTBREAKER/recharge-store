@@ -65,6 +65,7 @@
                     <h3 class="text-lg font-bold text-gray-900">Información Personal</h3>
                 </div>
                 <form action="/profile/update" method="POST" class="p-6 space-y-5">
+                    <?php csrf_field() ?>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">Nombre Completo</label>
                         <input 
@@ -97,6 +98,7 @@
                     <h3 class="text-lg font-bold text-gray-900">Cambiar Contraseña</h3>
                 </div>
                 <form action="/profile/password" method="POST" class="p-6 space-y-5">
+                    <?php csrf_field() ?>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">Contraseña Actual</label>
                         <input 

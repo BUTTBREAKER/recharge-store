@@ -22,6 +22,7 @@
         </div>
 
         <form action="/pago/pagomovil/confirmar" method="POST" enctype="multipart/form-data" class="space-y-6" id="paymentForm">
+            <?php csrf_field() ?>
             <input type="hidden" name="pedido_id" value="<?= $pedido['id'] ?>">
             
             <div>

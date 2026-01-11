@@ -32,6 +32,7 @@
     </div>
 
     <form action="/procesar-pago" method="POST" class="space-y-8">
+        <?php csrf_field() ?>
         <input type="hidden" name="pedido_id" value="<?= $pedido['id'] ?>">
         
         <div class="space-y-4">

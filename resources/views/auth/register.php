@@ -20,6 +20,7 @@
         <?php endif; ?>
 
         <form action="/register" method="POST" class="space-y-5">
+            <?php csrf_field() ?>
             <div>
                 <label class="block text-sm font-bold text-gray-700 mb-2">Nombre Completo</label>
                 <div class="relative">

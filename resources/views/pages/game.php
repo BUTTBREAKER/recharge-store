@@ -31,6 +31,16 @@ foreach ($packages ?? [] as $index => $package) {
     </a>
 </div>
 
+<!-- Alert for errors -->
+<?php if (isset($_GET['error'])): ?>
+    <div class="mb-8 p-4 bg-red-50 border border-red-200 rounded-2xl flex items-center text-red-700 animate-fade-in">
+        <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+        </svg>
+        <span class="font-medium"><?= htmlspecialchars($_GET['error']) ?></span>
+    </div>
+<?php endif; ?>
+
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
     <!-- Packages Selection -->
     <div class="lg:col-span-2 space-y-8 animate-fade-in">
@@ -108,6 +118,8 @@ foreach ($packages ?? [] as $index => $package) {
             </h2>
 
             <form action="/checkout" method="POST" id="rechargeForm" class="space-y-5">
+                <?php csrf_field() ?>
+                <input type="hidden" name="slug" value="<?= $slug ?? 'mobile-legends' ?>">
                 <input type="hidden" name="paquete" id="selected_paquete">
                 <input type="hidden" name="monto" id="selected_monto">
                 <input type="hidden" name="juego" value="Mobile Legends">

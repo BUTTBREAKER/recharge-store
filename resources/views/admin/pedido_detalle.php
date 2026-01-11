@@ -52,6 +52,7 @@
                     Gestionar Estado
                 </h3>
                 <form action="/admin/pedido/actualizar" method="POST" class="bg-gray-50 p-2 rounded-2xl flex gap-2">
+                    <?php csrf_field() ?>
                     <input type="hidden" name="id" value="<?= $pedido['id'] ?>">
                     <select name="estado" class="flex-grow p-3 bg-white border-0 rounded-xl outline-none shadow-sm focus:ring-2 focus:ring-violet-200 font-medium text-gray-700">
                         <option value="pendiente" <?= $pedido['estado'] == 'pendiente' ? 'selected' : '' ?>>🟡 Pendiente</option>

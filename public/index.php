@@ -114,6 +114,13 @@ $auth->createRoles([
 $db->connection(Container::getInstance()->get(PDO::class));
 (new ReflectionProperty($auth, 'db'))->setValue($auth, $db);
 
+// HELPERS
+require_once ROOT_FOLDER . '/app/Helpers/csrf.php';
+
+// MIDDLEWARES
+Flight::before('start', [App\Http\Middleware\RateLimiter::class, 'loginLimit']);
+Flight::before('start', [App\Http\Middleware\VerifyCsrfToken::class, 'handle']);
+
 // LOAD ROUTES
 foreach (glob(__DIR__ . '/../routes/*.php') ?: [] as $routes) {
     require_once $routes;

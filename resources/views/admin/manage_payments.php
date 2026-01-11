@@ -31,6 +31,7 @@
             </div>
         </div>
         <form action="/admin/payments/update" method="POST" class="p-6 space-y-5">
+            <?php csrf_field() ?>
             <input type="hidden" name="metodo" value="pagomovil">
             
             <div>
@@ -98,6 +99,7 @@
             </div>
         </div>
         <form action="/admin/payments/update" method="POST" class="p-6 space-y-5">
+            <?php csrf_field() ?>
             <input type="hidden" name="metodo" value="binance">
             
             <div>
