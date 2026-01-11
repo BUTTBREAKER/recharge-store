@@ -24,13 +24,22 @@ class MainController
         $db = Container::getInstance()->get(Db::class);
         $packages = $db->select('productos')->where('juego', '?')->bind(str_replace('-', ' ', $slug))->fetchAll();
 
-        Flight::render('pages/game', compact('exchangeRate', 'packages'), 'content');
+        Flight::render('pages/game', compact('exchangeRate', 'packages', 'slug'), 'content');
         Flight::render('layout', ['title' => 'Mobile Legends - SisifoStore']);
     }
 
     public static function checkout()
     {
         $data = Flight::request()->data;
+
+        // Validar Player ID y Server ID
+        $validation = \App\Validators\PlayerIdValidator::validate($data->player_id, $data->server_id);
+        if (!$validation['success']) {
+            // Redirigir de vuelta al juego con el error
+            $slug = $data->slug ?? 'mobile-legends';
+            Flight::redirect("/juego/{$slug}?error=" . urlencode($validation['message']));
+            return;
+        }
 
         if (empty($data->player_id) || empty($data->paquete)) {
             Flight::redirect('/');
@@ -101,20 +110,35 @@ class MainController
     }
 
     /**
-     * Notificaciones para usuarios
+     * Notificaciones para usuarios (Alertas Reales)
      */
     public static function notifications()
     {
         if (!Session::has('user_id')) {
             Flight::redirect('/login');
-
             return;
         }
 
-        $pedidoModel = new Pedido();
-        $pedidos = $pedidoModel->obtenerPorUsuario(Session::get('user_id'));
+        $userId = Session::get('user_id');
+        $notificacionModel = new \App\Models\Notificacion();
+        
+        // Marcar como leídas al entrar
+        if (Flight::request()->query->read === 'all') {
+            $notificacionModel->marcarTodasComoLeidas($userId);
+            Flight::redirect('/notifications');
+            return;
+        }
 
-        Flight::render('notifications', ['pedidos' => $pedidos], 'content');
-        Flight::render('layout', ['title' => 'Mis Notificaciones']);
+        $notificaciones = $notificacionModel->obtenerPorUsuario($userId);
+        
+        // También obtener pedidos para referencia rápida (opcional, pero ayuda a la UI)
+        $pedidoModel = new Pedido();
+        $pedidos = $pedidoModel->obtenerPorUsuario($userId, 5);
+
+        Flight::render('notifications', [
+            'notificaciones' => $notificaciones,
+            'pedidos' => $pedidos
+        ], 'content');
+        Flight::render('layout', ['title' => 'Mis Notificaciones - SisifoStore']);
     }
 }
