@@ -275,7 +275,23 @@ class AdminController
         self::checkAdmin();
 
         $pedidoModel = new Pedido();
-        $pedidoModel->actualizarEstado($id, 'confirmado');
+        $pedido = $pedidoModel->obtenerPorId($id);
+        
+        if ($pedido) {
+            $pedidoModel->actualizarEstado($id, 'confirmado');
+            
+            // Generar notificación si el pedido tiene un user_id
+            if (isset($pedido['user_id']) && $pedido['user_id']) {
+                $notificacionModel = new \App\Models\Notificacion();
+                $notificacionModel->crear(
+                    $pedido['user_id'],
+                    '✅ Pago Verificado',
+                    "Tu pago por el paquete {$pedido['paquete']} ha sido verificado. Estamos procesando tu recarga.",
+                    'pedido_actualizado',
+                    '/notifications'
+                );
+            }
+        }
 
         Flight::redirect('/admin/orders?estado=confirmado&success=verified');
     }
@@ -288,7 +304,23 @@ class AdminController
         self::checkAdmin();
 
         $pedidoModel = new Pedido();
-        $pedidoModel->actualizarEstado($id, 'realizada');
+        $pedido = $pedidoModel->obtenerPorId($id);
+        
+        if ($pedido) {
+            $pedidoModel->actualizarEstado($id, 'realizada');
+            
+            // Generar notificación
+            if (isset($pedido['user_id']) && $pedido['user_id']) {
+                $notificacionModel = new \App\Models\Notificacion();
+                $notificacionModel->crear(
+                    $pedido['user_id'],
+                    '💎 Recarga Completada',
+                    "¡Felicidades! Tu recarga de {$pedido['paquete']} ha sido enviada exitosamente. Revisa tu cuenta en el juego.",
+                    'pedido_actualizado',
+                    '/notifications'
+                );
+            }
+        }
 
         Flight::redirect('/admin/orders?estado=realizada&success=completed');
     }
@@ -301,7 +333,23 @@ class AdminController
         self::checkAdmin();
 
         $pedidoModel = new Pedido();
-        $pedidoModel->actualizarEstado($id, 'cancelado');
+        $pedido = $pedidoModel->obtenerPorId($id);
+        
+        if ($pedido) {
+            $pedidoModel->actualizarEstado($id, 'cancelado');
+            
+            // Generar notificación
+            if (isset($pedido['user_id']) && $pedido['user_id']) {
+                $notificacionModel = new \App\Models\Notificacion();
+                $notificacionModel->crear(
+                    $pedido['user_id'],
+                    '❌ Problema con el Pago',
+                    "No pudimos verificar tu pago para el paquete {$pedido['paquete']}. Por favor, contacta a soporte.",
+                    'pedido_actualizado',
+                    '/notifications'
+                );
+            }
+        }
 
         Flight::redirect('/admin/orders?estado=cancelado&success=rejected');
     }

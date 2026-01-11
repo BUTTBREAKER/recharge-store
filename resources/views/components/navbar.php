@@ -10,12 +10,13 @@ $links = [
 
 // Calcular notificaciones
 $pedidoModel = new Pedido();
+$notificationModel = new \App\Models\Notificacion();
 
 if (Session::get('user_role') === 'admin') {
     $notificationCount = $pedidoModel->contarPorEstado('pendiente');
     $notificationLink = './admin/orders?estado=pendiente';
 } else {
-    $notificationCount = $pedidoModel->contarActivosPorUsuario(Session::get('user_id'));
+    $notificationCount = $notificationModel->contarSinLeer(Session::get('user_id'));
     $notificationLink = './notifications';
 }
 
