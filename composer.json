@@ -1,8 +1,8 @@
 {
     "require": {
         "flightphp/container": "^1.3",
-        "flightphp/core": "^3.17",
-        "illuminate/support": "^12.44",
+        "flightphp/core": "^3.18",
+        "illuminate/support": "^12.47",
         "leafs/auth": "^4.2",
         "leafs/db": "^4.0",
         "leafs/form": "^3.2",
