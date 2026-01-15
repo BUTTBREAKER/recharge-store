@@ -9,7 +9,6 @@
   <file>public/</file>
   <file>resources/views/</file>
   <file>routes/</file>
-  <exclude-pattern>vendor</exclude-pattern>
 
   <rule ref="PSR12" />
 </ruleset>
