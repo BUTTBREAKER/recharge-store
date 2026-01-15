@@ -8,7 +8,7 @@ class PlayerIdValidator
      * Valida el formato de Player ID y Server ID para Mobile Legends
      * Player ID suele ser numérico (8-10 dígitos)
      * Server ID suele ser numérico (4-5 dígitos)
-     * 
+     *
      * @param string|int $playerId
      * @param string|int $serverId
      * @return array ['success' => bool, 'message' => string]

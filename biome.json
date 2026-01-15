@@ -6,7 +6,7 @@
     "files": {
         "includes": [
             "public",
-            "resources",
+            "resources/styles",
             "biome.json",
             "composer.*",
             "package-lock.json",

@@ -47,7 +47,7 @@ class MainController
         }
 
         $pedidoModel = new Pedido();
-        
+
         // Preparar datos del pedido
         $pedidoData = [
             'juego' => $data->juego,
@@ -58,12 +58,12 @@ class MainController
             'metodo_pago' => 'pagomovil', // Temporal, se actualiza en el siguiente paso
             'telefono' => $data->telefono
         ];
-        
+
         // Agregar user_id si el usuario está logueado
         if (Session::has('user_id')) {
             $pedidoData['user_id'] = Session::get('user_id');
         }
-        
+
         $pedidoId = $pedidoModel->crear($pedidoData);
 
         $pedido = $pedidoModel->obtenerPorId($pedidoId);
@@ -121,7 +121,7 @@ class MainController
 
         $userId = Session::get('user_id');
         $notificacionModel = new \App\Models\Notificacion();
-        
+
         // Marcar como leídas al entrar
         if (Flight::request()->query->read === 'all') {
             $notificacionModel->marcarTodasComoLeidas($userId);
@@ -130,7 +130,7 @@ class MainController
         }
 
         $notificaciones = $notificacionModel->obtenerPorUsuario($userId);
-        
+
         // También obtener pedidos para referencia rápida (opcional, pero ayuda a la UI)
         $pedidoModel = new Pedido();
         $pedidos = $pedidoModel->obtenerPorUsuario($userId, 5);

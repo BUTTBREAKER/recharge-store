@@ -36,11 +36,16 @@
                             <?= stripos($n['titulo'], 'Problema') !== false ? 'bg-red-50 text-red-600' : '' ?>
                             <?= !in_array($n['tipo'], ['pedido_actualizado']) ? 'bg-violet-50 text-violet-600' : '' ?>
                         ">
-                            <?php 
-                                if (stripos($n['titulo'], 'Pago') !== false) echo '💳';
-                                elseif (stripos($n['titulo'], 'Recarga') !== false) echo '💎';
-                                elseif (stripos($n['titulo'], 'Problema') !== false) echo '⚠️';
-                                else echo '🔔';
+                            <?php
+                            if (stripos($n['titulo'], 'Pago') !== false) {
+                                echo '💳';
+                            } elseif (stripos($n['titulo'], 'Recarga') !== false) {
+                                echo '💎';
+                            } elseif (stripos($n['titulo'], 'Problema') !== false) {
+                                echo '⚠️';
+                            } else {
+                                echo '🔔';
+                            }
                             ?>
                         </div>
                         <div class="flex-1">

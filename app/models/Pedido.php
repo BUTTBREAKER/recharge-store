@@ -11,7 +11,7 @@ class Pedido extends BaseModel
         $hasUserId = isset($data['user_id']);
         $sql = "INSERT INTO pedidos (juego, player_id, server_id, paquete, monto, metodo_pago, telefono, estado" . ($hasUserId ? ", user_id" : "") . ") 
                 VALUES (:juego, :player_id, :server_id, :paquete, :monto, :metodo_pago, :telefono, 'pendiente'" . ($hasUserId ? ", :user_id" : "") . ")";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute($data);
         return $this->db->lastInsertId();

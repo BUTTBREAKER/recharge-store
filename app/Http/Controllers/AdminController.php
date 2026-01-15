@@ -276,10 +276,10 @@ class AdminController
 
         $pedidoModel = new Pedido();
         $pedido = $pedidoModel->obtenerPorId($id);
-        
+
         if ($pedido) {
             $pedidoModel->actualizarEstado($id, 'confirmado');
-            
+
             // Generar notificación si el pedido tiene un user_id
             if (isset($pedido['user_id']) && $pedido['user_id']) {
                 $notificacionModel = new \App\Models\Notificacion();
@@ -305,10 +305,10 @@ class AdminController
 
         $pedidoModel = new Pedido();
         $pedido = $pedidoModel->obtenerPorId($id);
-        
+
         if ($pedido) {
             $pedidoModel->actualizarEstado($id, 'realizada');
-            
+
             // Generar notificación
             if (isset($pedido['user_id']) && $pedido['user_id']) {
                 $notificacionModel = new \App\Models\Notificacion();
@@ -334,10 +334,10 @@ class AdminController
 
         $pedidoModel = new Pedido();
         $pedido = $pedidoModel->obtenerPorId($id);
-        
+
         if ($pedido) {
             $pedidoModel->actualizarEstado($id, 'cancelado');
-            
+
             // Generar notificación
             if (isset($pedido['user_id']) && $pedido['user_id']) {
                 $notificacionModel = new \App\Models\Notificacion();

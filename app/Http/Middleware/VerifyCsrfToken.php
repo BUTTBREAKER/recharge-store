@@ -19,10 +19,9 @@ class VerifyCsrfToken
     public static function handle()
     {
         $request = Flight::request();
-        
+
         // Solo validar en métodos que modifican estado (POST, PUT, DELETE, PATCH)
         if (in_array($request->method, ['POST', 'PUT', 'DELETE', 'PATCH'])) {
-            
             // Verificar excepciones por URL (exacta o parcial)
             foreach (self::$except as $exceptPath) {
                 if (strpos($request->url, $exceptPath) !== false) {

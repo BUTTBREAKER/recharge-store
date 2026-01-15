@@ -14,11 +14,11 @@ class RateLimiter
     public static function loginLimit()
     {
         $request = Flight::request();
-        
+
         if ($request->method === 'POST' && ($request->url === '/login' || $request->url === '/admin/login')) {
             $attempts = Session::get('login_attempts') ?? 0;
             $lastAttempt = Session::get('last_login_attempt') ?? 0;
-            
+
             // Si ha pasado más de 15 minutos, resetear intentos
             if (time() - $lastAttempt > 900) {
                 $attempts = 0;
@@ -28,7 +28,7 @@ class RateLimiter
             if ($attempts >= 5) {
                 $waitTime = 900 - (time() - $lastAttempt);
                 $minutes = ceil($waitTime / 60);
-                
+
                 Flight::halt(429, "Demasiados intentos de inicio de sesión. Por favor, intenta de nuevo en $minutes minutos.");
             }
         }

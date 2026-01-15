@@ -51,7 +51,7 @@ class Notificacion extends BaseModel
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$userId]);
     }
-    
+
     /**
      * Eliminar notificaciones antiguas (opcional)
      */

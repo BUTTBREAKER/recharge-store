@@ -4,7 +4,7 @@ use Leaf\Http\Session;
 
 $user = null;
 if (Session::has('user_id')) {
-    $user = [ 
+    $user = [
         'name' => Session::get('user_name'),
         'email' => Session::get('user_email'),
     ];
@@ -13,7 +13,8 @@ if (Session::has('user_id')) {
 $pedidos = $pedidos ?? [];
 
 // Función helper para badge de estado
-function getEstadoBadge($estado) {
+function getEstadoBadge($estado)
+{
     $badges = [
         'pendiente' => '<span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-semibold">⏳ Pendiente</span>',
         'confirmado' => '<span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">✓ Confirmado</span>',
@@ -87,7 +88,7 @@ function getEstadoBadge($estado) {
     </div>
 
     <!-- Orders Table -->
-    <?php if (empty($pedidos)): ?>
+    <?php if (empty($pedidos)) : ?>
         <div class="bg-white rounded-2xl shadow-sm p-12 text-center border border-gray-100">
             <div class="text-6xl mb-4">🛒</div>
             <h3 class="text-xl font-bold text-gray-900 mb-2">No tienes pedidos aún</h3>
@@ -96,7 +97,7 @@ function getEstadoBadge($estado) {
                 Ver Juegos Disponibles
             </a>
         </div>
-    <?php else: ?>
+    <?php else : ?>
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <!-- Desktop Table -->
             <div class="hidden md:block overflow-x-auto">
@@ -113,7 +114,7 @@ function getEstadoBadge($estado) {
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        <?php foreach ($pedidos as $pedido): ?>
+                        <?php foreach ($pedidos as $pedido) : ?>
                             <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
                                     #<?= str_pad($pedido['id'], 4, '0', STR_PAD_LEFT) ?>
@@ -144,7 +145,7 @@ function getEstadoBadge($estado) {
 
             <!-- Mobile Cards -->
             <div class="md:hidden divide-y divide-gray-100">
-                <?php foreach ($pedidos as $pedido): ?>
+                <?php foreach ($pedidos as $pedido) : ?>
                     <div class="p-6 hover:bg-gray-50 transition-colors">
                         <div class="flex justify-between items-start mb-3">
                             <div>

@@ -26,18 +26,18 @@ $slug = Container::getInstance()->get(SluggerInterface::class)->slug(...);
             <div class="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
                 <div class="h-48 bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center relative overflow-hidden">
                     <div class="absolute inset-0 bg-black opacity-10 group-hover:opacity-0 transition-opacity"></div>
-                    <?php 
-                    $gameSlug = $slug($game['game']); 
+                    <?php
+                    $gameSlug = $slug($game['game']);
                     $iconPath = "assets/images/games/{$gameSlug}/icon.png";
                     $hasIcon = file_exists(__DIR__ . '/../../../public/' . $iconPath);
                     ?>
-                    <?php if ($hasIcon): ?>
+                    <?php if ($hasIcon) : ?>
                         <img 
                             src="/<?= $iconPath ?>" 
                             alt="<?= $game['game'] ?>" 
                             class="w-32 h-32 object-contain drop-shadow-lg filter group-hover:scale-110 transition-transform duration-300"
                         >
-                    <?php else: ?>
+                    <?php else : ?>
                         <span class="text-7xl drop-shadow-lg filter group-hover:scale-110 transition-transform duration-300">📱</span>
                     <?php endif; ?>
                 </div>

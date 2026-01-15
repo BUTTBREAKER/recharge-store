@@ -32,7 +32,7 @@ foreach ($packages ?? [] as $index => $package) {
 </div>
 
 <!-- Alert for errors -->
-<?php if (isset($_GET['error'])): ?>
+<?php if (isset($_GET['error'])) : ?>
     <div class="mb-8 p-4 bg-red-50 border border-red-200 rounded-2xl flex items-center text-red-700 animate-fade-in">
         <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
@@ -84,9 +84,9 @@ foreach ($packages ?? [] as $index => $package) {
                             }
                             $iconExists = file_exists(__DIR__ . '/../../public' . $productIcon);
                             ?>
-                            <?php if ($iconExists): ?>
+                            <?php if ($iconExists) : ?>
                                 <img src="<?= $productIcon ?>" alt="<?= $p['nombre'] ?>" class="w-16 h-16 mx-auto mb-2 drop-shadow-sm">
-                            <?php else: ?>
+                            <?php else : ?>
                                 <div class="text-4xl mb-2 drop-shadow-sm">💎</div>
                             <?php endif; ?>
                             <div class="font-bold text-gray-800 text-lg"><?= $p['nombre'] ?></div>
