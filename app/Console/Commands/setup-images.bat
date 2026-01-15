@@ -2,7 +2,7 @@
 echo Creando estructura de directorios para imagenes...
 echo.
 
-cd public
+cd ..\..\..\public
 
 REM Crear directorio principal de assets
 if not exist "assets" mkdir assets
