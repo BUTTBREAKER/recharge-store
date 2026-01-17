@@ -25,7 +25,7 @@ class MainController
         $packages = $db->select('productos')->where('juego', '?')->bind(str_replace('-', ' ', $slug))->fetchAll();
 
         Flight::render('pages/game', compact('exchangeRate', 'packages', 'slug'), 'content');
-        Flight::render('layout', ['title' => 'Mobile Legends - SisifoStore']);
+        Flight::render('layout', ['title' => 'Mobile Legends - FearSold']);
     }
 
     public static function checkout()
@@ -139,6 +139,6 @@ class MainController
             'notificaciones' => $notificaciones,
             'pedidos' => $pedidos
         ], 'content');
-        Flight::render('layout', ['title' => 'Mis Notificaciones - SisifoStore']);
+        Flight::render('layout', ['title' => 'Mis Notificaciones - FearSold']);
     }
 }

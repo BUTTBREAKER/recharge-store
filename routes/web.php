@@ -46,6 +46,31 @@ Flight::group('/admin', function () {
     Flight::route('POST /prices/update', AdminController::updatePrice(...));
     Flight::route('POST /prices/toggle', AdminController::toggleProduct(...));
 
+    // Product CRUD
+    Flight::route('/products/create', AdminController::productCreate(...));
+    Flight::route('POST /products/store', AdminController::productStore(...));
+    Flight::route('/products/edit/@id', AdminController::productEdit(...));
+    Flight::route('POST /products/update', AdminController::productUpdate(...));
+    Flight::route('POST /products/delete', AdminController::productDelete(...));
+
+    // Games CRUD
+    Flight::route('/games', AdminController::gamesIndex(...));
+    Flight::route('/games/create', AdminController::gameCreate(...));
+    Flight::route('POST /games/store', AdminController::gameStore(...));
+    Flight::route('/games/edit/@id', AdminController::gameEdit(...));
+    Flight::route('POST /games/update', AdminController::gameUpdate(...));
+    Flight::route('POST /games/delete', AdminController::gameDelete(...));
+    Flight::route('POST /games/toggle', AdminController::gameToggle(...));
+
+    // User Management
+    Flight::route('/users', AdminController::usersIndex(...));
+    Flight::route('/users/edit/@id', AdminController::userEdit(...));
+    Flight::route('POST /users/update', AdminController::userUpdate(...));
+    Flight::route('POST /users/change-password', AdminController::userChangePassword(...));
+    Flight::route('POST /users/make-admin', AdminController::userMakeAdmin(...));
+    Flight::route('POST /users/make-user', AdminController::userMakeUser(...));
+    Flight::route('POST /users/delete', AdminController::userDelete(...));
+
     // Payment Configuration
     Flight::route('/payments', AdminController::managePayments(...));
     Flight::route('POST /payments/update', AdminController::updatePaymentData(...));
