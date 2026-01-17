@@ -15,7 +15,7 @@ use Leaf\Http\Session;
         <?php if (Session::get('user_role') === 'admin') : ?>
             <a
                 href="./admin/dashboard"
-                class="text-violet-600 font-bold hover:text-violet-800 transition">
+                class="text-primary font-bold hover:text-primary/80 transition">
                 Panel Admin
             </a>
         <?php endif ?>
@@ -28,7 +28,7 @@ use Leaf\Http\Session;
         ]) ?>
         <a
             href="./register"
-            class="bg-violet-100 text-violet-700 px-4 py-2 rounded-full font-semibold hover:bg-violet-200 transition shadow-sm text-sm">
+            class="bg-primary/10 text-primary px-4 py-2 rounded-full font-semibold hover:bg-primary/20 transition shadow-sm text-sm">
             Unirse
         </a>
     <?php endif ?>
@@ -37,7 +37,7 @@ use Leaf\Http\Session;
 
     <a
         href="./#games"
-        class="bg-gray-900 text-white px-4 py-2 rounded-full font-bold hover:bg-black transition shadow-lg flex items-center gap-2">
+        class="bg-gradient-to-r from-primary to-accent text-primary-foreground px-4 py-2 rounded-full font-bold hover:opacity-90 transition shadow-lg flex items-center gap-2">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
                 stroke-linecap="round"

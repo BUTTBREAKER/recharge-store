@@ -5,7 +5,7 @@ use Leaf\Http\Session;
 ?>
 
 <div class="relative group">
-    <button class="flex items-center gap-2 text-gray-700 hover:text-violet-600 font-medium transition">
+    <button class="flex items-center gap-2 text-foreground hover:text-primary font-medium transition">
         Hola,
         <?= Session::get('user_name') ?? 'Usuario' ?>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -18,7 +18,7 @@ use Leaf\Http\Session;
         </svg>
     </button>
 
-    <div class="absolute w-48 bg-white rounded-xl shadow-lg py-2 hidden group-hover:block border border-gray-100 animate-fade-in z-50">
+    <div class="absolute w-48 bg-card rounded-xl shadow-lg py-2 hidden group-hover:block border border-border animate-fade-in z-50">
         <?php foreach ([['href' => Session::get('user_name') === 'admin' ? './admin/profile' : './profile', 'slot' => 'Mi Perfil'], ['href' => './logout', 'slot' => 'Cerrar Sesión']] as $link) : ?>
             <?php Flight::render('components/user-dropdown-link', $link) ?>
         <?php endforeach ?>

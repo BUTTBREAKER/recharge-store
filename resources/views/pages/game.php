@@ -21,8 +21,8 @@ foreach ($packages ?? [] as $index => $package) {
 ?>
 
 <div class="mb-8">
-    <a href="./" class="group flex items-center text-gray-500 hover:text-violet-600 transition-colors">
-        <div class="mr-2 p-2 bg-white rounded-full shadow-sm group-hover:bg-violet-100 transition-colors">
+    <a href="./" class="group flex items-center text-muted-foreground hover:text-primary transition-colors">
+        <div class="mr-2 p-2 bg-card rounded-full shadow-sm group-hover:bg-muted transition-colors border border-border">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -33,7 +33,7 @@ foreach ($packages ?? [] as $index => $package) {
 
 <!-- Alert for errors -->
 <?php if (isset($_GET['error'])) : ?>
-    <div class="mb-8 p-4 bg-red-50 border border-red-200 rounded-2xl flex items-center text-red-700 animate-fade-in">
+    <div class="mb-8 p-4 bg-destructive/10 border border-destructive/20 rounded-2xl flex items-center text-destructive animate-fade-in">
         <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
         </svg>
@@ -47,10 +47,10 @@ foreach ($packages ?? [] as $index => $package) {
         <div class="flex items-center space-x-4 mb-6">
             <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-violet-600 rounded-xl flex items-center justify-center text-2xl shadow-lg">📱</div>
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 leading-tight">
+                <h1 class="text-3xl font-bold text-foreground leading-tight">
                     <?= $packages[0]['juego'] ?? 'Mobile Legends' ?>
                 </h1>
-                <p class="text-gray-500">Selecciona tu paquete de diamantes</p>
+                <p class="text-muted-foreground">Selecciona tu paquete de diamantes</p>
             </div>
         </div>
 
@@ -64,7 +64,7 @@ foreach ($packages ?? [] as $index => $package) {
                         data-precio="<?= $p['precio'] ?>"
                         class="peer sr-only"
                         onchange="updateSelection(this)">
-                    <div class="h-full bg-white border-2 border-gray-100 p-5 rounded-2xl cursor-pointer hover:border-violet-300 hover:shadow-lg peer-checked:border-violet-500 peer-checked:bg-violet-50 peer-checked:shadow-violet-200 peer-checked:shadow-xl transition-all duration-300 flex flex-col justify-between">
+                    <div class="h-full bg-card border-2 border-border p-5 rounded-2xl cursor-pointer hover:border-primary/50 hover:shadow-lg peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:shadow-primary/20 peer-checked:shadow-xl transition-all duration-300 flex flex-col justify-between">
                         <?php if (isset($p['tag'])) : ?>
                             <span class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-lg shadow-sm">
                                 Popular
@@ -89,7 +89,7 @@ foreach ($packages ?? [] as $index => $package) {
                             <?php else : ?>
                                 <div class="text-4xl mb-2 drop-shadow-sm">💎</div>
                             <?php endif; ?>
-                            <div class="font-bold text-gray-800 text-lg"><?= $p['nombre'] ?></div>
+                            <div class="font-bold text-foreground text-lg"><?= $p['nombre'] ?></div>
                             <?php if (isset($p['bonus'])) : ?>
                                 <div class="text-xs font-medium text-emerald-500 bg-emerald-50 inline-block px-2 py-1 rounded-full mt-1">
                                     <?= $p['bonus'] ?>
@@ -97,9 +97,9 @@ foreach ($packages ?? [] as $index => $package) {
                             <?php endif ?>
                         </div>
 
-                        <div class="text-center pt-4 border-t border-gray-50">
-                            <div class="text-lg font-bold text-gray-900">$<?= number_format($p['precio'], 2) ?></div>
-                            <div class="text-xs text-gray-500 font-medium mt-1">
+                        <div class="text-center pt-4 border-t border-border">
+                            <div class="text-lg font-bold text-foreground">$<?= number_format($p['precio'], 2) ?></div>
+                            <div class="text-xs text-muted-foreground font-medium mt-1">
                                 Bs <?= number_format($p['precio'] * $exchangeRate, 2) ?>
                             </div>
                         </div>
@@ -111,9 +111,9 @@ foreach ($packages ?? [] as $index => $package) {
 
     <!-- Purchase Form -->
     <div class="lg:col-span-1">
-        <div class="bg-white p-6 lg:p-8 rounded-3xl shadow-xl border border-gray-100 sticky top-24 transition-all hover:shadow-2xl">
-            <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                <span class="bg-violet-100 text-violet-600 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">2</span>
+        <div class="bg-card p-6 lg:p-8 rounded-3xl shadow-xl border border-border sticky top-24 transition-all hover:shadow-2xl">
+            <h2 class="text-xl font-bold text-foreground mb-6 flex items-center">
+                <span class="bg-primary/10 text-primary w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">2</span>
                 Datos de Jugador
             </h2>
 
@@ -126,45 +126,45 @@ foreach ($packages ?? [] as $index => $package) {
 
                 <div class="space-y-4">
                     <div class="relative">
-                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Player ID</label>
-                        <input type="text" name="player_id" required placeholder="12345678" pattern="[0-9]+" class="w-full p-4 pl-12 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-violet-100 focus:border-violet-500 outline-none transition-all font-medium text-gray-800 placeholder-gray-400">
-                        <div class="absolute left-4 top-[35px] text-gray-400">
+                        <label class="block text-xs font-bold text-muted-foreground uppercase tracking-wide mb-2">Player ID</label>
+                        <input type="text" name="player_id" required placeholder="12345678" pattern="[0-9]+" class="w-full p-4 pl-12 bg-input border border-border rounded-2xl focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium text-foreground placeholder-muted-foreground">
+                        <div class="absolute left-4 top-[35px] text-muted-foreground">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
                         </div>
                     </div>
                     <div class="relative">
-                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Server ID</label>
-                        <input type="text" name="server_id" required placeholder="1234" pattern="[0-9]+" class="w-full p-4 pl-12 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-violet-100 focus:border-violet-500 outline-none transition-all font-medium text-gray-800 placeholder-gray-400">
-                        <div class="absolute left-4 top-[35px] text-gray-400">
+                        <label class="block text-xs font-bold text-muted-foreground uppercase tracking-wide mb-2">Server ID</label>
+                        <input type="text" name="server_id" required placeholder="1234" pattern="[0-9]+" class="w-full p-4 pl-12 bg-input border border-border rounded-2xl focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium text-foreground placeholder-muted-foreground">
+                        <div class="absolute left-4 top-[35px] text-muted-foreground">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
                             </svg>
                         </div>
                     </div>
                     <div class="relative">
-                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Teléfono / WhatsApp</label>
-                        <input type="tel" name="telefono" required placeholder="0412 123 4567" class="w-full p-4 pl-12 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-violet-100 focus:border-violet-500 outline-none transition-all font-medium text-gray-800 placeholder-gray-400">
-                        <div class="absolute left-4 top-[35px] text-gray-400">
+                        <label class="block text-xs font-bold text-muted-foreground uppercase tracking-wide mb-2">Teléfono / WhatsApp</label>
+                        <input type="tel" name="telefono" required placeholder="0412 123 4567" class="w-full p-4 pl-12 bg-input border border-border rounded-2xl focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium text-foreground placeholder-muted-foreground">
+                        <div class="absolute left-4 top-[35px] text-muted-foreground">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                             </svg>
                         </div>
                     </div>
 
-                    <div class="pt-6 mt-6 border-t border-gray-100">
+                    <div class="pt-6 mt-6 border-t border-border">
                         <div class="flex justify-between items-end mb-6">
-                            <div class="text-sm text-gray-500">Total a pagar</div>
+                            <div class="text-sm text-muted-foreground">Total a pagar</div>
                             <div>
-                                <span class="font-bold text-3xl text-gray-900" id="display_total">$0.00</span>
-                                <span class="text-xs text-gray-400 uppercase font-medium ml-1">USD</span>
+                                <span class="font-bold text-3xl text-foreground" id="display_total">$0.00</span>
+                                <span class="text-xs text-muted-foreground uppercase font-medium ml-1">USD</span>
                             </div>
                         </div>
-                        <button type="submit" class="w-full bg-primary hover:bg-primary-dark text-gray-900 font-bold py-4 px-6 rounded-2xl shadow-lg shadow-yellow-200 transform hover:-translate-y-1 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none" id="btnSubmit" disabled>
+                        <button type="submit" class="w-full bg-gradient-to-r from-secondary to-amber-400 text-secondary-foreground font-bold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none" id="btnSubmit" disabled>
                             Continuar al Pago &rarr;
                         </button>
-                        <p class="text-center text-xs text-gray-400 mt-4 flex items-center justify-center">
+                        <p class="text-center text-xs text-muted-foreground mt-4 flex items-center justify-center">
                             <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
                             </svg>
