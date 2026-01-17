@@ -9,41 +9,38 @@ use App\Enums\SessionKey;
 <html
     lang="es"
     class="scroll-smooth"
-    data-theme="<?= Session::get(SessionKey::UI_THEME->name, '') ?>"
-    :data-theme="theme"
     x-data='{
-        theme: (
-            document.documentElement.dataset.theme
-            || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
-        ),
-
+        isDark: localStorage.getItem("theme") === "dark" || (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches),
         mobileMenuOpen: false,
-    }'
-    x-init='
-        matchMedia("(prefers-color-scheme: dark)").addEventListener(
-            "change",
-            (event) => {
-                theme = event.matches ? "dark" : "light";
-            },
-        );
-
-        $watch("theme", (newTheme) => {
+        init() {
+            this.updateTheme();
+        },
+        updateTheme() {
+            if (this.isDark) {
+                document.documentElement.classList.add("dark");
+            } else {
+                document.documentElement.classList.remove("dark");
+            }
+        },
+        toggleTheme() {
+            this.isDark = !this.isDark;
+            localStorage.setItem("theme", this.isDark ? "dark" : "light");
+            this.updateTheme();
+            // Sync with server
             fetch("./ajax/settings/theme", {
                 method: "post",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    theme: newTheme,
-                }),
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ theme: this.isDark ? "dark" : "light" }),
             });
-        });
-    '>
+        }
+    }'
+    x-init="init()"
+    :class="{ 'dark': isDark }">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title><?= $title ?? 'SisifoStore - Recargas MLBB' ?></title>
+    <title><?= $title ?? 'FearSold - Recargas MLBB' ?></title>
     <base href="<?= str_replace('index.php', '', $_SERVER['SCRIPT_NAME']) ?>" />
     <link rel="icon" href="./images/favicon.svg" />
 
@@ -52,13 +49,12 @@ use App\Enums\SessionKey;
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet" />
 
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="./index.css" />
 </head>
 
-<body
-    class="transition-colors duration-300 dark:text-[#e0d5f0]"
-    :class="`${theme}-mode`">
+<body class="transition-colors duration-300 min-h-screen">
     <?php Flight::render('components/navbar') ?>
 
     <main class="pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -69,3 +65,4 @@ use App\Enums\SessionKey;
 </body>
 
 </html>
+
