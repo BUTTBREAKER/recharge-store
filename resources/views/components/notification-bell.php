@@ -5,7 +5,7 @@ $notificationLink ??= 'javascript:';
 
 ?>
 
-<a href="<?= $notificationLink ?>" class="relative text-gray-600 hover:text-violet-600 transition">
+<a href="<?= $notificationLink ?>" class="relative text-muted-foreground hover:text-primary transition-colors">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
             stroke-linecap="round"
@@ -15,7 +15,7 @@ $notificationLink ??= 'javascript:';
         </path>
     </svg>
     <?php if ($notificationCount > 0) : ?>
-        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+        <span class="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
             <?= $notificationCount > 9 ? '9+' : $notificationCount ?>
         </span>
     <?php endif; ?>

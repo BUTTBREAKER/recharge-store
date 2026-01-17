@@ -19,7 +19,7 @@ class AuthController
         }
 
         Flight::render('auth/login', [], 'content');
-        Flight::render('layout', ['title' => 'Iniciar Sesión - SisifoFamily']);
+        Flight::render('layout', ['title' => 'Iniciar Sesión - FearSold']);
     }
 
     public static function registerView()
@@ -29,7 +29,7 @@ class AuthController
         }
 
         Flight::render('auth/register', [], 'content');
-        Flight::render('layout', ['title' => 'Unete a SisifoFamily']);
+        Flight::render('layout', ['title' => 'Únete a FearSold']);
     }
 
     public static function login()

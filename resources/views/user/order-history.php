@@ -16,12 +16,12 @@ $pedidos = $pedidos ?? [];
 function getEstadoBadge($estado)
 {
     $badges = [
-        'pendiente' => '<span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-semibold">⏳ Pendiente</span>',
-        'confirmado' => '<span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">✓ Confirmado</span>',
-        'realizada' => '<span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold">✅ Completado</span>',
-        'cancelado' => '<span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-semibold">❌ Cancelado</span>',
+        'pendiente' => '<span class="px-3 py-1 bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 rounded-full text-xs font-bold ring-1 ring-yellow-500/20">⏳ Pendiente</span>',
+        'confirmado' => '<span class="px-3 py-1 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-full text-xs font-bold ring-1 ring-blue-500/20">✓ Confirmado</span>',
+        'realizada' => '<span class="px-3 py-1 bg-green-500/10 text-green-600 dark:text-green-400 rounded-full text-xs font-bold ring-1 ring-green-500/20">✅ Completado</span>',
+        'cancelado' => '<span class="px-3 py-1 bg-destructive/10 text-destructive rounded-full text-xs font-bold ring-1 ring-destructive/20">❌ Cancelado</span>',
     ];
-    return $badges[$estado] ?? '<span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-xs font-semibold">' . $estado . '</span>';
+    return $badges[$estado] ?? '<span class="px-3 py-1 bg-muted text-muted-foreground rounded-full text-xs font-semibold">' . $estado . '</span>';
 }
 
 ?>
@@ -29,14 +29,14 @@ function getEstadoBadge($estado)
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- Header -->
     <div class="mb-8">
-        <a href="/profile" class="text-violet-600 hover:text-violet-700 font-medium flex items-center gap-2 mb-4">
+        <a href="./profile" class="text-primary hover:text-primary/80 font-medium flex items-center gap-2 mb-4">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
             Volver al Perfil
         </a>
-        <h1 class="text-3xl font-bold text-gray-900">Historial de Pedidos</h1>
-        <p class="text-gray-500 mt-2">Todos tus pedidos y su estado actual</p>
+        <h1 class="text-3xl font-bold text-foreground">Historial de Pedidos</h1>
+        <p class="text-muted-foreground mt-2">Todos tus pedidos y su estado actual</p>
     </div>
 
     <!-- Stats Cards -->
@@ -49,38 +49,38 @@ function getEstadoBadge($estado)
             'realizada' => count(array_filter($pedidos, fn($p) => $p['estado'] === 'realizada')),
         ];
         ?>
-        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div class="bg-card rounded-xl shadow-sm p-6 border border-border">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-500">Total</p>
-                    <p class="text-2xl font-bold text-gray-900"><?= $stats['total'] ?></p>
+                    <p class="text-sm text-muted-foreground">Total</p>
+                    <p class="text-2xl font-bold text-foreground"><?= $stats['total'] ?></p>
                 </div>
                 <div class="text-3xl">📦</div>
             </div>
         </div>
-        <div class="bg-yellow-50 rounded-xl shadow-sm p-6 border border-yellow-100">
+        <div class="bg-yellow-50 dark:bg-yellow-900/20 rounded-xl shadow-sm p-6 border border-yellow-100 dark:border-yellow-900/30">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-yellow-700">Pendientes</p>
-                    <p class="text-2xl font-bold text-yellow-900"><?= $stats['pendiente'] ?></p>
+                    <p class="text-sm text-yellow-700 dark:text-yellow-400">Pendientes</p>
+                    <p class="text-2xl font-bold text-yellow-900 dark:text-yellow-200"><?= $stats['pendiente'] ?></p>
                 </div>
                 <div class="text-3xl">⏳</div>
             </div>
         </div>
-        <div class="bg-blue-50 rounded-xl shadow-sm p-6 border border-blue-100">
+        <div class="bg-blue-50 dark:bg-blue-900/20 rounded-xl shadow-sm p-6 border border-blue-100 dark:border-blue-900/30">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-blue-700">Confirmados</p>
-                    <p class="text-2xl font-bold text-blue-900"><?= $stats['confirmado'] ?></p>
+                    <p class="text-sm text-blue-700 dark:text-blue-400">Confirmados</p>
+                    <p class="text-2xl font-bold text-blue-900 dark:text-blue-200"><?= $stats['confirmado'] ?></p>
                 </div>
                 <div class="text-3xl">✓</div>
             </div>
         </div>
-        <div class="bg-green-50 rounded-xl shadow-sm p-6 border border-green-100">
+        <div class="bg-green-50 dark:bg-green-900/20 rounded-xl shadow-sm p-6 border border-green-100 dark:border-green-900/30">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-green-700">Completados</p>
-                    <p class="text-2xl font-bold text-green-900"><?= $stats['realizada'] ?></p>
+                    <p class="text-sm text-green-700 dark:text-green-400">Completados</p>
+                    <p class="text-2xl font-bold text-green-900 dark:text-green-200"><?= $stats['realizada'] ?></p>
                 </div>
                 <div class="text-3xl">✅</div>
             </div>
@@ -89,52 +89,52 @@ function getEstadoBadge($estado)
 
     <!-- Orders Table -->
     <?php if (empty($pedidos)) : ?>
-        <div class="bg-white rounded-2xl shadow-sm p-12 text-center border border-gray-100">
-            <div class="text-6xl mb-4">🛒</div>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">No tienes pedidos aún</h3>
-            <p class="text-gray-500 mb-6">Comienza tu primera recarga de diamantes</p>
-            <a href="/" class="inline-block bg-violet-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-violet-700 transition-colors">
+        <div class="bg-card rounded-2xl shadow-sm p-12 text-center border border-border">
+            <div class="text-6xl mb-4 opacity-50 filter grayscale">🛒</div>
+            <h3 class="text-xl font-bold text-foreground mb-2">No tienes pedidos aún</h3>
+            <p class="text-muted-foreground mb-6">Comienza tu primera recarga de diamantes</p>
+            <a href="./" class="inline-block bg-primary text-primary-foreground font-bold py-3 px-6 rounded-xl hover:opacity-90 transition-colors">
                 Ver Juegos Disponibles
             </a>
         </div>
     <?php else : ?>
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-card rounded-2xl shadow-sm border border-border overflow-hidden">
             <!-- Desktop Table -->
             <div class="hidden md:block overflow-x-auto">
                 <table class="w-full">
-                    <thead class="bg-gray-50 border-b border-gray-100">
+                    <thead class="bg-muted/50 border-b border-border">
                         <tr>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">ID</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Juego</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Paquete</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Player ID</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Monto</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Estado</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Fecha</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Juego</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Paquete</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Player ID</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Monto</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Estado</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Fecha</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="divide-y divide-border">
                         <?php foreach ($pedidos as $pedido) : ?>
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
+                            <tr class="hover:bg-muted/30 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-foreground">
                                     #<?= str_pad($pedido['id'], 4, '0', STR_PAD_LEFT) ?>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
                                     <?= htmlspecialchars($pedido['juego']) ?>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-700">
+                                <td class="px-6 py-4 text-sm text-foreground/80">
                                     <?= htmlspecialchars($pedido['paquete']) ?>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-600">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-muted-foreground">
                                     <?= htmlspecialchars($pedido['player_id']) ?> (<?= htmlspecialchars($pedido['server_id']) ?>)
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-foreground">
                                     $<?= number_format($pedido['monto'], 2) ?>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <?= getEstadoBadge($pedido['estado']) ?>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                                     <?= date('d/m/Y H:i', strtotime($pedido['fecha'])) ?>
                                 </td>
                             </tr>
@@ -144,32 +144,32 @@ function getEstadoBadge($estado)
             </div>
 
             <!-- Mobile Cards -->
-            <div class="md:hidden divide-y divide-gray-100">
+            <div class="md:hidden divide-y divide-border">
                 <?php foreach ($pedidos as $pedido) : ?>
-                    <div class="p-6 hover:bg-gray-50 transition-colors">
+                    <div class="p-6 hover:bg-muted/30 transition-colors">
                         <div class="flex justify-between items-start mb-3">
                             <div>
-                                <p class="font-mono text-sm text-gray-500">#<?= str_pad($pedido['id'], 4, '0', STR_PAD_LEFT) ?></p>
-                                <h3 class="font-bold text-gray-900"><?= htmlspecialchars($pedido['juego']) ?></h3>
+                                <p class="font-mono text-sm text-muted-foreground">#<?= str_pad($pedido['id'], 4, '0', STR_PAD_LEFT) ?></p>
+                                <h3 class="font-bold text-foreground"><?= htmlspecialchars($pedido['juego']) ?></h3>
                             </div>
                             <?= getEstadoBadge($pedido['estado']) ?>
                         </div>
                         <div class="space-y-2 text-sm">
                             <div class="flex justify-between">
-                                <span class="text-gray-500">Paquete:</span>
-                                <span class="font-medium text-gray-900"><?= htmlspecialchars($pedido['paquete']) ?></span>
+                                <span class="text-muted-foreground">Paquete:</span>
+                                <span class="font-medium text-foreground"><?= htmlspecialchars($pedido['paquete']) ?></span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-gray-500">Player ID:</span>
-                                <span class="font-mono text-gray-700"><?= htmlspecialchars($pedido['player_id']) ?></span>
+                                <span class="text-muted-foreground">Player ID:</span>
+                                <span class="font-mono text-foreground"><?= htmlspecialchars($pedido['player_id']) ?></span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-gray-500">Monto:</span>
-                                <span class="font-bold text-gray-900">$<?= number_format($pedido['monto'], 2) ?></span>
+                                <span class="text-muted-foreground">Monto:</span>
+                                <span class="font-bold text-foreground">$<?= number_format($pedido['monto'], 2) ?></span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-gray-500">Fecha:</span>
-                                <span class="text-gray-700"><?= date('d/m/Y H:i', strtotime($pedido['fecha'])) ?></span>
+                                <span class="text-muted-foreground">Fecha:</span>
+                                <span class="text-foreground/80"><?= date('d/m/Y H:i', strtotime($pedido['fecha'])) ?></span>
                             </div>
                         </div>
                     </div>

@@ -35,7 +35,7 @@ class ProfileController
             'user' => $user,
             'pedidos' => $pedidos
         ], 'content');
-        Flight::render('layout', ['title' => 'Mi Perfil - SisifoStore']);
+        Flight::render('layout', ['title' => 'Mi Perfil - FearSold']);
     }
 
     /**
@@ -95,6 +95,6 @@ class ProfileController
         Flight::render('user/order-history', [
             'pedidos' => $pedidos
         ], 'content');
-        Flight::render('layout', ['title' => 'Historial de Pedidos - SisifoStore']);
+        Flight::render('layout', ['title' => 'Historial de Pedidos - FearSold']);
     }
 }
