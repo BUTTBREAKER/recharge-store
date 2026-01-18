@@ -15,7 +15,7 @@ class MainController
     public static function home(): void
     {
         Flight::render('pages/home', [], 'content');
-        Flight::render('layout', ['title' => 'Inicio - WinStore']);
+        Flight::render('layout', ['title' => 'Inicio - FearSold']);
     }
 
     public static function game(string $slug): void
@@ -68,7 +68,7 @@ class MainController
 
         $pedido = $pedidoModel->obtenerPorId($pedidoId);
         Flight::render('checkout', ['pedido' => $pedido], 'content');
-        Flight::render('layout', ['title' => 'Checkout - WinStore']);
+        Flight::render('layout', ['title' => 'Checkout - FearSold']);
     }
 
     public static function procesarPago()

@@ -17,7 +17,7 @@ class PaymentController
         }
 
         Flight::render('pago_pagomovil', ['pedido' => $pedido], 'content');
-        Flight::render('layout', ['title' => 'Pago Móvil - WinStore']);
+        Flight::render('layout', ['title' => 'Pago Móvil - FearSold']);
     }
 
     public static function confirmarPagomovil()
@@ -60,7 +60,7 @@ class PaymentController
         $binance_url = "https://pay.binance.com/checkout/simulado_" . $id;
 
         Flight::render('pago_binance', ['pedido' => $pedido, 'url' => $binance_url], 'content');
-        Flight::render('layout', ['title' => 'Binance Pay - WinStore']);
+        Flight::render('layout', ['title' => 'Binance Pay - FearSold']);
     }
 
     public static function estado($id)
