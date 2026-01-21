@@ -51,8 +51,17 @@ class User extends BaseModel
 
     public function actualizarPerfil($id, $datos)
     {
-        $stmt = $this->db->prepare("UPDATE {$this->table} SET name = ?, email = ? WHERE id = ?");
-        return $stmt->execute([$datos['name'], $datos['email'], $id]);
+        $fields = ["name = :name", "email = :email"];
+        $params = ['name' => $datos['name'], 'email' => $datos['email'], 'id' => $id];
+
+        if (isset($datos['avatar_url'])) {
+            $fields[] = "avatar_url = :avatar_url";
+            $params['avatar_url'] = $datos['avatar_url'];
+        }
+
+        $sql = "UPDATE {$this->table} SET " . implode(', ', $fields) . " WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute($params);
     }
 
     public function cambiarPassword($id, $newPassword)
@@ -60,6 +69,37 @@ class User extends BaseModel
         $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
         $stmt = $this->db->prepare("UPDATE {$this->table} SET password = ? WHERE id = ?");
         return $stmt->execute([$hashedPassword, $id]);
+    }
+
+    public function obtenerPorEmail($email)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE email = ?");
+        $stmt->execute([$email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // === Password Reset Methods ===
+
+    public function guardarTokenReset($email, $token, $expires)
+    {
+        // Borrar tokens anteriores
+        $this->db->prepare("DELETE FROM password_resets WHERE email = ?")->execute([$email]);
+        
+        $stmt = $this->db->prepare("INSERT INTO password_resets (email, token, expires_at) VALUES (?, ?, ?)");
+        return $stmt->execute([$email, $token, $expires]);
+    }
+
+    public function verificarTokenReset($token)
+    {
+        $stmt = $this->db->prepare("SELECT email FROM password_resets WHERE token = ? AND expires_at > NOW()");
+        $stmt->execute([$token]);
+        return $stmt->fetchColumn();
+    }
+
+    public function borrarTokenReset($token)
+    {
+        $stmt = $this->db->prepare("DELETE FROM password_resets WHERE token = ?");
+        return $stmt->execute([$token]);
     }
 
     // === Métodos para Admin ===
