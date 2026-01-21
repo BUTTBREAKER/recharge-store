@@ -28,15 +28,38 @@ function getEstadoBadge($estado)
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- Header -->
-    <div class="mb-8">
-        <a href="./profile" class="text-primary hover:text-primary/80 font-medium flex items-center gap-2 mb-4">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-            Volver al Perfil
-        </a>
-        <h1 class="text-3xl font-bold text-foreground">Historial de Pedidos</h1>
-        <p class="text-muted-foreground mt-2">Todos tus pedidos y su estado actual</p>
+    <div class="flex flex-col md:flex-row justify-between items-end gap-4 mb-8">
+        <div>
+            <a href="./profile" class="text-primary hover:text-primary/80 font-medium flex items-center gap-2 mb-4">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Volver al Perfil
+            </a>
+            <h1 class="text-3xl font-bold text-foreground">Historial de Pedidos</h1>
+            <p class="text-muted-foreground mt-2">Todos tus pedidos y su estado actual</p>
+        </div>
+        
+        <form action="./profile/orders" method="GET" class="w-full md:w-auto flex gap-2">
+            <div class="relative w-full md:w-64">
+                <input 
+                    type="text" 
+                    name="search" 
+                    value="<?= htmlspecialchars($search ?? '') ?>" 
+                    placeholder="Buscar ID, Juego..." 
+                    class="w-full pl-10 pr-4 py-2.5 bg-card border border-border rounded-xl text-foreground focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                >
+                <div class="absolute left-3 top-3 text-muted-foreground">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+            </div>
+            
+            <?php if (!empty($search) || !empty($estado)): ?>
+                <a href="./profile/orders" class="bg-muted text-muted-foreground hover:bg-muted/80 px-4 py-2.5 rounded-xl font-bold transition flex items-center justify-center">
+                    ✕
+                </a>
+            <?php endif; ?>
+        </form>
     </div>
 
     <!-- Stats Cards -->

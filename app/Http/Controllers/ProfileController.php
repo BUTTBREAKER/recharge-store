@@ -44,14 +44,41 @@ class ProfileController
     public static function updateProfile()
     {
         self::checkAuth();
+        $userId = Session::get('user_id');
 
-        $userModel = new User();
-        $userModel->actualizarPerfil(Session::get('user_id'), [
+        $data = [
             'name' => Flight::request()->data->name,
             'email' => Flight::request()->data->email
-        ]);
+        ];
 
-        Session::set('user_name', Flight::request()->data->name);
+        // Manejar subida de Avatar
+        $files = Flight::request()->files;
+        if (isset($files['avatar']) && $files['avatar']['error'] === UPLOAD_ERR_OK) {
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (in_array(mime_content_type($files['avatar']['tmp_name']), $allowedTypes)) {
+                $ext = pathinfo($files['avatar']['name'], PATHINFO_EXTENSION);
+                $filename = 'avatar_' . $userId . '_' . time() . '.' . $ext;
+                $uploadPath = 'uploads/avatars/' . $filename;
+                
+                // Asegurar que el directorio existe
+                $fullPath = __DIR__ . '/../../../public/uploads/avatars/';
+                if (!is_dir($fullPath)) {
+                    mkdir($fullPath, 0777, true);
+                }
+
+                if (move_uploaded_file($files['avatar']['tmp_name'], $fullPath . $filename)) {
+                    $data['avatar_url'] = $uploadPath;
+                    
+                    // Actualizar sesión si es necesario
+                    Session::set('user_avatar', $uploadPath);
+                }
+            }
+        }
+
+        $userModel = new User();
+        $userModel->actualizarPerfil($userId, $data);
+
+        Session::set('user_name', $data['name']);
         Flight::redirect('/profile?success=1');
     }
 
@@ -89,11 +116,19 @@ class ProfileController
     {
         self::checkAuth();
 
+        $search = Flight::request()->query->search ?? null;
+        $estado = Flight::request()->query->estado ?? null;
+
         $pedidoModel = new Pedido();
-        $pedidos = $pedidoModel->obtenerPorUsuario(Session::get('user_id'));
+        $pedidos = $pedidoModel->obtenerPorUsuario(Session::get('user_id'), null, [
+            'search' => $search,
+            'estado' => $estado
+        ]);
 
         Flight::render('user/order-history', [
-            'pedidos' => $pedidos
+            'pedidos' => $pedidos,
+            'search' => $search,
+            'estado' => $estado
         ], 'content');
         Flight::render('layout', ['title' => 'Historial de Pedidos - FearSold']);
     }

@@ -34,6 +34,9 @@
                     </div>
                 </div>
             </div>
+            <div class="flex justify-end">
+                <a href="./forgot-password" class="text-sm text-primary hover:underline font-semibold">¿Olvidaste tu contraseña?</a>
+            </div>
             <button type="submit" class="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground font-bold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition duration-300">
                 Ingresar
             </button>
@@ -41,7 +44,7 @@
 
         <div class="mt-8 pt-6 border-t border-border text-center">
             <p class="text-muted-foreground text-sm">¿No tienes cuenta?</p>
-            <a href="./registro" class="text-primary font-bold hover:underline mt-1 inline-block">Únete a FearSold</a>
+            <a href="./register" class="text-primary font-bold hover:underline mt-1 inline-block">Únete a FearSold</a>
         </div>
     </div>
 </div>
