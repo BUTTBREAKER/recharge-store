@@ -59,7 +59,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="./reembolso" class="text-sm text-muted-foreground hover:text-primary transition-colors">
+                        <a href="./reembolsos" class="text-sm text-muted-foreground hover:text-primary transition-colors">
                             Política de Reembolso
                         </a>
                     </li>

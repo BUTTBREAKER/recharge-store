@@ -66,9 +66,13 @@ use Leaf\Http\Session;
                         @click="open = !open"
                         class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-muted transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring"
                     >
-                        <div class="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm">
-                            <?= strtoupper(substr(Session::get('user_name') ?? 'U', 0, 1)) ?>
-                        </div>
+                        <?php if (Session::has('user_avatar')): ?>
+                            <img src="./<?= Session::get('user_avatar') ?>" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-primary/20">
+                        <?php else: ?>
+                            <div class="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm">
+                                <?= strtoupper(substr(Session::get('user_name') ?? 'U', 0, 1)) ?>
+                            </div>
+                        <?php endif; ?>
                     </button>
                     
                     <div 
