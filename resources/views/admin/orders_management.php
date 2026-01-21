@@ -3,10 +3,27 @@
         <h1 class="text-3xl font-extrabold text-foreground">Gestión de Recargas</h1>
         <p class="text-muted-foreground mt-1">Verifica pagos y completa recargas pendientes</p>
     </div>
-    <a href="./admin/dashboard" class="bg-muted text-muted-foreground hover:bg-muted/80 px-5 py-2.5 rounded-xl font-bold transition flex items-center">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-        Volver al Dashboard
-    </a>
+    <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+        <form action="./admin/orders" method="GET" class="relative">
+             <?php if ($filtro): ?>
+                <input type="hidden" name="estado" value="<?= $filtro ?>">
+            <?php endif; ?>
+            <input 
+                type="text" 
+                name="search" 
+                value="<?= $_GET['search'] ?? '' ?>"
+                placeholder="Buscar ID, Teléfono..." 
+                class="pl-10 pr-4 py-2.5 bg-card border border-border rounded-xl text-foreground focus:ring-2 focus:ring-primary focus:border-primary outline-none w-full md:w-64 transition-all"
+            >
+            <div class="absolute left-3 top-3 text-muted-foreground">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+        </form>
+        <a href="./admin/dashboard" class="bg-muted text-muted-foreground hover:bg-muted/80 px-5 py-2.5 rounded-xl font-bold transition flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Volver
+        </a>
+    </div>
 </div>
 
 <?php if (isset($_GET['success'])) : ?>

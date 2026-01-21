@@ -180,14 +180,38 @@ class AdminController
     public static function updateProfile()
     {
         self::checkAdmin();
+        $userId = Session::get('user_id');
 
-        $userModel = new User();
-        $userModel->actualizarPerfil(Session::get('user_id'), [
+        $data = [
             'name' => Flight::request()->data->name,
             'email' => Flight::request()->data->email
-        ]);
+        ];
 
-        Session::set('user_name', Flight::request()->data->name);
+        // Manejar subida de Avatar
+        $files = Flight::request()->files;
+        if (isset($files['avatar']) && $files['avatar']['error'] === UPLOAD_ERR_OK) {
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (in_array(mime_content_type($files['avatar']['tmp_name']), $allowedTypes)) {
+                $ext = pathinfo($files['avatar']['name'], PATHINFO_EXTENSION);
+                $filename = 'admin_' . $userId . '_' . time() . '.' . $ext;
+                $uploadPath = 'uploads/avatars/' . $filename;
+                
+                $fullPath = __DIR__ . '/../../../public/uploads/avatars/';
+                if (!is_dir($fullPath)) {
+                    mkdir($fullPath, 0777, true);
+                }
+
+                if (move_uploaded_file($files['avatar']['tmp_name'], $fullPath . $filename)) {
+                    $data['avatar_url'] = $uploadPath;
+                    Session::set('user_avatar', $uploadPath);
+                }
+            }
+        }
+
+        $userModel = new User();
+        $userModel->actualizarPerfil($userId, $data);
+
+        Session::set('user_name', $data['name']);
         Flight::redirect('/admin/profile?success=1');
     }
 
@@ -620,8 +644,13 @@ class AdminController
         self::checkAdmin();
 
         $filtro = Flight::request()->query->estado ?? 'pendiente';
+        $search = Flight::request()->query->search ?? null;
+        
         $pedidoModel = new Pedido();
-        $pedidos = $pedidoModel->listarTodos($filtro);
+        $pedidos = $pedidoModel->listarTodos([
+            'estado' => $filtro,
+            'search' => $search
+        ]);
 
         // Contar por estado para badges
         $contadores = [

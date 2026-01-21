@@ -30,22 +30,29 @@ class Pedido extends BaseModel
         return $stmt->execute([$estado, $id]);
     }
 
-    public function listarTodos($filtro = null, $limit = null)
+    public function listarTodos($filters = [], $limit = null)
     {
-        $sql = "SELECT * FROM pedidos";
-        if ($filtro) {
-            $sql .= " WHERE estado = :estado";
+        $sql = "SELECT * FROM pedidos WHERE 1=1";
+        $params = [];
+
+        if (!empty($filters['estado'])) {
+            $sql .= " AND estado = :estado";
+            $params['estado'] = $filters['estado'];
         }
+
+        if (!empty($filters['search'])) {
+            $sql .= " AND (id LIKE :search OR player_id LIKE :search OR telefono LIKE :search OR comprobante LIKE :search)";
+            $params['search'] = '%' . $filters['search'] . '%';
+        }
+
         $sql .= " ORDER BY fecha DESC";
+        
         if ($limit) {
             $sql .= " LIMIT " . intval($limit);
         }
+
         $stmt = $this->db->prepare($sql);
-        if ($filtro) {
-            $stmt->execute(['estado' => $filtro]);
-        } else {
-            $stmt->execute();
-        }
+        $stmt->execute($params);
         return $stmt->fetchAll();
     }
 
@@ -64,16 +71,31 @@ class Pedido extends BaseModel
      * Obtener pedidos de un usuario específico
      * Nota: requiere que la columna user_id exista en pedidos
      */
-    public function obtenerPorUsuario($userId, $limit = null)
+    public function obtenerPorUsuario($userId, $limit = null, $filters = [])
     {
         // Verificar si la columna user_id existe
         try {
-            $sql = "SELECT * FROM pedidos WHERE user_id = ? ORDER BY fecha DESC";
+            $sql = "SELECT * FROM pedidos WHERE user_id = :user_id";
+            $params = ['user_id' => $userId];
+
+            if (!empty($filters['search'])) {
+                $sql .= " AND (id LIKE :search OR player_id LIKE :search OR paquete LIKE :search)";
+                $params['search'] = '%' . $filters['search'] . '%';
+            }
+
+            if (!empty($filters['estado'])) {
+                $sql .= " AND estado = :estado";
+                $params['estado'] = $filters['estado'];
+            }
+
+            $sql .= " ORDER BY fecha DESC";
+            
             if ($limit) {
                 $sql .= " LIMIT " . intval($limit);
             }
+
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$userId]);
+            $stmt->execute($params);
             return $stmt->fetchAll();
         } catch (PDOException $e) {
             // Si la columna no existe, retornar array vacío

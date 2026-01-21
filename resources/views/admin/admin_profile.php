@@ -40,9 +40,15 @@
         <!-- Sidebar con Avatar -->
         <div class="lg:col-span-1">
             <div class="bg-card rounded-2xl shadow-lg border border-border p-6 text-center">
-                <div class="w-24 h-24 bg-gradient-to-br from-primary to-accent rounded-full mx-auto mb-4 flex items-center justify-center text-white text-3xl font-bold">
-                    <?= strtoupper(substr($user['name'], 0, 2)) ?>
-                </div>
+                <?php if (!empty($user['avatar_url'])) : ?>
+                    <div class="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden border-4 border-primary/20 shadow-lg">
+                        <img src="./<?= $user['avatar_url'] ?>" alt="Avatar" class="w-full h-full object-cover">
+                    </div>
+                <?php else : ?>
+                    <div class="w-24 h-24 bg-gradient-to-br from-primary to-accent rounded-full mx-auto mb-4 flex items-center justify-center text-white text-3xl font-bold">
+                        <?= strtoupper(substr($user['name'], 0, 2)) ?>
+                    </div>
+                <?php endif; ?>
                 <h2 class="text-xl font-bold text-foreground"><?= htmlspecialchars($user['name']) ?></h2>
                 <p class="text-sm text-muted-foreground mt-1"><?= htmlspecialchars($user['email']) ?></p>
                 <span class="inline-block mt-3 px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full">
@@ -62,7 +68,7 @@
                 <div class="bg-muted/50 px-6 py-4 border-b border-border">
                     <h3 class="text-lg font-bold text-foreground">Información Personal</h3>
                 </div>
-                <form action="./admin/profile/update" method="POST" class="p-6 space-y-5">
+                <form action="./admin/profile/update" method="POST" enctype="multipart/form-data" class="p-6 space-y-5">
                     <?php csrf_field() ?>
                     <div>
                         <label class="block text-sm font-bold text-foreground mb-2">Nombre Completo</label>
@@ -83,6 +89,16 @@
                             class="w-full px-4 py-3 bg-input border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-foreground"
                             required
                         >
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-foreground mb-2">Avatar</label>
+                        <input 
+                            type="file" 
+                            name="avatar" 
+                            accept="image/*"
+                            class="w-full px-4 py-3 bg-input border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition cursor-pointer"
+                        >
+                        <p class="text-xs text-muted-foreground mt-1">Soporta JPG, PNG, WEBP (Max 2MB)</p>
                     </div>
                     <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3 px-6 rounded-xl transition">
                         Actualizar Información
