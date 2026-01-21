@@ -24,6 +24,12 @@ Flight::route('GET /register', AuthController::registerView(...));
 Flight::route('POST /register', AuthController::register(...));
 Flight::route('/logout', AuthController::logout(...));
 
+// Password Recovery
+Flight::route('GET /forgot-password', AuthController::forgotPasswordView(...));
+Flight::route('POST /forgot-password', AuthController::sendResetLink(...));
+Flight::route('GET /reset-password', AuthController::resetPasswordView(...));
+Flight::route('POST /reset-password', AuthController::resetPassword(...));
+
 // User Profile Routes
 Flight::route('/profile', ProfileController::userProfile(...));
 Flight::route('POST /profile/update', ProfileController::updateProfile(...));
@@ -36,6 +42,12 @@ Flight::route('/notifications', MainController::notifications(...));
 // Páginas estáticas
 Flight::route('/legal', MainController::legal(...));
 Flight::route('/reembolsos', MainController::reembolsos(...));
+Flight::route('/soporte', MainController::soporte(...));
+Flight::route('/terminos', MainController::terminos(...));
+Flight::route('/privacidad', MainController::privacidad(...));
+
+// Error 404
+Flight::map('notFound', MainController::notFound(...));
 
 Flight::group('/admin', function () {
     // Dashboard & Analytics

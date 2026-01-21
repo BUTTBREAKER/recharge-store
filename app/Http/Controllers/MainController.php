@@ -112,6 +112,9 @@ class MainController
     /**
      * Notificaciones para usuarios (Alertas Reales)
      */
+    /**
+     * Notificaciones para usuarios (Alertas Reales)
+     */
     public static function notifications()
     {
         if (!Session::has('user_id')) {
@@ -140,5 +143,30 @@ class MainController
             'pedidos' => $pedidos
         ], 'content');
         Flight::render('layout', ['title' => 'Mis Notificaciones - FearSold']);
+    }
+
+    public static function soporte()
+    {
+        Flight::render('soporte', [], 'content');
+        Flight::render('layout', ['title' => 'Soporte - FearSold']);
+    }
+
+    public static function terminos()
+    {
+        Flight::render('terminos', [], 'content');
+        Flight::render('layout', ['title' => 'Términos de Servicio - FearSold']);
+    }
+
+    public static function privacidad()
+    {
+        Flight::render('privacidad', [], 'content');
+        Flight::render('layout', ['title' => 'Política de Privacidad - FearSold']);
+    }
+
+    public static function notFound()
+    {
+        Flight::response()->status(404);
+        Flight::render('404', [], 'content');
+        Flight::render('layout', ['title' => 'Página no encontrada - FearSold']);
     }
 }
