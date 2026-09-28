@@ -32,7 +32,9 @@ final class ApiAuth
 
     public static function strict(): bool
     {
-        return filter_var($_ENV['API_AUTH_STRICT'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
+        $value = $_ENV['API_AUTH_STRICT'] ?? getenv('API_AUTH_STRICT');
+
+        return filter_var($value === false ? 'false' : $value, FILTER_VALIDATE_BOOLEAN);
     }
 
     // ------------------------------------------------------------------
