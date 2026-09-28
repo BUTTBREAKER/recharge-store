@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use PDO;
+
 class Analytics extends BaseModel
 {
     /**
@@ -21,7 +23,7 @@ class Analytics extends BaseModel
             ORDER BY hora ASC
         ";
         $stmt = $this->db->query($sql);
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -42,7 +44,7 @@ class Analytics extends BaseModel
             ORDER BY fecha ASC
         ";
         $stmt = $this->db->query($sql);
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -64,7 +66,7 @@ class Analytics extends BaseModel
             ORDER BY fecha ASC
         ";
         $stmt = $this->db->query($sql);
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -87,7 +89,7 @@ class Analytics extends BaseModel
 
         $stmt = $this->db->query($sql);
 
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -109,7 +111,7 @@ class Analytics extends BaseModel
             LIMIT " . $limit . "
         ";
         $stmt = $this->db->query($sql);
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -128,6 +130,6 @@ class Analytics extends BaseModel
             FROM pedidos
         ";
         $stmt = $this->db->query($sql);
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\CatalogController as AdminCatalogController;
+use App\Http\Controllers\Api\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Api\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Api\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Api\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CatalogController;
@@ -81,6 +83,12 @@ Flight::group('/api', static function (Router $router): void {
 
     // Panel admin: exige rol admin en modo estricto (401 sin token, 403 sin rol)
     Flight::group('/admin', static function (Router $router): void {
+        // Dashboard y configuración del sistema
+        $router->get('/dashboard', AdminDashboardController::show(...));
+        $router->get('/payment-config', AdminSettingsController::paymentConfig(...));
+        $router->put('/payment-config', AdminSettingsController::updatePaymentConfig(...));
+        $router->put('/exchange-rate', AdminSettingsController::updateExchangeRate(...));
+
         // Gestión de pedidos/recargas
         $router->get('/orders', AdminOrderController::index(...));
         $router->get('/orders/@id', AdminOrderController::show(...));
