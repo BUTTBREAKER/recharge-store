@@ -17,10 +17,19 @@ use PHPUnit\Framework\TestCase;
  * then truncateAll() + seed() so the admin and test users always exist with
  * known passwords. The server is pointed at `recharge_test` (see
  * TestServer), never at the dev `recharge_db`.
+ *
+ * Uploaded-file cleanup: endpoints such as POST /api/payments/pagomovil
+ * store real files under public/uploads/ (the served path comes back in the
+ * response, e.g. `data.comprobante` = `/uploads/comp_..._....png`). setUp()
+ * snapshots the directory listing and tearDown() deletes every entry that
+ * was not there before the test, so no run leaves artifacts behind.
  */
 abstract class ApiTestCase extends TestCase
 {
     protected ApiClient $api;
+
+    /** Entries of public/uploads present before the current test started. */
+    private array $uploadsSnapshot = [];
 
     public static function setUpBeforeClass(): void
     {
@@ -39,6 +48,13 @@ abstract class ApiTestCase extends TestCase
         Database::seed();
 
         $this->api = new ApiClient('http://127.0.0.1:' . TestServer::DEFAULT_PORT);
+        $this->uploadsSnapshot = self::uploadEntries();
+    }
+
+    protected function tearDown(): void
+    {
+        self::removeNewUploads($this->uploadsSnapshot);
+        parent::tearDown();
     }
 
     /** POST /api/login and return the Bearer token (asserts a 200). */
@@ -67,5 +83,68 @@ abstract class ApiTestCase extends TestCase
         $this->assertIsArray($res['body']);
 
         return $res['body'];
+    }
+
+    // ------------------------------------------------------------------
+    // Uploaded-file cleanup (public/uploads)
+    // ------------------------------------------------------------------
+
+    /** Absolute path of the runtime uploads directory (never committed data). */
+    protected static function uploadsDir(): string
+    {
+        return dirname(__DIR__, 2) . '/public/uploads';
+    }
+
+    /** @return list<string> sorted entries of the uploads directory */
+    private static function uploadEntries(): array
+    {
+        $dir = self::uploadsDir();
+        if (!is_dir($dir)) {
+            return [];
+        }
+
+        $entries = array_values(array_diff(scandir($dir) ?: [], ['.', '..']));
+        sort($entries);
+
+        return $entries;
+    }
+
+    /**
+     * Delete every public/uploads entry created during the test (files and
+     * directories such as uploads/avatars/), keeping the pre-test snapshot.
+     *
+     * @param list<string> $snapshot entries present before the test
+     */
+    private static function removeNewUploads(array $snapshot): void
+    {
+        $dir = self::uploadsDir();
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        foreach (scandir($dir) ?: [] as $entry) {
+            if ($entry === '.' || $entry === '..' || in_array($entry, $snapshot, true)) {
+                continue;
+            }
+            self::removePath($dir . '/' . $entry);
+        }
+    }
+
+    private static function removePath(string $path): void
+    {
+        if (is_dir($path) && !is_link($path)) {
+            foreach (scandir($path) ?: [] as $entry) {
+                if ($entry !== '.' && $entry !== '..') {
+                    self::removePath($path . '/' . $entry);
+                }
+            }
+            rmdir($path);
+
+            return;
+        }
+
+        if (file_exists($path) || is_link($path)) {
+            unlink($path);
+        }
     }
 }

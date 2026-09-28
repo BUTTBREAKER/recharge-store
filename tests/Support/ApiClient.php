@@ -13,10 +13,17 @@ namespace Tests\Support;
  *    response is not JSON
  *  - contentType (string): response Content-Type header
  *
- * TODO(phase 3): multipart form upload (payments/pagomovil comprobante).
+ * Uploads go through postFile() (multipart/form-data, CURLFile). The local
+ * source paths sent are tracked in sentFiles(); the file the server actually
+ * serves afterwards comes back in the response body (e.g. `data.comprobante`
+ * = `/uploads/...`), and ApiTestCase removes any new file under
+ * public/uploads after every test.
  */
 final class ApiClient
 {
+    /** @var list<string> local paths of every file sent via postFile() */
+    private array $sentFiles = [];
+
     public function __construct(private readonly string $baseUrl)
     {
     }
@@ -54,10 +61,64 @@ final class ApiClient
     }
 
     /**
+     * POST multipart/form-data (file uploads, e.g. the pagomovil comprobante).
+     *
+     * The Content-Type header (with the boundary) is left to libcurl.
+     *
+     * @param array<string, mixed> $fields simple form fields (scalars)
+     * @param array<string, string|array{path: string, mime?: string, name?: string}> $files
+     *        field name => local file path (uploaded under its basename), or a
+     *        spec to override the MIME type and/or the posted file name
+     *        (used to send a file with a deliberately bad extension).
+     * @return array{status: int, body: array|string, contentType: string}
+     */
+    public function postFile(string $path, array $fields = [], array $files = [], ?string $token = null): array
+    {
+        $multipart = [];
+        foreach ($fields as $name => $value) {
+            $multipart[(string) $name] = $value;
+        }
+        foreach ($files as $name => $spec) {
+            if (is_array($spec)) {
+                $file = new \CURLFile($spec['path'], $spec['mime'] ?? null, $spec['name'] ?? null);
+                $this->sentFiles[] = $spec['path'];
+            } else {
+                $file = new \CURLFile($spec);
+                $this->sentFiles[] = $spec;
+            }
+            $multipart[(string) $name] = $file;
+        }
+
+        return $this->send('POST', $path, $multipart, $token, multipart: true);
+    }
+
+    /**
+     * Local paths of the files uploaded through postFile() so far
+     * (the served copy lives under public/uploads and is cleaned up by
+     * ApiTestCase, not here).
+     *
+     * @return list<string>
+     */
+    public function sentFiles(): array
+    {
+        return $this->sentFiles;
+    }
+
+    /**
      * @param array|null $json payload encoded as JSON when not null
      * @return array{status: int, body: array|string, contentType: string}
      */
     private function request(string $method, string $path, ?array $json, ?string $token): array
+    {
+        return $this->send($method, $path, $json, $token, multipart: false);
+    }
+
+    /**
+     * @param array|null $payload JSON payload (array) or multipart parts when
+     *        $multipart; null for a bodyless request
+     * @return array{status: int, body: array|string, contentType: string}
+     */
+    private function send(string $method, string $path, ?array $payload, ?string $token, bool $multipart): array
     {
         $ch = curl_init($this->baseUrl . $path);
         if ($ch === false) {
@@ -67,7 +128,7 @@ final class ApiClient
         $contentType = '';
 
         $headers = ['Accept: application/json'];
-        if ($json !== null) {
+        if ($payload !== null && !$multipart) {
             $headers[] = 'Content-Type: application/json';
         }
         if ($token !== null) {
@@ -90,8 +151,12 @@ final class ApiClient
             },
         ]);
 
-        if ($json !== null) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($json, JSON_UNESCAPED_SLASHES));
+        if ($payload !== null) {
+            curl_setopt(
+                $ch,
+                CURLOPT_POSTFIELDS,
+                $multipart ? $payload : json_encode($payload, JSON_UNESCAPED_SLASHES)
+            );
         }
 
         $raw = curl_exec($ch);
