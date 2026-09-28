@@ -160,7 +160,8 @@ final class OrderController
         ];
     }
 
-    private static function presentPago(array $pago): array
+    /** Presenta un pago (reutilizado por el panel admin). */
+    public static function presentPago(array $pago): array
     {
         $comprobante = (string) ($pago['comprobante'] ?? '');
         // Registros viejos del sitio web guardan 'uploads/...' (relativo);

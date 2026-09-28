@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\NotificationController;
@@ -75,4 +76,15 @@ Flight::group('/api', static function (Router $router): void {
         $router->get('', NotificationController::index(...));
         $router->post('/read-all', NotificationController::readAll(...));
     }, [new ApiAuth()]);
+
+    // Panel admin: exige rol admin en modo estricto (401 sin token, 403 sin rol)
+    Flight::group('/admin', static function (Router $router): void {
+        // Gestión de pedidos/recargas
+        $router->get('/orders', AdminOrderController::index(...));
+        $router->get('/orders/@id', AdminOrderController::show(...));
+        $router->post('/orders/@id/verify', AdminOrderController::verify(...));
+        $router->post('/orders/@id/complete', AdminOrderController::complete(...));
+        $router->post('/orders/@id/reject', AdminOrderController::reject(...));
+        $router->put('/orders/@id/estado', AdminOrderController::updateEstado(...));
+    }, [new ApiAuth(requireAdmin: true)]);
 });

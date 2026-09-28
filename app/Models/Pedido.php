@@ -47,7 +47,9 @@ class Pedido extends BaseModel
         }
 
         if (!empty($filters['search'])) {
-            $sql .= " AND (id LIKE :search OR player_id LIKE :search OR telefono LIKE :search OR comprobante LIKE :search)";
+            // Nota: pedidos no tiene columna 'comprobante' (vivía en pagos);
+            // se buscaba por paquete que es lo que el admin filtra.
+            $sql .= " AND (id LIKE :search OR player_id LIKE :search OR telefono LIKE :search OR paquete LIKE :search)";
             $params['search'] = '%' . $filters['search'] . '%';
         }
 
