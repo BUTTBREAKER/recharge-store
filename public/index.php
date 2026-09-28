@@ -120,6 +120,10 @@ require_once ROOT_FOLDER . '/app/Helpers/csrf.php';
 // MIDDLEWARES
 Flight::before('start', [App\Http\Middleware\RateLimiter::class, 'loginLimit']);
 Flight::before('start', [App\Http\Middleware\VerifyCsrfToken::class, 'handle']);
+// API: CORS va antes que auth para que las respuestas de error (401/403)
+// también salgan con los headers CORS y el navegador pueda leerlas.
+Flight::before('start', [App\Http\Middleware\ApiCors::class, 'handle']);
+Flight::before('start', [App\Http\Middleware\ApiAuth::class, 'handle']);
 
 // LOAD ROUTES
 foreach (glob(__DIR__ . '/../routes/*.php') ?: [] as $routes) {
