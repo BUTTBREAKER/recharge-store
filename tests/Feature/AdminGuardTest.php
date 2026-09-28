@@ -108,6 +108,8 @@ final class AdminGuardTest extends ApiTestCase
         );
 
         $this->assertSame(403, $res['status']);
+        $this->assertIsArray($res['body']);
+        $this->assertArrayHasKey('message', $res['body']);
     }
 
     public function testAdminCannotDeleteSelfReturns403(): void
@@ -121,6 +123,8 @@ final class AdminGuardTest extends ApiTestCase
         );
 
         $this->assertSame(403, $res['status']);
+        $this->assertIsArray($res['body']);
+        $this->assertArrayHasKey('message', $res['body']);
     }
 
     public function testDeleteUserWithOrdersReturns409(): void
@@ -173,6 +177,8 @@ final class AdminGuardTest extends ApiTestCase
         );
 
         $this->assertSame(422, $res['status']);
+        $this->assertIsArray($res['body']);
+        $this->assertArrayHasKey('message', $res['body']);
     }
 
     public function testUpdateRoleUnknownUserReturns404(): void
@@ -184,6 +190,8 @@ final class AdminGuardTest extends ApiTestCase
         );
 
         $this->assertSame(404, $res['status']);
+        $this->assertIsArray($res['body']);
+        $this->assertArrayHasKey('message', $res['body']);
     }
 
     // ------------------------------------------------------------------

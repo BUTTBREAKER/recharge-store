@@ -113,4 +113,18 @@ final class LoginTest extends ApiTestCase
         $this->assertIsArray($res['body']);
         $this->assertArrayHasKey('message', $res['body']);
     }
+
+    public function testRegisterWithMismatchedConfirmPasswordReturns422(): void
+    {
+        $res = $this->api->post('/api/register', [
+            'name' => 'Mismatch',
+            'email' => 'mismatch@test.com',
+            'password' => 'password123',
+            'confirm_password' => 'otra',
+        ]);
+
+        $this->assertSame(422, $res['status']);
+        $this->assertIsArray($res['body']);
+        $this->assertArrayHasKey('message', $res['body']);
+    }
 }

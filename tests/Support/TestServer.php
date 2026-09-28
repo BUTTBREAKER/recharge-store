@@ -59,10 +59,24 @@ final class TestServer
         //      sets it when bootstrap loads .env, and Dotenv uses that list to
         //      decide which vars it "owns" — inheriting it would make Dotenv
         //      override DB_NAME back to the .env value (recharge_db).
-        unset($env['SYMFONY_DOTENV_VARS']);
-        $env['DB_NAME'] = 'recharge_test';
+		unset($env['SYMFONY_DOTENV_VARS']);
+		$env['DB_NAME'] = 'recharge_test';
 
-        $process = proc_open(
+		// Invariant: the dev database must be unreachable by construction.
+		// A reordering of the lines above (or dropping the unset) would
+		// silently retarget recharge_db — assert so a future edit fails loud.
+		if (($env['DB_NAME'] ?? null) !== Database::NAME) {
+			throw new RuntimeException(
+				'Test server env invariant violated: DB_NAME must be ' . Database::NAME . '.'
+			);
+		}
+		if (array_key_exists('SYMFONY_DOTENV_VARS', $env)) {
+			throw new RuntimeException(
+				'Test server env invariant violated: SYMFONY_DOTENV_VARS must be unset.'
+			);
+		}
+
+		$process = proc_open(
             $command,
             [
                 0 => ['file', '/dev/null', 'r'],
