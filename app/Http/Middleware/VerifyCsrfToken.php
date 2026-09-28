@@ -11,6 +11,7 @@ class VerifyCsrfToken
      * Rutas excluidas de validación CSRF (ej: webhooks de pago)
      */
     protected static $except = [
+        '/api', // La API usa Bearer token, no cookies (ver ApiAuth)
         '/api/binance/webhook',
         '/pago/binance/callback',
         '/ajax/settings/theme'
