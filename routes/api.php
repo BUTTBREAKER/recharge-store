@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\CatalogController as AdminCatalogController;
 use App\Http\Controllers\Api\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CatalogController;
@@ -86,5 +87,20 @@ Flight::group('/api', static function (Router $router): void {
         $router->post('/orders/@id/complete', AdminOrderController::complete(...));
         $router->post('/orders/@id/reject', AdminOrderController::reject(...));
         $router->put('/orders/@id/estado', AdminOrderController::updateEstado(...));
+
+        // CRUD de productos (incluye precios)
+        $router->get('/products', AdminCatalogController::products(...));
+        $router->post('/products', AdminCatalogController::productStore(...));
+        $router->put('/products/@id', AdminCatalogController::productUpdate(...));
+        $router->delete('/products/@id', AdminCatalogController::productDelete(...));
+        $router->put('/products/@id/price', AdminCatalogController::productUpdatePrice(...));
+        $router->post('/products/@id/toggle', AdminCatalogController::productToggle(...));
+
+        // CRUD de juegos
+        $router->get('/games', AdminCatalogController::games(...));
+        $router->post('/games', AdminCatalogController::gameStore(...));
+        $router->put('/games/@id', AdminCatalogController::gameUpdate(...));
+        $router->delete('/games/@id', AdminCatalogController::gameDelete(...));
+        $router->post('/games/@id/toggle', AdminCatalogController::gameToggle(...));
     }, [new ApiAuth(requireAdmin: true)]);
 });

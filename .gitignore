@@ -3,3 +3,7 @@ vendor
 .env
 node_modules
 public/index.css
+
+# Datos de ejecución (comprobantes, avatares subidos)
+public/uploads/*
+!public/uploads/.gitkeep
