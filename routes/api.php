@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Admin\CatalogController as AdminCatalogController;
 use App\Http\Controllers\Api\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Api\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\NotificationController;
@@ -102,5 +103,11 @@ Flight::group('/api', static function (Router $router): void {
         $router->put('/games/@id', AdminCatalogController::gameUpdate(...));
         $router->delete('/games/@id', AdminCatalogController::gameDelete(...));
         $router->post('/games/@id/toggle', AdminCatalogController::gameToggle(...));
+
+        // Gestión de usuarios
+        $router->get('/users', AdminUserController::index(...));
+        $router->get('/users/@id', AdminUserController::show(...));
+        $router->put('/users/@id/role', AdminUserController::updateRole(...));
+        $router->delete('/users/@id', AdminUserController::destroy(...));
     }, [new ApiAuth(requireAdmin: true)]);
 });
