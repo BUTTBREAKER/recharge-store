@@ -22,8 +22,17 @@ final class ApiAuth
     /** TTL del token en segundos (7 días). */
     private const TOKEN_TTL = 604800;
 
-    public function __construct(private readonly bool $requireAdmin = false)
-    {
+    /**
+     * @param bool $enforce    false = identidad opcional: adjunta el usuario
+     *                         si hay token válido pero nunca rechaza
+     *                         (checkout de invitado). true = exige token en
+     *                         modo estricto.
+     * @param bool $requireAdmin exige rol admin (solo aplica con $enforce).
+     */
+    public function __construct(
+        private readonly bool $enforce = true,
+        private readonly bool $requireAdmin = false,
+    ) {
     }
 
     public static function strict(): bool
@@ -117,8 +126,8 @@ final class ApiAuth
             Flight::set('api.user', $user);
         }
 
-        if (!self::strict()) {
-            // Modo pruebas: no se rechaza ninguna request.
+        if (!$this->enforce || !self::strict()) {
+            // Identidad opcional o modo pruebas: no se rechaza la request.
             return true;
         }
 

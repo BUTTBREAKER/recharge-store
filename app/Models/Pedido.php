@@ -30,6 +30,12 @@ class Pedido extends BaseModel
         return $stmt->execute([$estado, $id]);
     }
 
+    public function actualizarMetodoPago($id, $metodo)
+    {
+        $stmt = $this->db->prepare("UPDATE pedidos SET metodo_pago = ? WHERE id = ?");
+        return $stmt->execute([$metodo, $id]);
+    }
+
     public function listarTodos($filters = [], $limit = null)
     {
         $sql = "SELECT * FROM pedidos WHERE 1=1";

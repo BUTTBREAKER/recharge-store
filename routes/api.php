@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CatalogController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Middleware\ApiAuth;
 use flight\net\Router;
 
@@ -44,4 +46,17 @@ Flight::group('/api', static function (Router $router): void {
     Flight::group('/config', static function (Router $router): void {
         $router->get('/exchange-rate', CatalogController::exchangeRate(...));
     });
+
+    // Pedidos y pagos: identidad opcional (checkout como invitado, o con
+    // Bearer para asociar el pedido al usuario logueado).
+    Flight::group('/orders', static function (Router $router): void {
+        $router->post('', OrderController::create(...));
+        $router->post('/@id/pay', OrderController::pay(...));
+        $router->get('/@id/status', OrderController::status(...));
+        $router->get('/@id/binance', OrderController::binance(...));
+    }, [new ApiAuth(enforce: false)]);
+
+    Flight::group('/payments', static function (Router $router): void {
+        $router->post('/pagomovil', PaymentController::confirmPagomovil(...));
+    }, [new ApiAuth(enforce: false)]);
 });
