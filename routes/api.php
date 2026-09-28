@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Middleware\ApiAuth;
 
 // Rutas de la API JSON — consumida por el frontend Next.js.
@@ -15,4 +16,9 @@ Flight::group('/api', static function (): void {
             'time' => date('c'),
         ]);
     });
+
+    // Autenticación (credenciales)
+    Flight::route('POST /login', AuthController::login(...));
+    Flight::route('POST /register', AuthController::register(...));
+    Flight::route('POST /logout', AuthController::logout(...));
 });
