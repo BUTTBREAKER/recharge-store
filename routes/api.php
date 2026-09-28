@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CatalogController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Middleware\ApiAuth;
 use flight\net\Router;
 
@@ -59,4 +61,18 @@ Flight::group('/api', static function (Router $router): void {
     Flight::group('/payments', static function (Router $router): void {
         $router->post('/pagomovil', PaymentController::confirmPagomovil(...));
     }, [new ApiAuth(enforce: false)]);
+
+    // Perfil: identidad requerida (funcional en ambos modos)
+    Flight::group('/profile', static function (Router $router): void {
+        $router->get('', ProfileController::show(...));
+        $router->put('', ProfileController::update(...));
+        $router->put('/password', ProfileController::updatePassword(...));
+        $router->get('/orders', ProfileController::orders(...));
+    }, [new ApiAuth()]);
+
+    // Notificaciones: identidad requerida
+    Flight::group('/notifications', static function (Router $router): void {
+        $router->get('', NotificationController::index(...));
+        $router->post('/read-all', NotificationController::readAll(...));
+    }, [new ApiAuth()]);
 });

@@ -140,7 +140,8 @@ final class OrderController
     // Presentación
     // ------------------------------------------------------------------
 
-    private static function present(array $pedido): array
+    /** Presenta un pedido (reutilizado por ProfileController). */
+    public static function present(array $pedido): array
     {
         return [
             'id' => (int) $pedido['id'],
