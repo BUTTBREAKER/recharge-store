@@ -28,8 +28,12 @@ abstract class ApiTestCase extends TestCase
 {
     protected ApiClient $api;
 
-    /** Entries of public/uploads present before the current test started. */
-    private array $uploadsSnapshot = [];
+    /**
+     * Entries of public/uploads present before the current test started.
+     * null = snapshot never taken → tearDown must NOT clean up (an empty
+     * snapshot would delete pre-existing entries such as .gitkeep).
+     */
+    private ?array $uploadsSnapshot = null;
 
     public static function setUpBeforeClass(): void
     {
@@ -43,17 +47,22 @@ abstract class ApiTestCase extends TestCase
 
     protected function setUp(): void
     {
+        // FIRST line: if anything below throws, tearDown still has a valid
+        // baseline and can never wipe files that existed before the test.
+        $this->uploadsSnapshot = self::uploadEntries();
+
         Database::ensureSchema();
         Database::truncateAll();
         Database::seed();
 
         $this->api = new ApiClient('http://127.0.0.1:' . TestServer::DEFAULT_PORT);
-        $this->uploadsSnapshot = self::uploadEntries();
     }
 
     protected function tearDown(): void
     {
-        self::removeNewUploads($this->uploadsSnapshot);
+        if ($this->uploadsSnapshot !== null) {
+            self::removeNewUploads($this->uploadsSnapshot);
+        }
         parent::tearDown();
     }
 

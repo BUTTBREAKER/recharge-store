@@ -95,7 +95,11 @@ final class PaymentsTest extends ApiTestCase
 
         $this->assertSame(422, $res['status']);
         $this->assertIsArray($res['body']);
-        $this->assertArrayHasKey('message', $res['body']);
+        // Pin the extension branch specifically, not just any 422.
+        $this->assertStringContainsString(
+            'Formato de comprobante no permitido',
+            (string) ($res['body']['message'] ?? '')
+        );
     }
 
     // ------------------------------------------------------------------

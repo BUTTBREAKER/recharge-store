@@ -145,6 +145,14 @@ final class Database
              VALUES ('Mobile Legends', '86 Diamantes', 86, 1.50, 1, 1),
                     ('Mobile Legends', '172 Diamantes', 172, 3.00, 2, 1)"
         );
+
+        // Exchange rate deliberately differs from SystemConfig's hardcoded
+        // fallback (36.50): the public exchange-rate test asserts this exact
+        // value, which only passes when the DB path actually reads the row.
+        $db->exec(
+            "INSERT INTO system_config (config_key, config_value, description)
+             VALUES ('exchange_rate_usd_bs', '42.50', 'Tasa de cambio USD a Bolívares para Pago Móvil')"
+        );
     }
 
     // ------------------------------------------------------------------

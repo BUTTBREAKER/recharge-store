@@ -76,9 +76,9 @@ final class CatalogTest extends ApiTestCase
 
         $this->assertSame(200, $res['status']);
         $this->assertIsArray($res['body']);
-        $this->assertArrayHasKey('exchange_rate_usd_bs', $res['body']['data']);
-        $this->assertIsNumeric($res['body']['data']['exchange_rate_usd_bs']);
-        $this->assertGreaterThan(0, $res['body']['data']['exchange_rate_usd_bs']);
+        // Seeded value (see Database::seed) — deliberately NOT the 36.50
+        // hardcoded fallback, so a broken DB read fails this assertion.
+        $this->assertSame(42.5, (float) $res['body']['data']['exchange_rate_usd_bs']);
     }
 
     // ------------------------------------------------------------------
@@ -259,11 +259,14 @@ final class CatalogTest extends ApiTestCase
 
         $list = $this->api->get('/api/admin/games', $admin);
         $this->assertSame(200, $list['status']);
+        $listed = false;
         foreach ($list['body']['data'] as $game) {
             if ($game['id'] === $gameId) {
                 $this->assertFalse($game['activo']);
+                $listed = true;
             }
         }
+        $this->assertTrue($listed, 'Updated game missing from the admin list.');
     }
 
     public function testAdminCreatesGameWithoutNameReturns422(): void
