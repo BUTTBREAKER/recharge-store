@@ -87,8 +87,70 @@ final class AuthController
     public static function logout(): void
     {
         // Tokens stateless: el cliente (Next.js) descarta el token.
-        // En modo estricto esta ruta exige Bearer válido (prefijo /api/logout).
+        // En modo estricto el grupo /api/logout exige Bearer válido.
         Flight::json(['message' => 'Sesión cerrada. Descarta el token en el cliente.']);
+    }
+
+    // === Recuperación de contraseña ===
+
+    public static function forgotPassword(): void
+    {
+        $email = trim((string) (Flight::request()->data->email ?? ''));
+
+        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            Flight::json(['message' => 'El email no es válido.'], 422);
+            return;
+        }
+
+        // Siempre la misma respuesta: no revelamos si el email existe.
+        $response = ['message' => 'Si el email existe, recibirás un enlace de recuperación.'];
+
+        $userModel = new User();
+        if ($userModel->exists($email)) {
+            $token = bin2hex(random_bytes(32));
+            $userModel->guardarTokenReset($email, $token, date('Y-m-d H:i:s', time() + 3600));
+
+            // Sin mailer real en el MVP: se devuelve el link para poder
+            // probar el flujo completo. Eliminar en producción.
+            $response['demo_reset_link'] = '/reset-password?token=' . $token;
+        }
+
+        Flight::json($response);
+    }
+
+    public static function resetPassword(): void
+    {
+        $data = Flight::request()->data;
+        $token = (string) ($data->token ?? '');
+        $password = (string) ($data->password ?? '');
+        $confirm = (string) ($data->confirm_password ?? '');
+
+        if ($token === '' || $password === '') {
+            Flight::json(['message' => 'Token y contraseña son obligatorios.'], 422);
+            return;
+        }
+        if (strlen($password) < 8) {
+            Flight::json(['message' => 'La contraseña debe tener al menos 8 caracteres.'], 422);
+            return;
+        }
+        if ($password !== $confirm) {
+            Flight::json(['message' => 'Las contraseñas no coinciden.'], 422);
+            return;
+        }
+
+        $userModel = new User();
+        $email = $userModel->verificarTokenReset($token);
+        $user = $email !== false && $email !== null ? $userModel->obtenerPorEmail($email) : false;
+
+        if (!$user) {
+            Flight::json(['message' => 'Token inválido o expirado.'], 422);
+            return;
+        }
+
+        $userModel->cambiarPassword($user['id'], $password);
+        $userModel->borrarTokenReset($token);
+
+        Flight::json(['message' => 'Contraseña actualizada. Ya podés iniciar sesión.']);
     }
 
     /** Expone solo los campos públicos del usuario (nunca el hash). */

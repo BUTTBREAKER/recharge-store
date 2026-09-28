@@ -24,6 +24,8 @@ Flight::group('/api', static function (Router $router): void {
     // Autenticación (credenciales, públicas)
     $router->post('/login', AuthController::login(...));
     $router->post('/register', AuthController::register(...));
+    $router->post('/forgot-password', AuthController::forgotPassword(...));
+    $router->post('/reset-password', AuthController::resetPassword(...));
 
     // Cierre de sesión: exige token en modo estricto
     Flight::group('/logout', static function (Router $router): void {
