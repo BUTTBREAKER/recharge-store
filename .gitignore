@@ -4,6 +4,9 @@ vendor
 node_modules
 public/index.css
 
+# PHPUnit result cache
+.phpunit.cache/
+
 # Datos de ejecución (comprobantes, avatares subidos)
 public/uploads/*
 !public/uploads/.gitkeep
