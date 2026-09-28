@@ -2,13 +2,17 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Middleware\ApiAuth;
+use flight\net\Router;
 
 // Rutas de la API JSON — consumida por el frontend Next.js.
-// Agrupadas bajo /api. El auth (Bearer) y el CORS los manejan los
-// middlewares registrados en public/index.php, no por ruta.
-Flight::group('/api', static function (): void {
-    // Health check: sirve para verificar que la API viva y saber el modo auth
-    Flight::route('GET /health', static function (): void {
+//
+// Patrón de grupos de Flight: Flight::group($prefijo, $callback, $middlewares).
+// El CORS vive como hook global en public/index.php (para cubrir también los
+// 404/401/403); la autenticación se adjunta como middleware de grupo, tal como
+// la guía oficial de Flight: Flight::group(..., [ new AuthMiddleware() ]).
+Flight::group('/api', static function (Router $router): void {
+    // Health check: confirma que la API viva y expone el modo de auth
+    $router->get('/health', static function (): void {
         Flight::json([
             'ok' => true,
             'service' => 'recharge-store-api',
@@ -17,8 +21,12 @@ Flight::group('/api', static function (): void {
         ]);
     });
 
-    // Autenticación (credenciales)
-    Flight::route('POST /login', AuthController::login(...));
-    Flight::route('POST /register', AuthController::register(...));
-    Flight::route('POST /logout', AuthController::logout(...));
+    // Autenticación (credenciales, públicas)
+    $router->post('/login', AuthController::login(...));
+    $router->post('/register', AuthController::register(...));
+
+    // Cierre de sesión: exige token en modo estricto
+    Flight::group('/logout', static function (Router $router): void {
+        $router->post('', AuthController::logout(...));
+    }, [new ApiAuth()]);
 });

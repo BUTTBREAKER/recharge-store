@@ -22,13 +22,9 @@ final class ApiAuth
     /** TTL del token en segundos (7 días). */
     private const TOKEN_TTL = 604800;
 
-    /** Prefijos de /api que exigen usuario autenticado en modo estricto. */
-    private const PROTECTED_PREFIXES = [
-        '/api/profile',
-        '/api/notifications',
-        '/api/logout',
-        '/api/admin',
-    ];
+    public function __construct(private readonly bool $requireAdmin = false)
+    {
+    }
 
     public static function strict(): bool
     {
@@ -105,16 +101,16 @@ final class ApiAuth
     }
 
     // ------------------------------------------------------------------
-    // Middleware global: solo inspecciona /api, adjunta el usuario
+    // Middleware de grupo (patrón Flight: Flight::group(..., [new ApiAuth()]))
     // ------------------------------------------------------------------
 
-    public static function handle(): void
+    /**
+     * Se ejecuta antes de las rutas del grupo. Adjunta el usuario a la
+     * request (en cualquier modo) y, solo en modo estricto, exige el token
+     * y —si el grupo lo pidió— el rol admin.
+     */
+    public function before(array $params = []): bool
     {
-        $url = Flight::request()->url;
-        if (!str_starts_with($url, '/api')) {
-            return;
-        }
-
         $token = self::bearerToken();
         $user = $token !== null ? self::verify($token) : null;
         if ($user !== null) {
@@ -123,24 +119,24 @@ final class ApiAuth
 
         if (!self::strict()) {
             // Modo pruebas: no se rechaza ninguna request.
-            return;
+            return true;
         }
 
-        foreach (self::PROTECTED_PREFIXES as $prefix) {
-            if (!str_starts_with($url, $prefix)) {
-                continue;
-            }
-            if ($user === null) {
-                Flight::jsonHalt(
-                    [
-                        'message' => 'No autenticado.',
-                        'hint' => 'Envía la cabecera Authorization: Bearer <token>.',
-                    ],
-                    401,
-                );
-            }
-            return;
+        if ($user === null) {
+            Flight::jsonHalt(
+                [
+                    'message' => 'No autenticado.',
+                    'hint' => 'Envía la cabecera Authorization: Bearer <token>.',
+                ],
+                401,
+            );
         }
+
+        if ($this->requireAdmin && ($user['role'] ?? '') !== 'admin') {
+            Flight::jsonHalt(['message' => 'Requiere rol admin.'], 403);
+        }
+
+        return true;
     }
 
     // ------------------------------------------------------------------
