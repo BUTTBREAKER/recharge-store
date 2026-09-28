@@ -1,0 +1,191 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Middleware;
+
+use Flight;
+
+/**
+ * Autenticación Bearer para la API (patrón estilo Laravel).
+ *
+ * Emite tokens HMAC stateless (uid + role + exp firmados con TOKEN_SECRET)
+ * y los valida desde la cabecera `Authorization: Bearer <token>`.
+ *
+ * Modo permisivo (default, API_AUTH_STRICT=false): pensado para pruebas —
+ * solo adjunta el usuario si el token es válido, nunca rechaza la request.
+ * Modo estricto (API_AUTH_STRICT=true): los endpoints protegidos responden
+ * 401 sin token válido y 403 si el rol no es admin.
+ */
+final class ApiAuth
+{
+    /** TTL del token en segundos (7 días). */
+    private const TOKEN_TTL = 604800;
+
+    /** Prefijos de /api que exigen usuario autenticado en modo estricto. */
+    private const PROTECTED_PREFIXES = [
+        '/api/profile',
+        '/api/notifications',
+        '/api/logout',
+        '/api/admin',
+    ];
+
+    public static function strict(): bool
+    {
+        return filter_var($_ENV['API_AUTH_STRICT'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
+    }
+
+    // ------------------------------------------------------------------
+    // Emisión / validación de tokens
+    // ------------------------------------------------------------------
+
+    public static function issueToken(array $user): string
+    {
+        $payload = json_encode(
+            [
+                'uid' => (int) $user['id'],
+                'role' => (string) ($user['role'] ?? 'user'),
+                'exp' => time() + self::TOKEN_TTL,
+            ],
+            JSON_UNESCAPED_SLASHES,
+        );
+
+        return self::base64UrlEncode($payload) . '.' . self::sign($payload);
+    }
+
+    public static function verify(string $token): ?array
+    {
+        $parts = explode('.', $token);
+        if (count($parts) !== 2) {
+            return null;
+        }
+
+        [$body, $signature] = $parts;
+        $payload = self::base64UrlDecode($body);
+        if ($payload === false || !hash_equals(self::sign($payload), $signature)) {
+            return null;
+        }
+
+        $data = json_decode($payload, true);
+        if (!is_array($data) || !isset($data['uid'], $data['exp'])) {
+            return null;
+        }
+        if ((int) $data['exp'] < time()) {
+            return null;
+        }
+
+        return $data;
+    }
+
+    private static function sign(string $data): string
+    {
+        return hash_hmac('sha256', $data, (string) ($_ENV['TOKEN_SECRET'] ?? ''));
+    }
+
+    private static function base64UrlEncode(string $data): string
+    {
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+    }
+
+    private static function base64UrlDecode(string $data): string|false
+    {
+        return base64_decode(strtr($data, '-_', '+/'), true);
+    }
+
+    public static function bearerToken(): ?string
+    {
+        $header = Flight::request()->getVar('HTTP_AUTHORIZATION', '');
+        if ($header === '' || stripos($header, 'bearer ') !== 0) {
+            return null;
+        }
+
+        return trim(substr($header, 7));
+    }
+
+    // ------------------------------------------------------------------
+    // Middleware global: solo inspecciona /api, adjunta el usuario
+    // ------------------------------------------------------------------
+
+    public static function handle(): void
+    {
+        $url = Flight::request()->url;
+        if (!str_starts_with($url, '/api')) {
+            return;
+        }
+
+        $token = self::bearerToken();
+        $user = $token !== null ? self::verify($token) : null;
+        if ($user !== null) {
+            Flight::set('api.user', $user);
+        }
+
+        if (!self::strict()) {
+            // Modo pruebas: no se rechaza ninguna request.
+            return;
+        }
+
+        foreach (self::PROTECTED_PREFIXES as $prefix) {
+            if (!str_starts_with($url, $prefix)) {
+                continue;
+            }
+            if ($user === null) {
+                Flight::jsonHalt(
+                    [
+                        'message' => 'No autenticado.',
+                        'hint' => 'Envía la cabecera Authorization: Bearer <token>.',
+                    ],
+                    401,
+                );
+            }
+            return;
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // Helpers para controladores
+    // ------------------------------------------------------------------
+
+    public static function user(): ?array
+    {
+        return Flight::get('api.user');
+    }
+
+    /**
+     * Exige usuario autenticado en cualquier modo: sin uid no hay datos
+     * personales que devolver (no es una regla de seguridad, es necesidad
+     * funcional).
+     */
+    public static function requireUser(): array
+    {
+        $user = self::user();
+        if ($user === null) {
+            Flight::jsonHalt(
+                ['message' => 'No autenticado.'],
+                401,
+            );
+        }
+
+        return $user;
+    }
+
+    /**
+     * Exige rol admin. En modo permisivo se omite la regla para facilitar
+     * las pruebas del panel sin andar rotando tokens.
+     */
+    public static function requireAdmin(): array
+    {
+        if (!self::strict()) {
+            return self::user() ?? [];
+        }
+
+        $user = self::user();
+        if ($user === null) {
+            Flight::jsonHalt(['message' => 'No autenticado.'], 401);
+        }
+        if (($user['role'] ?? '') !== 'admin') {
+            Flight::jsonHalt(['message' => 'Requiere rol admin.'], 403);
+        }
+
+        return $user;
+    }
+}
