@@ -71,6 +71,23 @@ final class ApiAuthTest extends TestCase
         $this->assertCount(2, explode('.', $token));
     }
 
+    /**
+     * Oracle for the local crafting helpers: they must reproduce the
+     * implementation byte-for-byte, otherwise the crafted-token tests
+     * (expired, missing exp) could pass for the wrong reason.
+     */
+    public function test_local_crafting_helpers_match_issue_token(): void
+    {
+        $token = ApiAuth::issueToken(['id' => 11, 'role' => 'user']);
+        [$body, $signature] = explode('.', $token);
+
+        $payload = base64_decode(strtr($body, '-_', '+/'), true);
+        $this->assertIsString($payload);
+
+        $this->assertSame($body, self::base64UrlEncode($payload));
+        $this->assertSame($signature, self::sign($payload));
+    }
+
     public function test_expired_token_is_rejected(): void
     {
         $payload = json_encode(
