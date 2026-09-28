@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CatalogController;
 use App\Http\Middleware\ApiAuth;
 use flight\net\Router;
 
@@ -31,4 +32,16 @@ Flight::group('/api', static function (Router $router): void {
     Flight::group('/logout', static function (Router $router): void {
         $router->post('', AuthController::logout(...));
     }, [new ApiAuth()]);
+
+    // Catálogo público
+    Flight::group('/games', static function (Router $router): void {
+        $router->get('', CatalogController::games(...));
+        $router->get('/@slug', CatalogController::game(...));
+        $router->get('/@slug/products', CatalogController::products(...));
+    });
+
+    // Config pública
+    Flight::group('/config', static function (Router $router): void {
+        $router->get('/exchange-rate', CatalogController::exchangeRate(...));
+    });
 });
