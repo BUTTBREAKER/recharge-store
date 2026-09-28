@@ -12,13 +12,13 @@ class Juego extends BaseModel
     public function listarTodos($soloActivos = true)
     {
         $sql = "SELECT * FROM juegos WHERE 1=1";
-        
+
         if ($soloActivos) {
             $sql .= " AND activo = 1";
         }
-        
+
         $sql .= " ORDER BY orden ASC, id ASC";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
