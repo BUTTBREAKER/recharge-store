@@ -165,8 +165,19 @@ class MainController
 
     public static function notFound()
     {
+        // Flight::render sin clave hace echo directo de la plantilla; fuera de
+        // un route callback (sin ob_start) eso envía las cabeceras con 200
+        // antes de que Response::send() pueda aplicar el 404. Por eso la
+        // salida se construye dentro de la respuesta, y las rutas /api
+        // responden JSON.
+        if (str_starts_with(Flight::request()->url, '/api')) {
+            Flight::json(['message' => 'Endpoint no encontrado.'], 404);
+            return;
+        }
+
         Flight::response()->status(404);
         Flight::render('404', [], 'content');
-        Flight::render('layout', ['title' => 'Página no encontrada - FearSold']);
+        Flight::render('layout', ['title' => 'Página no encontrada - FearSold'], 'output');
+        Flight::response()->write((string) Flight::view()->get('output'));
     }
 }

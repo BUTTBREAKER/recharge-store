@@ -84,7 +84,7 @@ class User extends BaseModel
     {
         // Borrar tokens anteriores
         $this->db->prepare("DELETE FROM password_resets WHERE email = ?")->execute([$email]);
-        
+
         $stmt = $this->db->prepare("INSERT INTO password_resets (email, token, expires_at) VALUES (?, ?, ?)");
         return $stmt->execute([$email, $token, $expires]);
     }
@@ -111,15 +111,15 @@ class User extends BaseModel
     {
         $sql = "SELECT id, name, email, role, created_at FROM {$this->table}";
         $params = [];
-        
+
         if ($filtro === 'admin') {
             $sql .= " WHERE role = 'admin'";
         } elseif ($filtro === 'user') {
             $sql .= " WHERE role = 'user'";
         }
-        
+
         $sql .= " ORDER BY created_at DESC";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -11,6 +11,7 @@ class VerifyCsrfToken
      * Rutas excluidas de validación CSRF (ej: webhooks de pago)
      */
     protected static $except = [
+        '/api', // La API usa Bearer token, no cookies (ver ApiAuth)
         '/api/binance/webhook',
         '/pago/binance/callback',
         '/ajax/settings/theme'
@@ -29,10 +30,13 @@ class VerifyCsrfToken
                 }
             }
 
-            $token = $request->data->_csrf_token ?? $request->query->_csrf_token ?? $request->getVar('HTTP_X_CSRF_TOKEN');
+            $token = $request->data->_csrf_token
+                ?? $request->query->_csrf_token
+                ?? $request->getVar('HTTP_X_CSRF_TOKEN');
 
             if (!$token || $token !== Session::get('_csrf_token')) {
-                $isAjax = $request->getVar('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest' || strpos($request->url, '/ajax/') !== false;
+                $isAjax = $request->getVar('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest'
+                    || strpos($request->url, '/ajax/') !== false;
 
                 if ($isAjax) {
                     Flight::halt(403, json_encode([
@@ -40,7 +44,12 @@ class VerifyCsrfToken
                         'message' => 'Tu sesión ha expirado. Por favor, recarga la página.'
                     ]));
                 } else {
-                    Flight::halt(403, "<h1>403 Forbidden</h1><p>CSRF token mismatch. Tu sesión ha expirado o la solicitud es inválida.</p><p><a href='" . ($request->referrer ?? '/') . "'>Volver</a></p>");
+                    Flight::halt(
+                        403,
+                        "<h1>403 Forbidden</h1><p>CSRF token mismatch. "
+                        . "Tu sesión ha expirado o la solicitud es inválida.</p>"
+                        . "<p><a href='" . ($request->referrer ?? '/') . "'>Volver</a></p>"
+                    );
                 }
             }
         }

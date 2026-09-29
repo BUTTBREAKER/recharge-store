@@ -9,8 +9,10 @@ class Pedido extends BaseModel
     public function crear($data)
     {
         $hasUserId = isset($data['user_id']);
-        $sql = "INSERT INTO pedidos (juego, player_id, server_id, paquete, monto, metodo_pago, telefono, estado" . ($hasUserId ? ", user_id" : "") . ") 
-                VALUES (:juego, :player_id, :server_id, :paquete, :monto, :metodo_pago, :telefono, 'pendiente'" . ($hasUserId ? ", :user_id" : "") . ")";
+        $sql = "INSERT INTO pedidos (juego, player_id, server_id, paquete, monto, metodo_pago, telefono, estado"
+            . ($hasUserId ? ", user_id" : "") . ") "
+            . "VALUES (:juego, :player_id, :server_id, :paquete, :monto, :metodo_pago, :telefono, 'pendiente'"
+            . ($hasUserId ? ", :user_id" : "") . ")";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($data);
@@ -30,6 +32,12 @@ class Pedido extends BaseModel
         return $stmt->execute([$estado, $id]);
     }
 
+    public function actualizarMetodoPago($id, $metodo)
+    {
+        $stmt = $this->db->prepare("UPDATE pedidos SET metodo_pago = ? WHERE id = ?");
+        return $stmt->execute([$metodo, $id]);
+    }
+
     public function listarTodos($filters = [], $limit = null)
     {
         $sql = "SELECT * FROM pedidos WHERE 1=1";
@@ -41,12 +49,14 @@ class Pedido extends BaseModel
         }
 
         if (!empty($filters['search'])) {
-            $sql .= " AND (id LIKE :search OR player_id LIKE :search OR telefono LIKE :search OR comprobante LIKE :search)";
+            // Nota: pedidos no tiene columna 'comprobante' (vivía en pagos);
+            // se buscaba por paquete que es lo que el admin filtra.
+            $sql .= " AND (id LIKE :search OR player_id LIKE :search OR telefono LIKE :search OR paquete LIKE :search)";
             $params['search'] = '%' . $filters['search'] . '%';
         }
 
         $sql .= " ORDER BY fecha DESC";
-        
+
         if ($limit) {
             $sql .= " LIMIT " . intval($limit);
         }
@@ -89,7 +99,7 @@ class Pedido extends BaseModel
             }
 
             $sql .= " ORDER BY fecha DESC";
-            
+
             if ($limit) {
                 $sql .= " LIMIT " . intval($limit);
             }
@@ -109,7 +119,10 @@ class Pedido extends BaseModel
     public function contarActivosPorUsuario($userId)
     {
         try {
-            $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM pedidos WHERE user_id = ? AND estado IN ('pendiente', 'confirmado')");
+            $stmt = $this->db->prepare(
+                "SELECT COUNT(*) as total FROM pedidos WHERE user_id = ?"
+                . " AND estado IN ('pendiente', 'confirmado')"
+            );
             $stmt->execute([$userId]);
             $result = $stmt->fetch();
             return $result['total'] ?? 0;

@@ -16,6 +16,11 @@ const ROOT_FOLDER = __DIR__ . '/..';
 
 require_once ROOT_FOLDER . '/vendor/autoload.php';
 
+// Los montos/precios de la API son floats: sin esto, entornos con
+// serialize_precision alto emiten JSON con expansión binaria
+// (p. ej. 1.51000000000000000888...) en vez de 1.51.
+ini_set('serialize_precision', '-1');
+
 ///////////////////////////
 // ENVIRONMENT VARIABLES //
 ///////////////////////////
@@ -120,6 +125,10 @@ require_once ROOT_FOLDER . '/app/Helpers/csrf.php';
 // MIDDLEWARES
 Flight::before('start', [App\Http\Middleware\RateLimiter::class, 'loginLimit']);
 Flight::before('start', [App\Http\Middleware\VerifyCsrfToken::class, 'handle']);
+// API: CORS global para que las respuestas de error (404/401/403) también
+// salgan con los headers CORS y el navegador pueda leerlas. La autenticación
+// es middleware por grupo de rutas (ver routes/api.php).
+Flight::before('start', [App\Http\Middleware\ApiCors::class, 'handle']);
 
 // LOAD ROUTES
 foreach (glob(__DIR__ . '/../routes/*.php') ?: [] as $routes) {
