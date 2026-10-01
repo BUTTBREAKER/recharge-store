@@ -110,15 +110,11 @@ $auth->createRoles([
 ]);
 
 // DISABLE SSL
-// $guzzle = $auth->client('google')->getHttpClient();
-// $refleccionPropiedad = new ReflectionProperty($guzzle, 'config');
-// $refleccionPropiedad->setAccessible(true);
-// $configuracionDeGuzzle = $refleccionPropiedad->getValue($guzzle);
-
-// $refleccionPropiedad->setValue(
-//     $guzzle,
-//     ['verify' => false] + $configuracionDeGuzzle
-// );
+// $httpClient = $auth->client('google')->getHttpClient();
+// $httpClientConfigProperty = new ReflectionProperty($httpClient, 'config');
+// $httpClientConfigValue = $httpClientConfigProperty->getValue($httpClient);
+// $httpClientConfigValue['verify'] = false;
+// $httpClientConfigProperty->setValue($httpClient, $httpClientConfigValue);
 
 // DATABASE INSTANCE AS SINGLETON
 $db->connection(Container::getInstance()->get(PDO::class));
