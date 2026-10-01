@@ -17,7 +17,7 @@ class VerifyCsrfToken
         '/ajax/settings/theme'
     ];
 
-    public static function handle()
+    public static function handle(): void
     {
         $request = Flight::request();
 

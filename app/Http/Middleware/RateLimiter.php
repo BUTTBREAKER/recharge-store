@@ -11,7 +11,7 @@ class RateLimiter
      * Limita intentos por IP/Sesión
      * Por ahora usaremos sesión por simplicidad en XAMPP
      */
-    public static function loginLimit()
+    public static function loginLimit(): void
     {
         $request = Flight::request();
 
