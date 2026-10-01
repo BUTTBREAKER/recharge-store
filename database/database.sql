@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Insertar admin por defecto (password: password123)
+-- Insertar admin por defecto (password: admin123)
 -- Hash generated for testing
--- Note: For 'password123', use: $2y$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa
-INSERT INTO users (name, email, password, role) VALUES ('Administrador', 'admin@sisifo.store', '$2y$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa', 'admin') ON DUPLICATE KEY UPDATE password='$2y$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa';
+-- Note: For 'admin123', use: $2y$12$cRaxO4IwpWiXbx9848eqo.mFhFfW/6uBD2tHfbU8uqjb4sNHqD/5y
+INSERT INTO users (name, email, password, role) VALUES ('Administrador', 'admin@sisifo.store', '$2y$12$cRaxO4IwpWiXbx9848eqo.mFhFfW/6uBD2tHfbU8uqjb4sNHqD/5y', 'admin') ON DUPLICATE KEY UPDATE password='$2y$12$cRaxO4IwpWiXbx9848eqo.mFhFfW/6uBD2tHfbU8uqjb4sNHqD/5y';

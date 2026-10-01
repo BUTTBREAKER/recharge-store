@@ -38,8 +38,8 @@ composer install
 
 ## 🔐 Acceso Admin
 
-- **URL**: `/admin/login`
-- **Usuario por defecto**: `admin`
+- **URL**: `/login`
+- **Usuario por defecto**: `admin@sisifo.store`
 - **Contraseña por defecto**: `admin123` (Se recomienda cambiarla en
 producción).
 
