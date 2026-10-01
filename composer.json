@@ -5,6 +5,7 @@
         "flightphp/core": "^3.19",
         "illuminate/support": "^12.47",
         "leafs/auth": "^5.0",
+        "league/oauth2-google": "^5.0",
         "symfony/dotenv": "^7.4",
         "symfony/string": "^7.4"
     },
@@ -32,7 +33,10 @@
     "autoload": {
         "psr-4": {
             "App\\": "app"
-        }
+        },
+        "files": [
+            "app/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
