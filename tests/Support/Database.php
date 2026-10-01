@@ -64,8 +64,8 @@ final class Database
         'database/migration_productos.sql',
     ];
 
-    private const DB_USER = 'root';
-    private const DB_PASS = '';
+    private const DB_USERNAME = 'root';
+    private const DB_PASSWORD = '';
 
     private static bool $ensured = false;
 
@@ -79,8 +79,7 @@ final class Database
         // Server-level connection (no selected database), as required by spec.
         $server = self::connect();
         $server->exec(
-            'CREATE DATABASE IF NOT EXISTS `' . self::NAME . '`'
-            . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'
+            'CREATE DATABASE IF NOT EXISTS `' . self::NAME,
         );
 
         $db = self::connect(self::NAME);
@@ -161,10 +160,10 @@ final class Database
 
     private static function connect(?string $database = null): PDO
     {
-        $dsn = 'mysql:host=127.0.0.1;charset=utf8mb4'
+        $dsn = "mysql:host={$_ENV['DB_HOST']};charset={$_ENV['DB_CHARSET']}"
             . ($database !== null ? ';dbname=' . $database : '');
 
-        return new PDO($dsn, self::DB_USER, self::DB_PASS, [
+        return new PDO($dsn, self::DB_USERNAME, self::DB_PASSWORD, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         ]);
     }
