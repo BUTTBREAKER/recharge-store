@@ -30,7 +30,7 @@ ini_set('serialize_precision', '-1');
 // DEPENDENCIES INJECTOR CONTAINER //
 /////////////////////////////////////
 Container::getInstance()->singleton(PDO::class, static fn(): PDO => new PDO(
-    "mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_DATABASE']};charset={$_ENV['DB_CHARSET']}",
+    "mysql:host={$_ENV['DB_HOST']};port={$_ENV['DB_PORT']};dbname={$_ENV['DB_DATABASE']};charset={$_ENV['DB_CHARSET']}",
     $_ENV['DB_USERNAME'],
     $_ENV['DB_PASSWORD'],
 ));

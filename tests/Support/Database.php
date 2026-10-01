@@ -160,7 +160,7 @@ final class Database
 
     private static function connect(?string $database = null): PDO
     {
-        $dsn = "mysql:host={$_ENV['DB_HOST']};charset={$_ENV['DB_CHARSET']}"
+        $dsn = "mysql:host={$_ENV['DB_HOST']};port={$_ENV['DB_PORT']};charset={$_ENV['DB_CHARSET']}"
             . ($database !== null ? ';dbname=' . $database : '');
 
         return new PDO($dsn, self::DB_USERNAME, self::DB_PASSWORD, [
