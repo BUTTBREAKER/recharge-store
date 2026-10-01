@@ -14,7 +14,7 @@
                         </svg>
                     </div>
                     <span class="text-lg font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                        Fear Sold
+                        <?= $_ENV['APP_NAME'] ?>
                     </span>
                 </div>
                 <p class="text-sm text-muted-foreground leading-relaxed">
@@ -78,10 +78,10 @@
 
         <div class="mt-12 pt-8 border-t border-border/40">
             <p class="text-center text-sm text-muted-foreground">
-                © <?= date('Y') ?> FearSold. Todos los derechos reservados.
+                © <?= date('Y') ?> <?= $_ENV['APP_NAME'] ?>. Todos los derechos reservados.
             </p>
             <p class="text-center text-xs text-muted-foreground mt-2">
-                FearSold no está afiliado con Moonton ni Mobile Legends. Todos los nombres y marcas comerciales pertenecen a sus respectivos dueños.
+                <?= $_ENV['APP_NAME'] ?> no está afiliado con Moonton ni Mobile Legends. Todos los nombres y marcas comerciales pertenecen a sus respectivos dueños.
             </p>
         </div>
     </div>

@@ -2,7 +2,9 @@
     <div class="flex items-center justify-between mb-8">
         <div>
             <h1 class="text-3xl font-extrabold text-foreground">Mi Perfil</h1>
-            <p class="text-muted-foreground mt-1">Gestiona tu cuenta de FearSold</p>
+            <p class="text-muted-foreground mt-1">
+                Gestiona tu cuenta de <?= $_ENV['APP_NAME'] ?>
+            </p>
         </div>
         <a href="./" class="bg-primary/10 text-primary hover:bg-primary/20 px-5 py-2.5 rounded-xl font-bold transition">
             Volver a la Tienda

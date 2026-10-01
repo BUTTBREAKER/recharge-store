@@ -4,7 +4,9 @@
         <div class="text-center mb-8">
             <span class="text-4xl text-foreground">🔐</span>
             <h1 class="text-2xl font-bold mt-4 text-foreground">Iniciar Sesión</h1>
-            <p class="text-muted-foreground text-sm">Bienvenido a FearSold</p>
+            <p class="text-muted-foreground text-sm">
+                Bienvenido a <?= $_ENV['APP_NAME'] ?>
+            </p>
         </div>
         
         <?php if (isset($_GET['error'])) : ?>
@@ -44,7 +46,9 @@
 
         <div class="mt-8 pt-6 border-t border-border text-center">
             <p class="text-muted-foreground text-sm">¿No tienes cuenta?</p>
-            <a href="./register" class="text-primary font-bold hover:underline mt-1 inline-block">Únete a FearSold</a>
+            <a href="./register" class="text-primary font-bold hover:underline mt-1 inline-block">
+                Únete a <?= $_ENV['APP_NAME'] ?>
+            </a>
         </div>
     </div>
 </div>

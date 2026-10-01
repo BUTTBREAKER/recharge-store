@@ -35,7 +35,10 @@ class ProfileController
             'user' => $user,
             'pedidos' => $pedidos
         ], 'content');
-        Flight::render('layout', ['title' => 'Mi Perfil - FearSold']);
+
+        Flight::render('layout', [
+            'title' => "Mi Perfil - {$_ENV['APP_NAME']}"
+        ]);
     }
 
     /**
@@ -59,7 +62,7 @@ class ProfileController
                 $ext = pathinfo($files['avatar']['name'], PATHINFO_EXTENSION);
                 $filename = 'avatar_' . $userId . '_' . time() . '.' . $ext;
                 $uploadPath = 'uploads/avatars/' . $filename;
-                
+
                 // Asegurar que el directorio existe
                 $fullPath = __DIR__ . '/../../../public/uploads/avatars/';
                 if (!is_dir($fullPath)) {
@@ -68,7 +71,7 @@ class ProfileController
 
                 if (move_uploaded_file($files['avatar']['tmp_name'], $fullPath . $filename)) {
                     $data['avatar_url'] = $uploadPath;
-                    
+
                     // Actualizar sesión si es necesario
                     Session::set('user_avatar', $uploadPath);
                 }
@@ -130,6 +133,9 @@ class ProfileController
             'search' => $search,
             'estado' => $estado
         ], 'content');
-        Flight::render('layout', ['title' => 'Historial de Pedidos - FearSold']);
+
+        Flight::render('layout', [
+            'title' => "Historial de Pedidos - {$_ENV['APP_NAME']}"
+        ]);
     }
 }

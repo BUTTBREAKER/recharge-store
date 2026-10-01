@@ -51,7 +51,10 @@ class AdminController
             'topProductos' => $topProductos,
             'ultimosPedidos' => $ultimosPedidos
         ], 'content');
-        Flight::render('admin_layout', ['title' => 'Dashboard Admin - FearSold']);
+
+        Flight::render('admin_layout', [
+            'title' => "Dashboard Admin - {$_ENV['APP_NAME']}"
+        ]);
     }
 
     /**
@@ -195,7 +198,7 @@ class AdminController
                 $ext = pathinfo($files['avatar']['name'], PATHINFO_EXTENSION);
                 $filename = 'admin_' . $userId . '_' . time() . '.' . $ext;
                 $uploadPath = 'uploads/avatars/' . $filename;
-                
+
                 $fullPath = __DIR__ . '/../../../public/uploads/avatars/';
                 if (!is_dir($fullPath)) {
                     mkdir($fullPath, 0777, true);
@@ -249,7 +252,7 @@ class AdminController
         $productoModel = new Producto();
         $productos = $productoModel->listarTodos(null, false);
         $juegos = array_unique(array_column($productos, 'juego'));
-        
+
         // Agregar Mobile Legends por defecto si no hay productos
         if (empty($juegos)) {
             $juegos = ['Mobile Legends'];
@@ -269,7 +272,7 @@ class AdminController
         self::checkAdmin();
 
         $data = Flight::request()->data;
-        
+
         $productoModel = new Producto();
         $productoModel->crear([
             'juego' => $data->juego,
@@ -318,7 +321,7 @@ class AdminController
         self::checkAdmin();
 
         $data = Flight::request()->data;
-        
+
         $productoModel = new Producto();
         $productoModel->actualizar($data->id, [
             'juego' => $data->juego,
@@ -341,7 +344,7 @@ class AdminController
         self::checkAdmin();
 
         $id = Flight::request()->data->id;
-        
+
         $productoModel = new Producto();
         $productoModel->eliminar($id);
 
@@ -385,7 +388,7 @@ class AdminController
         self::checkAdmin();
 
         $data = Flight::request()->data;
-        
+
         $juegoModel = new \App\Models\Juego();
         $juegoModel->crear([
             'nombre' => $data->nombre,
@@ -429,7 +432,7 @@ class AdminController
         self::checkAdmin();
 
         $data = Flight::request()->data;
-        
+
         $juegoModel = new \App\Models\Juego();
         $juegoModel->actualizar($data->id, [
             'nombre' => $data->nombre,
@@ -452,7 +455,7 @@ class AdminController
         self::checkAdmin();
 
         $id = Flight::request()->data->id;
-        
+
         $juegoModel = new \App\Models\Juego();
         $juegoModel->eliminar($id);
 
@@ -467,7 +470,7 @@ class AdminController
         self::checkAdmin();
 
         $id = Flight::request()->data->id;
-        
+
         $juegoModel = new \App\Models\Juego();
         $juegoModel->toggleActivo($id);
 
@@ -485,7 +488,7 @@ class AdminController
 
         $filtro = Flight::request()->query->rol ?? null;
         $userModel = new User();
-        
+
         $usuarios = $userModel->listarTodos($filtro);
         $contadores = [
             'total' => $userModel->contarPorRol(),
@@ -541,7 +544,7 @@ class AdminController
         self::checkAdmin();
 
         $data = Flight::request()->data;
-        
+
         $userModel = new User();
         // Solo permitimos actualizar el rol por políticas de privacidad
         $userModel->actualizarCompleto($data->id, [
@@ -571,7 +574,7 @@ class AdminController
         self::checkAdmin();
 
         $id = Flight::request()->data->id;
-        
+
         $userModel = new User();
         $userModel->cambiarRol($id, 'admin');
 
@@ -586,7 +589,7 @@ class AdminController
         self::checkAdmin();
 
         $id = Flight::request()->data->id;
-        
+
         $userModel = new User();
         $userModel->cambiarRol($id, 'user');
 
@@ -601,7 +604,7 @@ class AdminController
         self::checkAdmin();
 
         $id = Flight::request()->data->id;
-        
+
         $userModel = new User();
         $userModel->eliminar($id);
 
@@ -645,7 +648,7 @@ class AdminController
 
         $filtro = Flight::request()->query->estado ?? 'pendiente';
         $search = Flight::request()->query->search ?? null;
-        
+
         $pedidoModel = new Pedido();
         $pedidos = $pedidoModel->listarTodos([
             'estado' => $filtro,

@@ -19,7 +19,10 @@ class AuthController
         }
 
         Flight::render('auth/login', [], 'content');
-        Flight::render('layout', ['title' => 'Iniciar Sesión - FearSold']);
+
+        Flight::render('layout', [
+            'title' => "Iniciar Sesión - {$_ENV['APP_NAME']}"
+        ]);
     }
 
     public static function registerView()
@@ -29,7 +32,7 @@ class AuthController
         }
 
         Flight::render('auth/register', [], 'content');
-        Flight::render('layout', ['title' => 'Únete a FearSold']);
+        Flight::render('layout', ['title' => "Únete a {$_ENV['APP_NAME']}"]);
     }
 
     public static function login()
@@ -101,14 +104,17 @@ class AuthController
     public static function forgotPasswordView()
     {
         Flight::render('auth/forgot_password', [], 'content');
-        Flight::render('layout', ['title' => 'Recuperar Contraseña - FearSold']);
+
+        Flight::render('layout', [
+            'title' => "Recuperar Contraseña - {$_ENV['APP_NAME']}"
+        ]);
     }
 
     public static function sendResetLink()
     {
         $email = Flight::request()->data->email;
         $userModel = new User();
-        
+
         if ($userModel->exists($email)) {
             $token = bin2hex(random_bytes(32));
             $expires = date('Y-m-d H:i:s', time() + 3600); // 1 hora
@@ -117,11 +123,11 @@ class AuthController
             // Idealmente crear PasswordReset Model, pero por brevedad usaremos PDO directo del userModel
             $db = Flight::db(); // Asumiendo que Flight::db() devuelve la conexión PDO si está registrada, 
             // O podemos usar el UserModel para acceder a la DB
-            
+
             // Vamos a usar una consulta directa rápida
             // Nota: Esto depende de cómo está configurado Flight::db(), en este proyecto parece que los modelos extienden BaseModel
             // Así que usaré una instancia de UserModel para acceder a $this->db
-            
+
             // Corrección: usaremos un método en User o creamos un modelo rápido.
             // Para mantenerlo limpio, agregaremos un método a User "guardarTokenReset"
             $userModel->guardarTokenReset($email, $token, $expires);
@@ -130,7 +136,7 @@ class AuthController
             // En producción aquí iría PHPmailer
             // Por ahora, redirigimos con un mensaje de "revisa tu correo"
             // Y para propósitos de DEMO, mostramos el link en un log o mensaje flash temporal (solo debug)
-            
+
             // Guardamos el link en sesión para demo (ELIMINAR EN PRODUCCIÓN)
             Session::set('demo_reset_link', "/reset-password?token=$token");
         }
@@ -144,7 +150,7 @@ class AuthController
         if (!$token) {
             Flight::redirect('/login');
         }
-        
+
         Flight::render('auth/reset_password', ['token' => $token], 'content');
         Flight::render('layout', ['title' => 'Restablecer Contraseña']);
     }

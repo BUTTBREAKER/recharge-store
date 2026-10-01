@@ -14,7 +14,7 @@
                 1. Aceptación de los Términos
             </h2>
             <p class="text-muted-foreground leading-relaxed">
-                Al acceder y utilizar FearSold, aceptas cumplir y estar sujeto a los siguientes términos y condiciones. Si no estás de acuerdo con alguna parte de estos términos, no podrás acceder al servicio.
+                Al acceder y utilizar <?= $_ENV['APP_NAME'] ?>, aceptas cumplir y estar sujeto a los siguientes términos y condiciones. Si no estás de acuerdo con alguna parte de estos términos, no podrás acceder al servicio.
             </p>
         </section>
 
@@ -24,7 +24,7 @@
                 2. Servicios de Recarga
             </h2>
             <p class="text-muted-foreground leading-relaxed">
-                FearSold proporciona servicios de recarga de diamantes y monedas para juegos móviles. Nos esforzamos por procesar las transacciones de manera instantánea, pero los tiempos pueden variar según la disponibilidad del servidor del juego.
+                <?= $_ENV['APP_NAME'] ?> proporciona servicios de recarga de diamantes y monedas para juegos móviles. Nos esforzamos por procesar las transacciones de manera instantánea, pero los tiempos pueden variar según la disponibilidad del servidor del juego.
             </p>
         </section>
 

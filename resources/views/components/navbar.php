@@ -17,7 +17,7 @@ use Leaf\Http\Session;
                     </div>
                 </div>
                 <span class="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                    Fear Sold
+                    <?= $_ENV['APP_NAME'] ?>
                 </span>
             </a>
 

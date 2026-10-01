@@ -32,7 +32,7 @@ use Leaf\Http\Session;
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title><?= $title ?? 'FearSold Admin' ?></title>
+    <title><?= $title ?? "{$_ENV['APP_NAME']} Admin" ?></title>
     <base href="<?= str_replace('index.php', '', $_SERVER['SCRIPT_NAME']) ?>" />
     <link rel="icon" href="./images/favicon.svg" />
 
@@ -58,7 +58,9 @@ use Leaf\Http\Session;
                     <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-lg shadow-lg group-hover:shadow-primary/50 transition-all">
                         F
                     </div>
-                    <span class="text-xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">FearSold</span>
+                    <span class="text-xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                        <?= $_ENV['APP_NAME'] ?>
+                    </span>
                 </a>
             </div>
 
@@ -127,7 +129,9 @@ use Leaf\Http\Session;
             
             <!-- Mobile Header -->
             <header class="md:hidden flex items-center justify-between p-4 bg-card border-b border-border">
-                <a href="/" class="text-lg font-bold text-foreground">FearSold Admin</a>
+                <a href="/" class="text-lg font-bold text-foreground">
+                    <?= $_ENV['APP_NAME'] ?> Admin
+                </a>
                 <button @click="sidebarOpen = !sidebarOpen" class="text-muted-foreground">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>

@@ -3,7 +3,9 @@
         <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-secondary to-amber-400"></div>
         <div class="text-center mb-8">
             <span class="text-4xl text-foreground">🚀</span>
-            <h1 class="text-2xl font-bold mt-4 text-foreground">Únete a FearSold</h1>
+            <h1 class="text-2xl font-bold mt-4 text-foreground">
+                Únete a <?= $_ENV['APP_NAME'] ?>
+            </h1>
             <p class="text-muted-foreground text-sm">Crea tu cuenta y empieza a recargar</p>
         </div>
         

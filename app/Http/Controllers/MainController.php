@@ -15,7 +15,7 @@ class MainController
     public static function home(): void
     {
         Flight::render('pages/home', [], 'content');
-        Flight::render('layout', ['title' => 'Inicio - FearSold']);
+        Flight::render('layout', ['title' => "Inicio - {$_ENV['APP_NAME']}"]);
     }
 
     public static function game(string $slug): void
@@ -25,7 +25,10 @@ class MainController
         $packages = $db->select('productos')->where('juego', '?')->bind(str_replace('-', ' ', $slug))->fetchAll();
 
         Flight::render('pages/game', compact('exchangeRate', 'packages', 'slug'), 'content');
-        Flight::render('layout', ['title' => 'Mobile Legends - FearSold']);
+
+        Flight::render('layout', [
+            'title' => "Mobile Legends - {$_ENV['APP_NAME']}"
+        ]);
     }
 
     public static function checkout()
@@ -68,7 +71,10 @@ class MainController
 
         $pedido = $pedidoModel->obtenerPorId($pedidoId);
         Flight::render('checkout', ['pedido' => $pedido], 'content');
-        Flight::render('layout', ['title' => 'Checkout - FearSold']);
+
+        Flight::render('layout', [
+            'title' => "Checkout - {$_ENV['APP_NAME']}"
+        ]);
     }
 
     public static function procesarPago()
@@ -142,25 +148,37 @@ class MainController
             'notificaciones' => $notificaciones,
             'pedidos' => $pedidos
         ], 'content');
-        Flight::render('layout', ['title' => 'Mis Notificaciones - FearSold']);
+
+        Flight::render('layout', [
+            'title' => "Mis Notificaciones - {$_ENV['APP_NAME']}"
+        ]);
     }
 
     public static function soporte()
     {
         Flight::render('soporte', [], 'content');
-        Flight::render('layout', ['title' => 'Soporte - FearSold']);
+
+        Flight::render('layout', [
+            'title' => "Soporte - {$_ENV['APP_NAME']}"
+        ]);
     }
 
     public static function terminos()
     {
         Flight::render('terminos', [], 'content');
-        Flight::render('layout', ['title' => 'Términos de Servicio - FearSold']);
+
+        Flight::render('layout', [
+            'title' => "Términos de Servicio - {$_ENV['APP_NAME']}"
+        ]);
     }
 
     public static function privacidad()
     {
         Flight::render('privacidad', [], 'content');
-        Flight::render('layout', ['title' => 'Política de Privacidad - FearSold']);
+
+        Flight::render('layout', [
+            'title' => "Política de Privacidad - {$_ENV['APP_NAME']}"
+        ]);
     }
 
     public static function notFound()
@@ -177,7 +195,11 @@ class MainController
 
         Flight::response()->status(404);
         Flight::render('404', [], 'content');
-        Flight::render('layout', ['title' => 'Página no encontrada - FearSold'], 'output');
+
+        Flight::render('layout', [
+            'title' => "Página no encontrada - {$_ENV['APP_NAME']}"
+        ], 'output');
+
         Flight::response()->write((string) Flight::view()->get('output'));
     }
 }
