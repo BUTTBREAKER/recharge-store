@@ -75,7 +75,7 @@ $auth->config(
     static fn(string $password): string => Password::hash(
         $password,
         Password::BCRYPT,
-        ['cost' => 12],
+        ['cost' => $_ENV['BCRYPT_ROUNDS']],
     )
 );
 
