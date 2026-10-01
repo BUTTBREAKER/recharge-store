@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fadrian06/phpstan/add-schema/schema.json
+
 includes:
   - vendor/phpstan/phpstan/conf/bleedingEdge.neon
   - phpstan-baseline.neon
@@ -6,6 +8,6 @@ parameters:
   level: 0
   paths:
     - app
-    - public/index.php
+    - public
     - resources/views
     - routes
