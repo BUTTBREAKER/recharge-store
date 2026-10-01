@@ -5,7 +5,7 @@ use Leaf\Http\Session;
 ?>
 <!doctype html>
 <html
-    lang="es"
+    lang="<?= $_ENV['APP_LOCALE'] ?>"
     class="scroll-smooth"
     x-data='{
         isDark: localStorage.getItem("theme") === "dark" || (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches),

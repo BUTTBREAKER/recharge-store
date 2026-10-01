@@ -1,13 +1,6 @@
-<?php
-
-use Leaf\Http\Session;
-use App\Enums\SessionKey;
-
-?>
-
 <!doctype html>
 <html
-    lang="es"
+    lang="<?= $_ENV['APP_LOCALE'] ?>"
     class="scroll-smooth"
     x-data='{
         isDark: localStorage.getItem("theme") === "dark" || (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches),
