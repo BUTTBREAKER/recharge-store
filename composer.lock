@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57e77acb47b2598755bc9b110e816d7f",
+    "content-hash": "0de4d9316caca812a1d50a1bf21d1990",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -914,25 +914,26 @@
         },
         {
             "name": "leafs/db",
-            "version": "v4.0.2",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/leafsphp/db.git",
-                "reference": "0334b2f40882855e76373168b4b7e4b8f6936f0c"
+                "reference": "8b72b6f44910223ac9f8ffc2e627e67446b02c79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leafsphp/db/zipball/0334b2f40882855e76373168b4b7e4b8f6936f0c",
-                "reference": "0334b2f40882855e76373168b4b7e4b8f6936f0c",
+                "url": "https://api.github.com/repos/leafsphp/db/zipball/8b72b6f44910223ac9f8ffc2e627e67446b02c79",
+                "reference": "8b72b6f44910223ac9f8ffc2e627e67446b02c79",
                 "shasum": ""
             },
             "require": {
-                "ext-pdo": "*"
+                "ext-pdo": "*",
+                "php": "^8.2"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.14",
-                "leafs/alchemy": "^2.2",
-                "pestphp/pest": "^1.21"
+                "friendsofphp/php-cs-fixer": "*",
+                "leafs/alchemy": "^5.0",
+                "pestphp/pest": "*"
             },
             "type": "library",
             "autoload": {
@@ -966,7 +967,7 @@
             ],
             "support": {
                 "issues": "https://github.com/leafsphp/db/issues",
-                "source": "https://github.com/leafsphp/db/tree/v4.0.2"
+                "source": "https://github.com/leafsphp/db/tree/v5.1.1"
             },
             "funding": [
                 {
@@ -978,7 +979,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-04-28T20:40:36+00:00"
+            "time": "2026-08-17T09:02:21+00:00"
         },
         {
             "name": "leafs/form",
@@ -1184,17 +1185,25 @@
         },
         {
             "name": "leafs/password",
-            "version": "v1.0",
+            "version": "v5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/leafsphp/password.git",
-                "reference": "f720c3b18c6c6efeaeb67d1cfad336febd4c7f94"
+                "reference": "85667be7d5fe4f6ed309ed3ac5de8ad87974fe9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leafsphp/password/zipball/f720c3b18c6c6efeaeb67d1cfad336febd4c7f94",
-                "reference": "f720c3b18c6c6efeaeb67d1cfad336febd4c7f94",
+                "url": "https://api.github.com/repos/leafsphp/password/zipball/85667be7d5fe4f6ed309ed3ac5de8ad87974fe9a",
+                "reference": "85667be7d5fe4f6ed309ed3ac5de8ad87974fe9a",
                 "shasum": ""
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "*",
+                "leafs/alchemy": "^5.0",
+                "pestphp/pest": "*"
             },
             "type": "library",
             "autoload": {
@@ -1215,48 +1224,52 @@
                 }
             ],
             "description": "Leaf PHP password helper",
-            "homepage": "https://leafphp.netlify.app/#/",
+            "homepage": "https://leafphp.dev",
             "keywords": [
-                "framework",
+                "hashing",
                 "leaf",
+                "password",
                 "php",
-                "simple templating",
-                "template",
-                "view"
+                "security"
             ],
             "support": {
                 "issues": "https://github.com/leafsphp/password/issues",
-                "source": "https://github.com/leafsphp/password/tree/v1.0"
+                "source": "https://github.com/leafsphp/password/tree/v5.0"
             },
             "funding": [
+                {
+                    "url": "https://github.com/leafsphp",
+                    "type": "github"
+                },
                 {
                     "url": "https://opencollective.com/leaf",
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-09-19T12:27:19+00:00"
+            "time": "2026-08-13T00:56:45+00:00"
         },
         {
             "name": "leafs/session",
-            "version": "v4.0.1",
+            "version": "v5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/leafsphp/session.git",
-                "reference": "84f7d1672df71fc349ac39be9d69d847d93c86c4"
+                "reference": "209257104a853fe194494c05e50bdf14ceb5ab5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leafsphp/session/zipball/84f7d1672df71fc349ac39be9d69d847d93c86c4",
-                "reference": "84f7d1672df71fc349ac39be9d69d847d93c86c4",
+                "url": "https://api.github.com/repos/leafsphp/session/zipball/209257104a853fe194494c05e50bdf14ceb5ab5e",
+                "reference": "209257104a853fe194494c05e50bdf14ceb5ab5e",
                 "shasum": ""
             },
             "require": {
-                "leafs/anchor": "*"
+                "leafs/anchor": "^5.0",
+                "php": "^8.2"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.0",
-                "leafs/alchemy": "^2.2",
-                "pestphp/pest": "^1.21"
+                "friendsofphp/php-cs-fixer": "*",
+                "leafs/alchemy": "^5.0",
+                "pestphp/pest": "*"
             },
             "type": "library",
             "autoload": {
@@ -1291,7 +1304,7 @@
             ],
             "support": {
                 "issues": "https://github.com/leafsphp/session/issues",
-                "source": "https://github.com/leafsphp/session/tree/v4.0.1"
+                "source": "https://github.com/leafsphp/session/tree/v5.0"
             },
             "funding": [
                 {
@@ -1303,7 +1316,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-03-08T17:04:14+00:00"
+            "time": "2026-08-13T02:13:55+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -2557,16 +2570,16 @@
         },
         {
             "name": "symfony/translation-contracts",
-            "version": "v3.6.1",
+            "version": "v3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation-contracts.git",
-                "reference": "65a8bc82080447fae78373aa10f8d13b38338977"
+                "reference": "ccb206b98faccc511ebae8e5fad50f2dc0b30621"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/65a8bc82080447fae78373aa10f8d13b38338977",
-                "reference": "65a8bc82080447fae78373aa10f8d13b38338977",
+                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/ccb206b98faccc511ebae8e5fad50f2dc0b30621",
+                "reference": "ccb206b98faccc511ebae8e5fad50f2dc0b30621",
                 "shasum": ""
             },
             "require": {
@@ -2579,7 +2592,7 @@
                     "name": "symfony/contracts"
                 },
                 "branch-alias": {
-                    "dev-main": "3.6-dev"
+                    "dev-main": "3.7-dev"
                 }
             },
             "autoload": {
@@ -2615,7 +2628,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/translation-contracts/tree/v3.6.1"
+                "source": "https://github.com/symfony/translation-contracts/tree/v3.7.1"
             },
             "funding": [
                 {
@@ -2635,7 +2648,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-07-15T13:41:35+00:00"
+            "time": "2026-06-05T06:23:12+00:00"
         },
         {
             "name": "voku/portable-ascii",

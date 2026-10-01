@@ -5,13 +5,8 @@
         "flightphp/core": "^3.19",
         "illuminate/support": "^12.47",
         "leafs/auth": "^5.0",
-        "leafs/db": "^4.0",
-        "leafs/form": "^3.2",
-        "leafs/password": "^1.0",
-        "leafs/session": "^4.0",
         "symfony/dotenv": "^7.4",
-        "symfony/string": "^7.4",
-        "symfony/translation-contracts": "^3.6"
+        "symfony/string": "^7.4"
     },
     "require-dev": {
         "phpstan/extension-installer": "^1.4",
