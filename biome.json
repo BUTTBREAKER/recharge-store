@@ -12,7 +12,7 @@
             "composer.*",
             "package-lock.json",
             "package.json",
-            "*.sublime-*",
+            "*.sublime-project",
             "tailwind.config.mjs"
         ]
     }
