@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 use Symfony\Component\Dotenv\Dotenv;
 
-require __DIR__ . '/../vendor/autoload.php';
+const ROOT_FOLDER_PATH = __DIR__ . '/..';
+
+require_once ROOT_FOLDER_PATH . '/vendor/autoload.php';
 
 // Same env loading as public/index.php: .env.example first, .env overrides it.
-// ROOT_FOLDER equivalent: __DIR__ . '/..'
-(new Dotenv())->load(__DIR__ . '/../.env.example', __DIR__ . '/../.env');
+new Dotenv()->load(
+    ROOT_FOLDER_PATH . '/.env.example',
+    ROOT_FOLDER_PATH . '/.env',
+);

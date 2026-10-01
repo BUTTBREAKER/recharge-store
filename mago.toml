@@ -3,3 +3,6 @@
 [source]
 paths = ["app", "public", "resources/views", "routes", "tests"]
 includes = ["vendor"]
+
+[formatter]
+print-width = 80

@@ -14,14 +14,17 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 ///////////////
 // CONSTANTS //
 ///////////////
-const ROOT_FOLDER = __DIR__ . '/..';
+const ROOT_FOLDER_PATH = __DIR__ . '/..';
 
-require_once ROOT_FOLDER . '/vendor/autoload.php';
+require_once ROOT_FOLDER_PATH . '/vendor/autoload.php';
 
 ///////////////////////////
 // ENVIRONMENT VARIABLES //
 ///////////////////////////
-(new Dotenv())->load(ROOT_FOLDER . '/.env.example', ROOT_FOLDER . '/.env');
+new Dotenv()->load(
+    ROOT_FOLDER_PATH . '/.env.example',
+    ROOT_FOLDER_PATH . '/.env',
+);
 
 // Los montos/precios de la API son floats: sin esto, entornos con
 // serialize_precision alto emiten JSON con expansión binaria
@@ -122,7 +125,7 @@ $db->connection(Container::getInstance()->get(PDO::class));
 (new ReflectionProperty($auth, 'db'))->setValue($auth, $db);
 
 // HELPERS
-require_once ROOT_FOLDER . '/app/Helpers/csrf.php';
+require_once ROOT_FOLDER_PATH . '/app/Helpers/csrf.php';
 
 // MIDDLEWARES
 Flight::before('start', [App\Http\Middleware\RateLimiter::class, 'loginLimit']);
