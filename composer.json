@@ -10,7 +10,8 @@
         "leafs/session": "^4.0",
         "symfony/dotenv": "^7.4",
         "symfony/string": "^7.4",
-        "symfony/translation-contracts": "^3.6"
+        "symfony/translation-contracts": "^3.6",
+        "php": ">=8.5"
     },
     "require-dev": {
         "phpstan/extension-installer": "^1.4",
@@ -20,13 +21,8 @@
         "symfony/var-dumper": "^7.4"
     },
     "scripts": {
-        "post-autoload-dump": [
-            "php -r \"if (!file_exists('.env')) copy('.env.example', '.env');\""
-        ],
-        "serve": [
-            "Composer\\Config::disableProcessTimeout",
-            "php -S localhost:61001 -t public"
-        ],
+        "post-autoload-dump": "cp .env.example .env",
+        "serve": "php -S localhost:61001 -t public",
         "format": "phpcbf",
         "lint": ["phpstan --memory-limit=1G", "phpcs"],
         "test": "phpunit"
@@ -45,6 +41,7 @@
         "sort-packages": true,
         "allow-plugins": {
             "phpstan/extension-installer": true
-        }
+        },
+        "process-timeout": 0
     }
 }
