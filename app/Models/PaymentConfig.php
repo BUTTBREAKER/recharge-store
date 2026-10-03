@@ -9,7 +9,9 @@ class PaymentConfig extends BaseModel
      */
     public function obtenerConfig($metodo)
     {
-        $stmt = $this->db->prepare("SELECT * FROM payment_config WHERE metodo = ?");
+        $stmt = $this->db->prepare(
+            'SELECT * FROM payment_config WHERE metodo = ?',
+        );
         $stmt->execute([$metodo]);
         $result = $stmt->fetch();
 
@@ -25,7 +27,7 @@ class PaymentConfig extends BaseModel
      */
     public function obtenerTodas()
     {
-        $stmt = $this->db->query("SELECT * FROM payment_config");
+        $stmt = $this->db->query('SELECT * FROM payment_config');
         $results = $stmt->fetchAll();
 
         foreach ($results as &$result) {
@@ -46,7 +48,7 @@ class PaymentConfig extends BaseModel
             'banco' => $datos['banco'] ?? '',
             'telefono' => $datos['telefono'] ?? '',
             'cedula' => $datos['cedula'] ?? '',
-            'titular' => $datos['titular'] ?? ''
+            'titular' => $datos['titular'] ?? '',
         ]);
 
         $stmt = $this->db->prepare("
@@ -65,7 +67,7 @@ class PaymentConfig extends BaseModel
         $config = json_encode([
             'merchant_id' => $datos['merchant_id'] ?? '',
             'api_key' => $datos['api_key'] ?? '',
-            'instrucciones' => $datos['instrucciones'] ?? ''
+            'instrucciones' => $datos['instrucciones'] ?? '',
         ]);
 
         $stmt = $this->db->prepare("
@@ -81,7 +83,9 @@ class PaymentConfig extends BaseModel
      */
     public function toggleActivo($metodo)
     {
-        $stmt = $this->db->prepare("UPDATE payment_config SET activo = NOT activo WHERE metodo = ?");
+        $stmt = $this->db->prepare(
+            'UPDATE payment_config SET activo = NOT activo WHERE metodo = ?',
+        );
         return $stmt->execute([$metodo]);
     }
 }

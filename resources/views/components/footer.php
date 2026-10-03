@@ -1,4 +1,5 @@
 <?php
+
 // Footer Component - v0 style with dark mode support
 ?>
 
@@ -78,7 +79,9 @@
 
         <div class="mt-12 pt-8 border-t border-border/40">
             <p class="text-center text-sm text-muted-foreground">
-                © <?= date('Y') ?> <?= $_ENV['APP_NAME'] ?>. Todos los derechos reservados.
+                © <?= date(
+                    'Y',
+                ) ?> <?= $_ENV['APP_NAME'] ?>. Todos los derechos reservados.
             </p>
             <p class="text-center text-xs text-muted-foreground mt-2">
                 <?= $_ENV['APP_NAME'] ?> no está afiliado con Moonton ni Mobile Legends. Todos los nombres y marcas comerciales pertenecen a sus respectivos dueños.

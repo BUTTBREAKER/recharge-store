@@ -20,7 +20,10 @@ final class CatalogController
     {
         $games = new Juego()->listarTodos(true);
 
-        Flight::json(['data' => array_map([self::class, 'presentGame'], $games)]);
+        Flight::json(['data' => array_map(
+            [self::class, 'presentGame'],
+            $games,
+        )]);
     }
 
     /** GET /api/games/@slug */

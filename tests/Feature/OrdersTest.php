@@ -31,14 +31,18 @@ final class OrdersTest extends ApiTestCase
         $token = (string) $login['token'];
         $userId = (int) $login['user']['id'];
 
-        $res = $this->api->post('/api/orders', [
-            'juego' => 'Mobile Legends',
-            'player_id' => '987654321',
-            'server_id' => '4321',
-            'paquete' => '172 Diamantes',
-            'monto' => 3,
-            'telefono' => '04147654321',
-        ], $token);
+        $res = $this->api->post(
+            '/api/orders',
+            [
+                'juego' => 'Mobile Legends',
+                'player_id' => '987654321',
+                'server_id' => '4321',
+                'paquete' => '172 Diamantes',
+                'monto' => 3,
+                'telefono' => '04147654321',
+            ],
+            $token,
+        );
 
         $this->assertSame(201, $res['status']);
         $this->assertIsArray($res['body']);
@@ -77,7 +81,9 @@ final class OrdersTest extends ApiTestCase
     {
         $orderId = $this->createGuestOrder();
 
-        $res = $this->api->post("/api/orders/{$orderId}/pay", ['metodo' => 'pagomovil']);
+        $res = $this->api->post("/api/orders/{$orderId}/pay", [
+            'metodo' => 'pagomovil',
+        ]);
 
         $this->assertSame(200, $res['status']);
         $this->assertIsArray($res['body']);
@@ -108,7 +114,10 @@ final class OrdersTest extends ApiTestCase
         $this->assertIsArray($res['body']);
         $this->assertSame($orderId, $res['body']['data']['pedido']['id']);
         $this->assertIsString($res['body']['data']['binance']['url']);
-        $this->assertStringContainsString('binance.com', $res['body']['data']['binance']['url']);
+        $this->assertStringContainsString(
+            'binance.com',
+            $res['body']['data']['binance']['url'],
+        );
     }
 
     public function testStatusOfUnknownOrderReturns404(): void
@@ -125,7 +134,10 @@ final class OrdersTest extends ApiTestCase
         $res = $this->api->get('/api/nope');
 
         $this->assertSame(404, $res['status']);
-        $this->assertStringContainsString('json', strtolower($res['contentType']));
+        $this->assertStringContainsString(
+            'json',
+            strtolower($res['contentType']),
+        );
         $this->assertIsArray($res['body']);
         $this->assertArrayHasKey('message', $res['body']);
     }
@@ -148,7 +160,11 @@ final class OrdersTest extends ApiTestCase
     private function createGuestOrder(): int
     {
         $res = $this->api->post('/api/orders', $this->guestOrder());
-        $this->assertSame(201, $res['status'], 'Could not create the test order.');
+        $this->assertSame(
+            201,
+            $res['status'],
+            'Could not create the test order.',
+        );
         $this->assertIsArray($res['body']);
 
         return (int) $res['body']['data']['id'];

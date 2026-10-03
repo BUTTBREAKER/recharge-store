@@ -12,13 +12,18 @@
 
         <div class="bg-white p-4 rounded-3xl border-2 border-dashed border-gray-200 mb-8 inline-block shadow-sm">
             <!-- Simulated QR Code -->
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?= urlencode($url) ?>&bgcolor=ffffff" alt="Scan QR" class="w-48 h-48 rounded-lg mx-auto">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?= urlencode(
+                $url,
+            ) ?>&bgcolor=ffffff" alt="Scan QR" class="w-48 h-48 rounded-lg mx-auto">
         </div>
 
         <div class="bg-muted/50 p-6 rounded-2xl mb-8 border border-border text-left">
             <div class="flex justify-between mb-2">
                 <span class="text-muted-foreground">Monto a pagar:</span>
-                <span class="font-bold text-xl text-yellow-500">$<?= number_format($pedido['monto'], 2) ?> USDT</span>
+                <span class="font-bold text-xl text-yellow-500">$<?= number_format(
+                    $pedido['monto'],
+                    2,
+                ) ?> USDT</span>
             </div>
             <div class="flex justify-between items-center text-xs text-muted-foreground mt-2">
                  <span>ID de Orden: #<?= $pedido['id'] ?></span>

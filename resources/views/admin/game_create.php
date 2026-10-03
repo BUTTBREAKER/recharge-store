@@ -1,4 +1,5 @@
 <?php
+
 // Game Create View
 ?>
 

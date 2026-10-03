@@ -37,7 +37,10 @@ final class UserController
         $userModel = new User();
 
         Flight::json([
-            'data' => array_map([self::class, 'present'], $userModel->listarTodos($rol)),
+            'data' => array_map(
+                [self::class, 'present'],
+                $userModel->listarTodos($rol),
+            ),
             'contadores' => [
                 'total' => $userModel->contarPorRol(),
                 'admin' => $userModel->contarPorRol('admin'),
@@ -87,7 +90,9 @@ final class UserController
         }
 
         if (self::isSelf((string) $id)) {
-            Flight::json(['message' => 'No puedes cambiar tu propio rol desde este módulo.'], 403);
+            Flight::json([
+                'message' => 'No puedes cambiar tu propio rol desde este módulo.',
+            ], 403);
             return;
         }
 
@@ -107,7 +112,9 @@ final class UserController
         }
 
         if (self::isSelf((string) $id)) {
-            Flight::json(['message' => 'No puedes eliminar tu propia cuenta desde este módulo.'], 403);
+            Flight::json([
+                'message' => 'No puedes eliminar tu propia cuenta desde este módulo.',
+            ], 403);
             return;
         }
 

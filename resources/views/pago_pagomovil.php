@@ -17,7 +17,10 @@
                 <div class="flex justify-between border-b border-border pb-2"><span>Banco:</span> <span class="font-bold text-foreground select-all">Banesco (0134)</span></div>
                 <div class="flex justify-between border-b border-border pb-2"><span>Teléfono:</span> <span class="font-bold text-foreground select-all">0412-1234567</span></div>
                 <div class="flex justify-between border-b border-border pb-2"><span>Cédula:</span> <span class="font-bold text-foreground select-all">V-12.345.678</span></div>
-                <div class="flex justify-between pt-1"><span>Monto a Transferir:</span> <span class="font-black text-primary text-lg">$<?= number_format($pedido['monto'], 2) ?></span></div>
+                <div class="flex justify-between pt-1"><span>Monto a Transferir:</span> <span class="font-black text-primary text-lg">$<?= number_format(
+                    $pedido['monto'],
+                    2,
+                ) ?></span></div>
             </div>
         </div>
 

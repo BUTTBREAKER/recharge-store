@@ -29,7 +29,9 @@ final class PaymentController
         $referencia = trim((string) ($data->referencia ?? ''));
 
         if ($pedidoId <= 0 || $referencia === '') {
-            Flight::json(['message' => 'pedido_id y referencia son obligatorios.'], 422);
+            Flight::json([
+                'message' => 'pedido_id y referencia son obligatorios.',
+            ], 422);
             return;
         }
         if (!new Pedido()->obtenerPorId($pedidoId)) {
@@ -38,8 +40,14 @@ final class PaymentController
         }
 
         $comprobantePath = '';
-        if (isset($files['comprobante']) && $files['comprobante']['error'] !== UPLOAD_ERR_NO_FILE) {
-            $comprobantePath = self::storeComprobante($pedidoId, $files['comprobante']);
+        if (
+            isset($files['comprobante'])
+            && $files['comprobante']['error'] !== UPLOAD_ERR_NO_FILE
+        ) {
+            $comprobantePath = self::storeComprobante(
+                $pedidoId,
+                $files['comprobante'],
+            );
         }
 
         new Pago()->registrar([
@@ -49,17 +57,16 @@ final class PaymentController
             'provider' => 'pagomovil',
         ]);
 
-        Flight::json(
-            [
-                'data' => [
-                    'pedido_id' => $pedidoId,
-                    'referencia' => $referencia,
-                    'comprobante' => $comprobantePath !== '' ? $comprobantePath : null,
-                    'estado' => 'pendiente',
-                ],
+        Flight::json([
+            'data' => [
+                'pedido_id' => $pedidoId,
+                'referencia' => $referencia,
+                'comprobante' => $comprobantePath !== ''
+                    ? $comprobantePath
+                    : null,
+                'estado' => 'pendiente',
             ],
-            201,
-        );
+        ], 201);
     }
 
     /**
@@ -71,25 +78,48 @@ final class PaymentController
     private static function storeComprobante(int $pedidoId, array $file): string
     {
         if ($file['error'] !== UPLOAD_ERR_OK) {
-            Flight::jsonHalt(['message' => 'Error al subir el comprobante (código ' . $file['error'] . ').'], 422);
+            Flight::jsonHalt([
+                'message' =>
+                    'Error al subir el comprobante (código '
+                        . $file['error']
+                        . ').',
+            ], 422);
         }
 
-        $extension = strtolower(pathinfo((string) $file['name'], PATHINFO_EXTENSION));
+        $extension = strtolower(pathinfo(
+            (string) $file['name'],
+            PATHINFO_EXTENSION,
+        ));
         if (!in_array($extension, self::ALLOWED_EXTENSIONS, true)) {
-            Flight::jsonHalt(['message' => 'Formato de comprobante no permitido. Usa JPG, PNG, WEBP o PDF.'], 422);
+            Flight::jsonHalt([
+                'message' => 'Formato de comprobante no permitido. Usa JPG, PNG, WEBP o PDF.',
+            ], 422);
         }
         if ($file['size'] > self::MAX_FILE_SIZE) {
-            Flight::jsonHalt(['message' => 'El comprobante supera el máximo de 5 MB.'], 422);
+            Flight::jsonHalt([
+                'message' => 'El comprobante supera el máximo de 5 MB.',
+            ], 422);
         }
 
         $directory = dirname(__DIR__, 4) . '/public/uploads';
-        if (!is_dir($directory) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
-            Flight::jsonHalt(['message' => 'No se pudo crear el directorio de subidas.'], 500);
+        if (
+            !is_dir($directory)
+            && !mkdir($directory, 0755, true)
+            && !is_dir($directory)
+        ) {
+            Flight::jsonHalt([
+                'message' => 'No se pudo crear el directorio de subidas.',
+            ], 500);
         }
 
         $filename = 'comp_' . $pedidoId . '_' . time() . '.' . $extension;
-        if (!move_uploaded_file($file['tmp_name'], $directory . '/' . $filename)) {
-            Flight::jsonHalt(['message' => 'No se pudo guardar el comprobante.'], 500);
+        if (!move_uploaded_file(
+            $file['tmp_name'],
+            $directory . '/' . $filename,
+        )) {
+            Flight::jsonHalt([
+                'message' => 'No se pudo guardar el comprobante.',
+            ], 500);
         }
 
         return '/uploads/' . $filename;

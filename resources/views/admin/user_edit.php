@@ -1,11 +1,14 @@
 <?php
+
 // User Edit View
 ?>
 
 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 animate-fade-in">
     <div>
         <h1 class="text-3xl font-extrabold text-foreground">Editar Usuario</h1>
-        <p class="text-muted-foreground mt-1">Modificar información de <?= htmlspecialchars($usuario['name']) ?></p>
+        <p class="text-muted-foreground mt-1">Modificar información de <?= htmlspecialchars(
+            $usuario['name'],
+        ) ?></p>
     </div>
     <a href="./admin/users" class="bg-muted text-muted-foreground hover:bg-muted/80 px-5 py-2.5 rounded-xl font-bold transition flex items-center">
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
@@ -26,9 +29,13 @@
     <!-- Formulario de edición -->
     <div class="lg:col-span-2">
         <div class="bg-card rounded-2xl shadow-lg border border-border overflow-hidden">
-            <div class="bg-gradient-to-r <?= $usuario['role'] === 'admin' ? 'from-red-500 to-orange-500' : 'from-blue-500 to-cyan-500' ?> px-6 py-4">
+            <div class="bg-gradient-to-r <?= $usuario['role'] === 'admin'
+                ? 'from-red-500 to-orange-500'
+                : 'from-blue-500 to-cyan-500' ?> px-6 py-4">
                 <h2 class="text-lg font-bold text-white flex items-center">
-                    <span class="mr-2"><?= $usuario['role'] === 'admin' ? '🛡️' : '👤' ?></span>
+                    <span class="mr-2"><?= $usuario['role'] === 'admin'
+                        ? '🛡️'
+                        : '👤' ?></span>
                     Información del Usuario
                 </h2>
             </div>
@@ -54,8 +61,12 @@
                 <div>
                     <label class="block text-sm font-bold text-foreground mb-2">Rol</label>
                     <select name="role" class="w-full px-4 py-3 bg-input border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-foreground">
-                        <option value="user" <?= $usuario['role'] === 'user' ? 'selected' : '' ?>>👤 Usuario</option>
-                        <option value="admin" <?= $usuario['role'] === 'admin' ? 'selected' : '' ?>>🛡️ Administrador</option>
+                        <option value="user" <?= $usuario['role'] === 'user'
+                            ? 'selected'
+                            : '' ?>>👤 Usuario</option>
+                        <option value="admin" <?= $usuario['role'] === 'admin'
+                            ? 'selected'
+                            : '' ?>>🛡️ Administrador</option>
                     </select>
                 </div>
                 
@@ -92,10 +103,16 @@
             <div class="p-6 space-y-4">
                 <!-- Avatar -->
                 <div class="text-center">
-                    <div class="w-20 h-20 bg-gradient-to-br <?= $usuario['role'] === 'admin' ? 'from-red-500 to-orange-600' : 'from-blue-500 to-cyan-600' ?> rounded-full mx-auto flex items-center justify-center text-white text-2xl font-bold">
+                    <div class="w-20 h-20 bg-gradient-to-br <?= $usuario['role']
+                        === 'admin'
+                            ? 'from-red-500 to-orange-600'
+                            : 'from-blue-500 to-cyan-600' ?> rounded-full mx-auto flex items-center justify-center text-white text-2xl font-bold">
                         <?= strtoupper(substr($usuario['name'], 0, 2)) ?>
                     </div>
-                    <span class="inline-block mt-3 px-3 py-1 <?= $usuario['role'] === 'admin' ? 'bg-red-500/10 text-red-500' : 'bg-blue-500/10 text-blue-500' ?> text-xs font-bold rounded-full">
+                    <span class="inline-block mt-3 px-3 py-1 <?= $usuario['role']
+                        === 'admin'
+                            ? 'bg-red-500/10 text-red-500'
+                            : 'bg-blue-500/10 text-blue-500' ?> text-xs font-bold rounded-full">
                         <?= strtoupper($usuario['role']) ?>
                     </span>
                 </div>
@@ -108,7 +125,10 @@
                 
                 <div class="p-4 bg-muted rounded-xl">
                     <p class="text-sm text-muted-foreground mb-1">Registrado</p>
-                    <p class="font-medium text-foreground"><?= date('d/m/Y H:i', strtotime($usuario['created_at'])) ?></p>
+                    <p class="font-medium text-foreground"><?= date(
+                        'd/m/Y H:i',
+                        strtotime($usuario['created_at']),
+                    ) ?></p>
                 </div>
                 
                 <?php if (isset($pedidosCount)): ?>

@@ -18,7 +18,12 @@ use Flight;
  */
 final class OrderController
 {
-    private const ESTADOS = ['pendiente', 'confirmado', 'realizada', 'cancelado'];
+    private const ESTADOS = [
+        'pendiente',
+        'confirmado',
+        'realizada',
+        'cancelado',
+    ];
 
     /** GET /api/admin/orders?estado=&search= — lista + contadores por estado. */
     public static function index(): void
@@ -27,7 +32,11 @@ final class OrderController
         $estado = $query->estado ?? null;
         $search = $query->search ?? null;
 
-        if ($estado !== null && $estado !== '' && !in_array($estado, self::ESTADOS, true)) {
+        if (
+            $estado !== null
+            && $estado !== ''
+            && !in_array($estado, self::ESTADOS, true)
+        ) {
             Flight::json(['message' => 'Estado inválido.'], 422);
             return;
         }
@@ -39,7 +48,10 @@ final class OrderController
         ]);
 
         Flight::json([
-            'data' => array_map([ApiOrderController::class, 'present'], $pedidos),
+            'data' => array_map(
+                [ApiOrderController::class, 'present'],
+                $pedidos,
+            ),
             'contadores' => [
                 'pendiente' => $pedidoModel->contarPorEstado('pendiente'),
                 'confirmado' => $pedidoModel->contarPorEstado('confirmado'),
@@ -107,7 +119,9 @@ final class OrderController
     {
         $estado = trim((string) (Flight::request()->data->estado ?? ''));
         if (!in_array($estado, self::ESTADOS, true)) {
-            Flight::json(['message' => 'Estado inválido. Usa pendiente, confirmado, realizada o cancelado.'], 422);
+            Flight::json([
+                'message' => 'Estado inválido. Usa pendiente, confirmado, realizada o cancelado.',
+            ], 422);
             return;
         }
 
@@ -121,7 +135,9 @@ final class OrderController
 
         Flight::json([
             'data' => [
-                'pedido' => ApiOrderController::present($pedidoModel->obtenerPorId($id)),
+                'pedido' => ApiOrderController::present($pedidoModel->obtenerPorId(
+                    $id,
+                )),
                 'pago' => self::pagoFor($id),
             ],
         ]);
@@ -155,7 +171,11 @@ final class OrderController
             new Notificacion()->crear(
                 $pedido['user_id'],
                 $notificacionTitulo,
-                str_replace('{paquete}', (string) $pedido['paquete'], $notificacionMensaje),
+                str_replace(
+                    '{paquete}',
+                    (string) $pedido['paquete'],
+                    $notificacionMensaje,
+                ),
                 'pedido_actualizado',
                 '/notifications',
             );
@@ -163,7 +183,9 @@ final class OrderController
 
         Flight::json([
             'data' => [
-                'pedido' => ApiOrderController::present($pedidoModel->obtenerPorId($id)),
+                'pedido' => ApiOrderController::present($pedidoModel->obtenerPorId(
+                    $id,
+                )),
                 'pago' => self::pagoFor($id),
             ],
         ]);

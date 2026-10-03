@@ -32,7 +32,7 @@ foreach ($packages ?? [] as $index => $package) {
 </div>
 
 <!-- Alert for errors -->
-<?php if (isset($_GET['error'])) : ?>
+<?php if (isset($_GET['error'])): ?>
     <div class="mb-8 p-4 bg-destructive/10 border border-destructive/20 rounded-2xl flex items-center text-destructive animate-fade-in">
         <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
@@ -55,7 +55,7 @@ foreach ($packages ?? [] as $index => $package) {
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <?php foreach ($packages ?? [] as $p) : ?>
+            <?php foreach ($packages ?? [] as $p): ?>
                 <label class="relative group">
                     <input
                         type="radio"
@@ -65,7 +65,7 @@ foreach ($packages ?? [] as $index => $package) {
                         class="peer sr-only"
                         onchange="updateSelection(this)">
                     <div class="h-full bg-card border-2 border-border p-5 rounded-2xl cursor-pointer hover:border-primary/50 hover:shadow-lg peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:shadow-primary/20 peer-checked:shadow-xl transition-all duration-300 flex flex-col justify-between">
-                        <?php if (isset($p['tag'])) : ?>
+                        <?php if (isset($p['tag'])): ?>
                             <span class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-lg shadow-sm">
                                 Popular
                             </span>
@@ -73,24 +73,29 @@ foreach ($packages ?? [] as $index => $package) {
 
                         <div class="mb-4 text-center">
                             <?php
+
                             // Determinar icono según tipo de producto
                             $productIcon = '/assets/images/games/mobile-legends/products/';
                             if (stripos($p['nombre'], 'Starlight') !== false) {
                                 $productIcon .= 'starlight.png';
-                            } elseif (stripos($p['nombre'], 'Twilight') !== false) {
+                            } elseif (
+                                stripos($p['nombre'], 'Twilight') !== false
+                            ) {
                                 $productIcon .= 'twilight.png';
                             } else {
                                 $productIcon .= 'diamonds.png';
                             }
-                            $iconExists = file_exists(__DIR__ . '/../../public' . $productIcon);
+                            $iconExists = file_exists(
+                                __DIR__ . '/../../public' . $productIcon,
+                            );
                             ?>
-                            <?php if ($iconExists) : ?>
+                            <?php if ($iconExists): ?>
                                 <img src="<?= $productIcon ?>" alt="<?= $p['nombre'] ?>" class="w-16 h-16 mx-auto mb-2 drop-shadow-sm">
-                            <?php else : ?>
+                            <?php else: ?>
                                 <div class="text-4xl mb-2 drop-shadow-sm">💎</div>
                             <?php endif; ?>
                             <div class="font-bold text-foreground text-lg"><?= $p['nombre'] ?></div>
-                            <?php if (isset($p['bonus'])) : ?>
+                            <?php if (isset($p['bonus'])): ?>
                                 <div class="text-xs font-medium text-emerald-500 bg-emerald-50 inline-block px-2 py-1 rounded-full mt-1">
                                     <?= $p['bonus'] ?>
                                 </div>
@@ -98,9 +103,15 @@ foreach ($packages ?? [] as $index => $package) {
                         </div>
 
                         <div class="text-center pt-4 border-t border-border">
-                            <div class="text-lg font-bold text-foreground">$<?= number_format($p['precio'], 2) ?></div>
+                            <div class="text-lg font-bold text-foreground">$<?= number_format(
+                                $p['precio'],
+                                2,
+                            ) ?></div>
                             <div class="text-xs text-muted-foreground font-medium mt-1">
-                                Bs <?= number_format($p['precio'] * $exchangeRate, 2) ?>
+                                Bs <?= number_format(
+                                    $p['precio'] * $exchangeRate,
+                                    2,
+                                ) ?>
                             </div>
                         </div>
                     </div>
@@ -119,7 +130,8 @@ foreach ($packages ?? [] as $index => $package) {
 
             <form action="/checkout" method="POST" id="rechargeForm" class="space-y-5">
                 <?php csrf_field() ?>
-                <input type="hidden" name="slug" value="<?= $slug ?? 'mobile-legends' ?>">
+                <input type="hidden" name="slug" value="<?= $slug
+                    ?? 'mobile-legends' ?>">
                 <input type="hidden" name="paquete" id="selected_paquete">
                 <input type="hidden" name="monto" id="selected_monto">
                 <input type="hidden" name="juego" value="Mobile Legends">

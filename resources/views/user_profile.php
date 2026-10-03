@@ -11,7 +11,7 @@
         </a>
     </div>
 
-    <?php if (isset($_GET['success'])) : ?>
+    <?php if (isset($_GET['success'])): ?>
     <div class="bg-green-500/10 border-l-4 border-green-500 p-4 mb-6 rounded-r-xl">
         <div class="flex items-center">
             <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
@@ -20,7 +20,7 @@
     </div>
     <?php endif; ?>
 
-    <?php if (isset($_GET['password_success'])) : ?>
+    <?php if (isset($_GET['password_success'])): ?>
     <div class="bg-green-500/10 border-l-4 border-green-500 p-4 mb-6 rounded-r-xl">
         <div class="flex items-center">
             <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
@@ -29,12 +29,14 @@
     </div>
     <?php endif; ?>
 
-    <?php if (isset($_GET['password_error'])) : ?>
+    <?php if (isset($_GET['password_error'])): ?>
     <div class="bg-destructive/10 border-l-4 border-destructive p-4 mb-6 rounded-r-xl">
         <div class="flex items-center">
             <svg class="w-5 h-5 text-destructive mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
             <p class="text-destructive font-medium">
-                <?= $_GET['password_error'] == 'mismatch' ? 'Las contraseñas no coinciden' : 'Contraseña actual incorrecta' ?>
+                <?= $_GET['password_error'] == 'mismatch'
+                    ? 'Las contraseñas no coinciden'
+                    : 'Contraseña actual incorrecta' ?>
             </p>
         </div>
     </div>
@@ -44,23 +46,30 @@
         <!-- Sidebar con Avatar -->
         <div class="lg:col-span-1">
             <div class="bg-card rounded-2xl shadow-lg border border-border p-6 text-center">
-                <?php if (!empty($user['avatar_url'])) : ?>
+                <?php if (!empty($user['avatar_url'])): ?>
                     <div class="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden border-4 border-primary/20 shadow-lg">
                         <img src="./<?= $user['avatar_url'] ?>" alt="Avatar" class="w-full h-full object-cover">
                     </div>
-                <?php else : ?>
+                <?php else: ?>
                     <div class="w-24 h-24 bg-gradient-to-br from-primary to-accent rounded-full mx-auto mb-4 flex items-center justify-center text-primary-foreground text-3xl font-bold shadow-lg">
                         <?= strtoupper(substr($user['name'], 0, 2)) ?>
                     </div>
                 <?php endif; ?>
-                <h2 class="text-xl font-bold text-foreground"><?= htmlspecialchars($user['name']) ?></h2>
-                <p class="text-sm text-muted-foreground mt-1"><?= htmlspecialchars($user['email']) ?></p>
+                <h2 class="text-xl font-bold text-foreground"><?= htmlspecialchars(
+                    $user['name'],
+                ) ?></h2>
+                <p class="text-sm text-muted-foreground mt-1"><?= htmlspecialchars(
+                    $user['email'],
+                ) ?></p>
                 <span class="inline-block mt-3 px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full border border-primary/20">
                     USUARIO
                 </span>
                 <div class="mt-6 pt-6 border-t border-border">
                     <p class="text-xs text-muted-foreground">Miembro desde</p>
-                    <p class="font-bold text-foreground"><?= date('d/m/Y', strtotime($user['created_at'])) ?></p>
+                    <p class="font-bold text-foreground"><?= date(
+                        'd/m/Y',
+                        strtotime($user['created_at']),
+                    ) ?></p>
                 </div>
             </div>
         </div>
@@ -159,7 +168,7 @@
                     </a>
                 </div>
                 <div class="p-6">
-                    <?php if (empty($pedidos)) : ?>
+                    <?php if (empty($pedidos)): ?>
                     <div class="text-center py-8">
                         <div class="text-5xl mb-3 opacity-20 filter grayscale">📦</div>
                         <p class="text-muted-foreground">No tienes pedidos aún</p>
@@ -167,18 +176,26 @@
                             Explorar Productos →
                         </a>
                     </div>
-                    <?php else : ?>
+                    <?php else: ?>
                     <div class="space-y-3">
-                        <?php foreach ($pedidos as $pedido) : ?>
+                        <?php foreach ($pedidos as $pedido): ?>
                         <div class="flex items-center justify-between p-4 bg-muted/30 border border-border/50 rounded-xl hover:bg-muted/50 transition-colors">
                             <div>
                                 <p class="font-bold text-foreground"><?= $pedido['paquete'] ?></p>
-                                <p class="text-sm text-muted-foreground"><?= date('d/m/Y', strtotime($pedido['fecha'])) ?></p>
+                                <p class="text-sm text-muted-foreground"><?= date(
+                                    'd/m/Y',
+                                    strtotime($pedido['fecha']),
+                                ) ?></p>
                             </div>
                             <div class="text-right">
-                                <p class="font-bold text-foreground">$<?= number_format($pedido['monto'], 2) ?></p>
+                                <p class="font-bold text-foreground">$<?= number_format(
+                                    $pedido['monto'],
+                                    2,
+                                ) ?></p>
                                 <span class="text-xs px-2 py-1 rounded-full
-                                    <?= $pedido['estado'] == 'realizada' ? 'bg-green-500/10 text-green-600 border border-green-500/20' : 'bg-yellow-500/10 text-yellow-600 border border-yellow-500/20' ?>
+                                    <?= $pedido['estado'] == 'realizada'
+                                        ? 'bg-green-500/10 text-green-600 border border-green-500/20'
+                                        : 'bg-yellow-500/10 text-yellow-600 border border-yellow-500/20' ?>
                                 ">
                                     <?= ucfirst($pedido['estado']) ?>
                                 </span>

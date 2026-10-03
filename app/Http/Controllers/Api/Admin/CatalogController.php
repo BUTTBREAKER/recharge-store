@@ -25,7 +25,10 @@ final class CatalogController
 
         $productos = new Producto()->listarTodos($juego ?: null, false);
 
-        Flight::json(['data' => array_map([self::class, 'presentProduct'], $productos)]);
+        Flight::json(['data' => array_map(
+            [self::class, 'presentProduct'],
+            $productos,
+        )]);
     }
 
     /** POST /api/admin/products */
@@ -35,7 +38,11 @@ final class CatalogController
 
         $newId = new Producto()->crear($payload);
 
-        Flight::json(['data' => self::presentProduct((new Producto())->obtenerPorId($newId))], 201);
+        Flight::json([
+            'data' => self::presentProduct(new Producto()->obtenerPorId(
+                $newId,
+            )),
+        ], 201);
     }
 
     /** PUT /api/admin/products/@id */
@@ -53,7 +60,9 @@ final class CatalogController
 
         $productoModel->actualizar($id, $payload);
 
-        Flight::json(['data' => self::presentProduct($productoModel->obtenerPorId($id))]);
+        Flight::json([
+            'data' => self::presentProduct($productoModel->obtenerPorId($id)),
+        ]);
     }
 
     /** DELETE /api/admin/products/@id */
@@ -76,7 +85,9 @@ final class CatalogController
         $precio = Flight::request()->data->precio ?? null;
 
         if (!is_numeric($precio) || (float) $precio <= 0) {
-            Flight::json(['message' => 'El precio debe ser un número mayor a 0.'], 422);
+            Flight::json([
+                'message' => 'El precio debe ser un número mayor a 0.',
+            ], 422);
             return;
         }
 
@@ -88,7 +99,9 @@ final class CatalogController
 
         $productoModel->actualizarPrecio($id, (float) $precio);
 
-        Flight::json(['data' => self::presentProduct($productoModel->obtenerPorId($id))]);
+        Flight::json([
+            'data' => self::presentProduct($productoModel->obtenerPorId($id)),
+        ]);
     }
 
     /** POST /api/admin/products/@id/toggle */
@@ -102,7 +115,9 @@ final class CatalogController
 
         $productoModel->toggleActivo($id);
 
-        Flight::json(['data' => self::presentProduct($productoModel->obtenerPorId($id))]);
+        Flight::json([
+            'data' => self::presentProduct($productoModel->obtenerPorId($id)),
+        ]);
     }
 
     // ------------------------------------------------------------------
@@ -114,7 +129,10 @@ final class CatalogController
     {
         $juegos = new Juego()->listarTodos(false);
 
-        Flight::json(['data' => array_map([self::class, 'presentGame'], $juegos)]);
+        Flight::json(['data' => array_map(
+            [self::class, 'presentGame'],
+            $juegos,
+        )]);
     }
 
     /** POST /api/admin/games */
@@ -134,10 +152,14 @@ final class CatalogController
         $newId = new Juego()->crear([
             'nombre' => $nombre,
             'slug' => $finalSlug,
-            'descripcion' => ($data->descripcion ?? '') !== '' ? $data->descripcion : null,
+            'descripcion' => ($data->descripcion ?? '') !== ''
+                ? $data->descripcion
+                : null,
             'imagen' => ($data->imagen ?? '') !== '' ? $data->imagen : null,
             'icono' => ($data->icono ?? '') !== '' ? $data->icono : '🎮',
-            'orden' => is_numeric($data->orden ?? null) ? (int) $data->orden : 0,
+            'orden' => is_numeric($data->orden ?? null)
+                ? (int) $data->orden
+                : 0,
             'activo' => (int) self::activoFlag($data, true),
         ]);
 
@@ -167,14 +189,20 @@ final class CatalogController
         $juegoModel->actualizar($id, [
             'nombre' => $nombre,
             'slug' => trim((string) ($data->slug ?? $juego['slug'])),
-            'descripcion' => (($data->descripcion ?? '') !== '' ? $data->descripcion : null),
-            'imagen' => (($data->imagen ?? '') !== '' ? $data->imagen : null),
-            'icono' => (($data->icono ?? '') !== '' ? $data->icono : '🎮'),
-            'orden' => is_numeric($data->orden ?? null) ? (int) $data->orden : (int) $juego['orden'],
+            'descripcion' => ($data->descripcion ?? '') !== ''
+                ? $data->descripcion
+                : null,
+            'imagen' => ($data->imagen ?? '') !== '' ? $data->imagen : null,
+            'icono' => ($data->icono ?? '') !== '' ? $data->icono : '🎮',
+            'orden' => is_numeric($data->orden ?? null)
+                ? (int) $data->orden
+                : (int) $juego['orden'],
             'activo' => (int) self::activoFlag($data, (bool) $juego['activo']),
         ]);
 
-        Flight::json(['data' => self::presentGame($juegoModel->obtenerPorId($id))]);
+        Flight::json([
+            'data' => self::presentGame($juegoModel->obtenerPorId($id)),
+        ]);
     }
 
     /** DELETE /api/admin/games/@id */
@@ -202,7 +230,9 @@ final class CatalogController
 
         $juegoModel->toggleActivo($id);
 
-        Flight::json(['data' => self::presentGame($juegoModel->obtenerPorId($id))]);
+        Flight::json([
+            'data' => self::presentGame($juegoModel->obtenerPorId($id)),
+        ]);
     }
 
     // ------------------------------------------------------------------
@@ -213,29 +243,43 @@ final class CatalogController
      * Valida y arma el payload de producto. $actual permite preservar
      * campos no enviados en PUT (parcial) y el estado actual de activo.
      */
-    private static function productPayload(object $data, ?array $actual = null): array
-    {
+    private static function productPayload(
+        object $data,
+        ?array $actual = null,
+    ): array {
         $nombre = trim((string) ($data->nombre ?? $actual['nombre'] ?? ''));
         $juego = trim((string) ($data->juego ?? $actual['juego'] ?? ''));
         $precio = $data->precio ?? $actual['precio'] ?? null;
 
         if ($nombre === '' || $juego === '') {
-            Flight::jsonHalt(['message' => 'Nombre y juego son obligatorios.'], 422);
+            Flight::jsonHalt([
+                'message' => 'Nombre y juego son obligatorios.',
+            ], 422);
         }
         if (!is_numeric($precio) || (float) $precio < 0) {
-            Flight::jsonHalt(['message' => 'El precio debe ser un número mayor o igual a 0.'], 422);
+            Flight::jsonHalt([
+                'message' => 'El precio debe ser un número mayor o igual a 0.',
+            ], 422);
         }
 
-        $precioOriginal = $data->precio_original ?? $actual['precio_original'] ?? null;
+        $precioOriginal =
+            $data->precio_original ?? $actual['precio_original'] ?? null;
 
         return [
             'juego' => $juego,
             'nombre' => $nombre,
             'cantidad' => (int) ($data->cantidad ?? $actual['cantidad'] ?? 0),
             'precio' => (float) $precio,
-            'precio_original' => is_numeric($precioOriginal) ? (float) $precioOriginal : null,
-            'orden' => is_numeric($data->orden ?? null) ? (int) $data->orden : (int) ($actual['orden'] ?? 0),
-            'activo' => (int) self::activoFlag($data, $actual !== null ? (bool) $actual['activo'] : true),
+            'precio_original' => is_numeric($precioOriginal)
+                ? (float) $precioOriginal
+                : null,
+            'orden' => is_numeric($data->orden ?? null)
+                ? (int) $data->orden
+                : (int) ($actual['orden'] ?? 0),
+            'activo' => (int) self::activoFlag(
+                $data,
+                $actual !== null ? (bool) $actual['activo'] : true,
+            ),
         ];
     }
 
@@ -262,7 +306,9 @@ final class CatalogController
             'nombre' => $product['nombre'],
             'cantidad' => (int) $product['cantidad'],
             'precio' => (float) $product['precio'],
-            'precio_original' => $product['precio_original'] !== null ? (float) $product['precio_original'] : null,
+            'precio_original' => $product['precio_original'] !== null
+                ? (float) $product['precio_original']
+                : null,
             'orden' => (int) $product['orden'],
             'activo' => (bool) $product['activo'],
         ];

@@ -15,7 +15,7 @@
     </div>
 </div>
 
-<?php if (isset($_GET['success'])) : ?>
+<?php if (isset($_GET['success'])): ?>
 <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded-r-xl">
     <div class="flex items-center">
         <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
@@ -28,10 +28,15 @@
 <!-- Filtros -->
 <div class="bg-card rounded-2xl shadow-sm border border-border p-4 mb-6">
     <div class="flex gap-3">
-        <a href="./admin/prices" class="px-4 py-2 rounded-lg text-sm font-bold transition <?= !$juegoFiltro ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground hover:bg-muted/80' ?>">
+        <a href="./admin/prices" class="px-4 py-2 rounded-lg text-sm font-bold transition <?= !$juegoFiltro
+                ? 'bg-primary/10 text-primary'
+                : 'bg-muted text-muted-foreground hover:bg-muted/80' ?>">
             Todos los Juegos
         </a>
-        <a href="./admin/prices?juego=Mobile Legends" class="px-4 py-2 rounded-lg text-sm font-bold transition <?= $juegoFiltro == 'Mobile Legends' ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground hover:bg-muted/80' ?>">
+        <a href="./admin/prices?juego=Mobile Legends" class="px-4 py-2 rounded-lg text-sm font-bold transition <?= $juegoFiltro
+            == 'Mobile Legends'
+                ? 'bg-primary/10 text-primary'
+                : 'bg-muted text-muted-foreground hover:bg-muted/80' ?>">
             Mobile Legends
         </a>
     </div>
@@ -53,13 +58,15 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-border">
-                <?php foreach ($productos as $p) : ?>
+                <?php foreach ($productos as $p): ?>
                 <tr class="hover:bg-muted/50 transition">
                     <td class="px-6 py-4 font-mono text-sm text-muted-foreground">#<?= $p['id'] ?></td>
                     <td class="px-6 py-4">
                         <div class="flex items-center">
                             <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-2 text-sm">
-                                <?= $p['juego'] == 'Mobile Legends' ? '📱' : '🎮' ?>
+                                <?= $p['juego'] == 'Mobile Legends'
+                                    ? '📱'
+                                    : '🎮' ?>
                             </div>
                             <span class="font-medium text-foreground"><?= $p['juego'] ?></span>
                         </div>
@@ -68,7 +75,9 @@
                         <div class="font-bold text-foreground"><?= $p['nombre'] ?></div>
                     </td>
                     <td class="px-6 py-4 text-muted-foreground">
-                        <span class="bg-muted px-2 py-1 rounded-md text-sm font-medium"><?= number_format($p['cantidad']) ?></span>
+                        <span class="bg-muted px-2 py-1 rounded-md text-sm font-medium"><?= number_format(
+                            $p['cantidad'],
+                        ) ?></span>
                     </td>
                     <td class="px-6 py-4">
                         <form action="./admin/prices/update" method="POST" class="flex items-center gap-2">
@@ -91,8 +100,12 @@
                         </form>
                     </td>
                     <td class="px-6 py-4">
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold <?= $p['activo'] ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-muted text-muted-foreground border border-border' ?>">
-                            <span class="w-1.5 h-1.5 rounded-full mr-2 <?= $p['activo'] ? 'bg-green-500' : 'bg-muted-foreground' ?>"></span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold <?= $p['activo']
+                                ? 'bg-green-500/10 text-green-500 border border-green-500/20'
+                                : 'bg-muted text-muted-foreground border border-border' ?>">
+                            <span class="w-1.5 h-1.5 rounded-full mr-2 <?= $p['activo']
+                                    ? 'bg-green-500'
+                                    : 'bg-muted-foreground' ?>"></span>
                             <?= $p['activo'] ? 'Activo' : 'Inactivo' ?>
                         </span>
                     </td>

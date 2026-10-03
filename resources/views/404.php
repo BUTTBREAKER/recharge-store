@@ -1,4 +1,5 @@
 <?php
+
 // 404 Error Page
 ?>
 <div class="min-h-[80vh] flex flex-col items-center justify-center text-center px-4 relative overflow-hidden">

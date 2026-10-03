@@ -48,29 +48,43 @@ final class ProfileTest extends ApiTestCase
     {
         $token = $this->loginAs('test@test.com', 'password123');
 
-        $update = $this->api->put('/api/profile', [
-            'name' => 'Cliente Test',
-            'email' => 'cliente-test@test.com',
-        ], $token);
+        $update = $this->api->put(
+            '/api/profile',
+            [
+                'name' => 'Cliente Test',
+                'email' => 'cliente-test@test.com',
+            ],
+            $token,
+        );
 
         $this->assertSame(200, $update['status']);
         $this->assertIsArray($update['body']);
         $this->assertSame('Cliente Test', $update['body']['data']['name']);
-        $this->assertSame('cliente-test@test.com', $update['body']['data']['email']);
+        $this->assertSame(
+            'cliente-test@test.com',
+            $update['body']['data']['email'],
+        );
 
         // Persisted: a fresh read must return the updated row.
         $fresh = $this->api->get('/api/profile', $token);
         $this->assertSame(200, $fresh['status']);
         $this->assertIsArray($fresh['body']);
         $this->assertSame('Cliente Test', $fresh['body']['data']['name']);
-        $this->assertSame('cliente-test@test.com', $fresh['body']['data']['email']);
+        $this->assertSame(
+            'cliente-test@test.com',
+            $fresh['body']['data']['email'],
+        );
     }
 
     public function testUpdateProfileWithoutEmailReturns422(): void
     {
         $token = $this->loginAs('test@test.com', 'password123');
 
-        $res = $this->api->put('/api/profile', ['name' => 'Cliente Test'], $token);
+        $res = $this->api->put(
+            '/api/profile',
+            ['name' => 'Cliente Test'],
+            $token,
+        );
 
         $this->assertSame(422, $res['status']);
         $this->assertIsArray($res['body']);
@@ -81,26 +95,37 @@ final class ProfileTest extends ApiTestCase
     {
         $token = $this->loginAs('test@test.com', 'password123');
 
-        $res = $this->api->put('/api/profile/password', [
-            'current_password' => 'incorrecta',
-            'new_password' => 'nuevaclave123',
-            'confirm_password' => 'nuevaclave123',
-        ], $token);
+        $res = $this->api->put(
+            '/api/profile/password',
+            [
+                'current_password' => 'incorrecta',
+                'new_password' => 'nuevaclave123',
+                'confirm_password' => 'nuevaclave123',
+            ],
+            $token,
+        );
 
         $this->assertSame(422, $res['status']);
         $this->assertIsArray($res['body']);
-        $this->assertStringContainsString('incorrecta', (string) $res['body']['message']);
+        $this->assertStringContainsString(
+            'incorrecta',
+            (string) $res['body']['message'],
+        );
     }
 
     public function testUpdatePasswordThenLoginWithNewPassword(): void
     {
         $token = $this->loginAs('test@test.com', 'password123');
 
-        $res = $this->api->put('/api/profile/password', [
-            'current_password' => 'password123',
-            'new_password' => 'nuevaclave123',
-            'confirm_password' => 'nuevaclave123',
-        ], $token);
+        $res = $this->api->put(
+            '/api/profile/password',
+            [
+                'current_password' => 'password123',
+                'new_password' => 'nuevaclave123',
+                'confirm_password' => 'nuevaclave123',
+            ],
+            $token,
+        );
 
         $this->assertSame(200, $res['status']);
         $this->assertIsArray($res['body']);
@@ -116,14 +141,18 @@ final class ProfileTest extends ApiTestCase
     {
         $token = $this->loginAs('test@test.com', 'password123');
 
-        $created = $this->api->post('/api/orders', [
-            'juego' => 'Mobile Legends',
-            'player_id' => '987654321',
-            'server_id' => '4321',
-            'paquete' => '172 Diamantes',
-            'monto' => 3,
-            'telefono' => '04147654321',
-        ], $token);
+        $created = $this->api->post(
+            '/api/orders',
+            [
+                'juego' => 'Mobile Legends',
+                'player_id' => '987654321',
+                'server_id' => '4321',
+                'paquete' => '172 Diamantes',
+                'monto' => 3,
+                'telefono' => '04147654321',
+            ],
+            $token,
+        );
         $this->assertSame(201, $created['status']);
 
         $res = $this->api->get('/api/profile/orders', $token);

@@ -78,9 +78,7 @@ final class Database
 
         // Server-level connection (no selected database), as required by spec.
         $server = self::connect();
-        $server->exec(
-            'CREATE DATABASE IF NOT EXISTS `' . self::NAME,
-        );
+        $server->exec('CREATE DATABASE IF NOT EXISTS `' . self::NAME);
 
         $db = self::connect(self::NAME);
         if (!self::schemaPresent($db)) {
@@ -115,18 +113,32 @@ final class Database
     {
         $db = self::connect(self::NAME);
         $insert = $db->prepare(
-            'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)'
+            'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
         );
-        $insert->execute(['Administrator', 'admin@sisifo.store', self::hash('admin123'), 'admin']);
-        $insert->execute(['Test User', 'test@test.com', self::hash('password123'), 'user']);
+        $insert->execute([
+            'Administrator',
+            'admin@sisifo.store',
+            self::hash('admin123'),
+            'admin',
+        ]);
+        $insert->execute([
+            'Test User',
+            'test@test.com',
+            self::hash('password123'),
+            'user',
+        ]);
         $testUserId = (int) $db->lastInsertId();
 
         // Unread notification so /api/notifications has data to count and
         // /api/notifications/read-all has something to mark as read.
-        $db->prepare(
-            'INSERT INTO notificaciones (user_id, titulo, mensaje, leido, tipo, link)
-             VALUES (?, ?, ?, 0, ?, ?)'
-        )->execute([$testUserId, 'Pedido actualizado', 'Tu pedido fue procesado.', 'pedido_actualizado', '/orders']);
+        $db->prepare('INSERT INTO notificaciones (user_id, titulo, mensaje, leido, tipo, link)
+             VALUES (?, ?, ?, 0, ?, ?)')->execute([
+            $testUserId,
+            'Pedido actualizado',
+            'Tu pedido fue procesado.',
+            'pedido_actualizado',
+            '/orders',
+        ]);
 
         // Catalog baseline: database/migration_juegos.sql and
         // database/migration_productos.sql seed these rows only once at
@@ -137,12 +149,12 @@ final class Database
         $db->exec(
             "INSERT INTO juegos (nombre, slug, descripcion, icono, orden, activo)
              VALUES ('Mobile Legends', 'mobile-legends',
-                     'Mobile Legends: Bang Bang - El MOBA más popular de móviles', '📱', 1, 1)"
+                     'Mobile Legends: Bang Bang - El MOBA más popular de móviles', '📱', 1, 1)",
         );
         $db->exec(
             "INSERT INTO productos (juego, nombre, cantidad, precio, orden, activo)
              VALUES ('Mobile Legends', '86 Diamantes', 86, 1.50, 1, 1),
-                    ('Mobile Legends', '172 Diamantes', 172, 3.00, 2, 1)"
+                    ('Mobile Legends', '172 Diamantes', 172, 3.00, 2, 1)",
         );
 
         // Exchange rate deliberately differs from SystemConfig's hardcoded
@@ -150,7 +162,7 @@ final class Database
         // value, which only passes when the DB path actually reads the row.
         $db->exec(
             "INSERT INTO system_config (config_key, config_value, description)
-             VALUES ('exchange_rate_usd_bs', '42.50', 'Tasa de cambio USD a Bolívares para Pago Móvil')"
+             VALUES ('exchange_rate_usd_bs', '42.50', 'Tasa de cambio USD a Bolívares para Pago Móvil')",
         );
     }
 
@@ -160,7 +172,8 @@ final class Database
 
     private static function connect(?string $database = null): PDO
     {
-        $dsn = "mysql:host={$_ENV['DB_HOST']};port={$_ENV['DB_PORT']};charset={$_ENV['DB_CHARSET']}"
+        $dsn =
+            "mysql:host={$_ENV['DB_HOST']};port={$_ENV['DB_PORT']};charset={$_ENV['DB_CHARSET']}"
             . ($database !== null ? ';dbname=' . $database : '');
 
         return new PDO($dsn, self::DB_USERNAME, self::DB_PASSWORD, [
@@ -177,7 +190,7 @@ final class Database
     {
         $stmt = $db->prepare(
             'SELECT COUNT(*) FROM information_schema.TABLES
-             WHERE TABLE_SCHEMA = :schema AND TABLE_NAME = :table'
+             WHERE TABLE_SCHEMA = :schema AND TABLE_NAME = :table',
         );
         foreach (self::REQUIRED_TABLES as $table) {
             $stmt->execute(['schema' => self::NAME, 'table' => $table]);
@@ -195,13 +208,20 @@ final class Database
         return true;
     }
 
-    private static function columnExists(PDO $db, string $table, string $column): bool
-    {
+    private static function columnExists(
+        PDO $db,
+        string $table,
+        string $column,
+    ): bool {
         $stmt = $db->prepare(
             'SELECT COUNT(*) FROM information_schema.COLUMNS
-             WHERE TABLE_SCHEMA = :schema AND TABLE_NAME = :table AND COLUMN_NAME = :column'
+             WHERE TABLE_SCHEMA = :schema AND TABLE_NAME = :table AND COLUMN_NAME = :column',
         );
-        $stmt->execute(['schema' => self::NAME, 'table' => $table, 'column' => $column]);
+        $stmt->execute([
+            'schema' => self::NAME,
+            'table' => $table,
+            'column' => $column,
+        ]);
 
         return (int) $stmt->fetchColumn() > 0;
     }
@@ -221,7 +241,9 @@ final class Database
         foreach (self::SCHEMA_SOURCES as $relativePath) {
             $path = $root . '/' . $relativePath;
             if (!is_file($path)) {
-                throw new RuntimeException("Schema source not found: {$relativePath}");
+                throw new RuntimeException(
+                    "Schema source not found: {$relativePath}",
+                );
             }
 
             $sql = (string) file_get_contents($path);
@@ -229,11 +251,14 @@ final class Database
             foreach ($statements as $statement) {
                 // Migration ALTERs are only safe once; skip columns that
                 // already exist so a partial schema can be re-imported.
-                if (preg_match(
-                    '/^\s*ALTER\s+TABLE\s+`?(\w+)`?\s+ADD\s+(?:COLUMN\s+)?`?(\w+)/i',
-                    $statement,
-                    $matches
-                ) === 1 && self::columnExists($db, $matches[1], $matches[2])) {
+                if (
+                    preg_match(
+                        '/^\s*ALTER\s+TABLE\s+`?(\w+)`?\s+ADD\s+(?:COLUMN\s+)?`?(\w+)/i',
+                        $statement,
+                        $matches,
+                    ) === 1
+                    && self::columnExists($db, $matches[1], $matches[2])
+                ) {
                     continue;
                 }
 

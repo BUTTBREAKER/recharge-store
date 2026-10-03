@@ -5,14 +5,17 @@ use Leaf\Http\Session;
 ?>
 
 <div class="hidden md:flex space-x-8 items-center">
-    <?php foreach ($links ?? [] as $link) : ?>
+    <?php foreach ($links ?? [] as $link): ?>
         <?php Flight::render('components/desktop-menu-link', $link) ?>
     <?php endforeach ?>
 
-    <?php if (Session::has('user_id')) : ?>
-        <?php Flight::render('components/notification-bell', compact('notificationLink', 'notificationCount')) ?>
+    <?php if (Session::has('user_id')): ?>
+        <?php Flight::render('components/notification-bell', compact(
+            'notificationLink',
+            'notificationCount',
+        )) ?>
 
-        <?php if (Session::get('user_role') === 'admin') : ?>
+        <?php if (Session::get('user_role') === 'admin'): ?>
             <a
                 href="./admin/dashboard"
                 class="text-primary font-bold hover:text-primary/80 transition">
@@ -21,7 +24,7 @@ use Leaf\Http\Session;
         <?php endif ?>
 
         <?php Flight::render('components/user-dropdown') ?>
-    <?php else : ?>
+    <?php else: ?>
         <?php Flight::render('components/desktop-menu-link', [
             'href' => './login',
             'slot' => 'Iniciar Sesión',

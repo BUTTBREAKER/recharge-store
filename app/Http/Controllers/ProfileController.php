@@ -31,13 +31,17 @@ class ProfileController
         $pedidoModel = new Pedido();
         $pedidos = $pedidoModel->obtenerPorUsuario(Session::get('user_id'), 5);
 
-        Flight::render('user_profile', [
-            'user' => $user,
-            'pedidos' => $pedidos
-        ], 'content');
+        Flight::render(
+            'user_profile',
+            [
+                'user' => $user,
+                'pedidos' => $pedidos,
+            ],
+            'content',
+        );
 
         Flight::render('layout', [
-            'title' => "Mi Perfil - {$_ENV['APP_NAME']}"
+            'title' => "Mi Perfil - {$_ENV['APP_NAME']}",
         ]);
     }
 
@@ -51,14 +55,20 @@ class ProfileController
 
         $data = [
             'name' => Flight::request()->data->name,
-            'email' => Flight::request()->data->email
+            'email' => Flight::request()->data->email,
         ];
 
         // Manejar subida de Avatar
         $files = Flight::request()->files;
-        if (isset($files['avatar']) && $files['avatar']['error'] === UPLOAD_ERR_OK) {
+        if (
+            isset($files['avatar'])
+            && $files['avatar']['error'] === UPLOAD_ERR_OK
+        ) {
             $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-            if (in_array(mime_content_type($files['avatar']['tmp_name']), $allowedTypes)) {
+            if (in_array(
+                mime_content_type($files['avatar']['tmp_name']),
+                $allowedTypes,
+            )) {
                 $ext = pathinfo($files['avatar']['name'], PATHINFO_EXTENSION);
                 $filename = 'avatar_' . $userId . '_' . time() . '.' . $ext;
                 $uploadPath = 'uploads/avatars/' . $filename;
@@ -69,7 +79,10 @@ class ProfileController
                     mkdir($fullPath, 0777, true);
                 }
 
-                if (move_uploaded_file($files['avatar']['tmp_name'], $fullPath . $filename)) {
+                if (move_uploaded_file(
+                    $files['avatar']['tmp_name'],
+                    $fullPath . $filename,
+                )) {
                     $data['avatar_url'] = $uploadPath;
 
                     // Actualizar sesión si es necesario
@@ -123,19 +136,27 @@ class ProfileController
         $estado = Flight::request()->query->estado ?? null;
 
         $pedidoModel = new Pedido();
-        $pedidos = $pedidoModel->obtenerPorUsuario(Session::get('user_id'), null, [
-            'search' => $search,
-            'estado' => $estado
-        ]);
+        $pedidos = $pedidoModel->obtenerPorUsuario(
+            Session::get('user_id'),
+            null,
+            [
+                'search' => $search,
+                'estado' => $estado,
+            ],
+        );
 
-        Flight::render('user/order-history', [
-            'pedidos' => $pedidos,
-            'search' => $search,
-            'estado' => $estado
-        ], 'content');
+        Flight::render(
+            'user/order-history',
+            [
+                'pedidos' => $pedidos,
+                'search' => $search,
+                'estado' => $estado,
+            ],
+            'content',
+        );
 
         Flight::render('layout', [
-            'title' => "Historial de Pedidos - {$_ENV['APP_NAME']}"
+            'title' => "Historial de Pedidos - {$_ENV['APP_NAME']}",
         ]);
     }
 }

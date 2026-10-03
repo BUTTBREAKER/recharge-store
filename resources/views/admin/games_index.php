@@ -1,4 +1,5 @@
 <?php
+
 // Games Management View
 ?>
 
@@ -25,6 +26,7 @@
         <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
         <p class="text-green-500 font-medium">
             <?php
+
             switch ($_GET['success']) {
                 case 'created':
                     echo 'Juego creado correctamente';
@@ -75,20 +77,31 @@
                 <tr class="hover:bg-muted/50 transition">
                     <td class="px-6 py-4 font-mono text-sm text-muted-foreground">#<?= $juego['id'] ?></td>
                     <td class="px-6 py-4">
-                        <span class="text-2xl"><?= $juego['icono'] ?? '🎮' ?></span>
+                        <span class="text-2xl"><?= $juego['icono']
+                            ?? '🎮' ?></span>
                     </td>
                     <td class="px-6 py-4">
-                        <div class="font-bold text-foreground"><?= htmlspecialchars($juego['nombre']) ?></div>
+                        <div class="font-bold text-foreground"><?= htmlspecialchars(
+                            $juego['nombre'],
+                        ) ?></div>
                         <?php if (!empty($juego['descripcion'])): ?>
-                        <p class="text-xs text-muted-foreground mt-1 max-w-xs truncate"><?= htmlspecialchars($juego['descripcion']) ?></p>
+                        <p class="text-xs text-muted-foreground mt-1 max-w-xs truncate"><?= htmlspecialchars(
+                            $juego['descripcion'],
+                        ) ?></p>
                         <?php endif; ?>
                     </td>
                     <td class="px-6 py-4">
-                        <span class="font-mono text-sm bg-muted px-2 py-1 rounded text-muted-foreground"><?= htmlspecialchars($juego['slug']) ?></span>
+                        <span class="font-mono text-sm bg-muted px-2 py-1 rounded text-muted-foreground"><?= htmlspecialchars(
+                            $juego['slug'],
+                        ) ?></span>
                     </td>
                     <td class="px-6 py-4">
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold <?= $juego['activo'] ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-muted text-muted-foreground border border-border' ?>">
-                            <span class="w-1.5 h-1.5 rounded-full mr-2 <?= $juego['activo'] ? 'bg-green-500' : 'bg-muted-foreground' ?>"></span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold <?= $juego['activo']
+                                ? 'bg-green-500/10 text-green-500 border border-green-500/20'
+                                : 'bg-muted text-muted-foreground border border-border' ?>">
+                            <span class="w-1.5 h-1.5 rounded-full mr-2 <?= $juego['activo']
+                                    ? 'bg-green-500'
+                                    : 'bg-muted-foreground' ?>"></span>
                             <?= $juego['activo'] ? 'Activo' : 'Inactivo' ?>
                         </span>
                     </td>

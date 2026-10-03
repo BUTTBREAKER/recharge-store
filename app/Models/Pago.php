@@ -14,14 +14,14 @@ class Pago extends BaseModel
 
     public function obtenerPorPedido($pedido_id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM pagos WHERE pedido_id = ?");
+        $stmt = $this->db->prepare('SELECT * FROM pagos WHERE pedido_id = ?');
         $stmt->execute([$pedido_id]);
         return $stmt->fetch();
     }
 
     public function actualizarEstado($id, $estado)
     {
-        $stmt = $this->db->prepare("UPDATE pagos SET estado = ? WHERE id = ?");
+        $stmt = $this->db->prepare('UPDATE pagos SET estado = ? WHERE id = ?');
         return $stmt->execute([$estado, $id]);
     }
 }

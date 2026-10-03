@@ -11,13 +11,13 @@ class Juego extends BaseModel
      */
     public function listarTodos($soloActivos = true)
     {
-        $sql = "SELECT * FROM juegos WHERE 1=1";
+        $sql = 'SELECT * FROM juegos WHERE 1=1';
 
         if ($soloActivos) {
-            $sql .= " AND activo = 1";
+            $sql .= ' AND activo = 1';
         }
 
-        $sql .= " ORDER BY orden ASC, id ASC";
+        $sql .= ' ORDER BY orden ASC, id ASC';
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
@@ -29,7 +29,7 @@ class Juego extends BaseModel
      */
     public function obtenerPorId($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM juegos WHERE id = ?");
+        $stmt = $this->db->prepare('SELECT * FROM juegos WHERE id = ?');
         $stmt->execute([$id]);
         return $stmt->fetch();
     }
@@ -39,7 +39,7 @@ class Juego extends BaseModel
      */
     public function obtenerPorSlug($slug)
     {
-        $stmt = $this->db->prepare("SELECT * FROM juegos WHERE slug = ?");
+        $stmt = $this->db->prepare('SELECT * FROM juegos WHERE slug = ?');
         $stmt->execute([$slug]);
         return $stmt->fetch();
     }
@@ -49,10 +49,10 @@ class Juego extends BaseModel
      */
     public function crear($datos)
     {
-        $stmt = $this->db->prepare("
+        $stmt = $this->db->prepare('
             INSERT INTO juegos (nombre, slug, descripcion, imagen, icono, orden, activo)
             VALUES (?, ?, ?, ?, ?, ?, ?)
-        ");
+        ');
         $stmt->execute([
             $datos['nombre'],
             $datos['slug'],
@@ -60,7 +60,7 @@ class Juego extends BaseModel
             $datos['imagen'] ?? null,
             $datos['icono'] ?? '🎮',
             $datos['orden'] ?? 0,
-            $datos['activo'] ?? 1
+            $datos['activo'] ?? 1,
         ]);
         return $this->db->lastInsertId();
     }
@@ -70,11 +70,11 @@ class Juego extends BaseModel
      */
     public function actualizar($id, $datos)
     {
-        $stmt = $this->db->prepare("
+        $stmt = $this->db->prepare('
             UPDATE juegos 
             SET nombre = ?, slug = ?, descripcion = ?, imagen = ?, icono = ?, orden = ?, activo = ?
             WHERE id = ?
-        ");
+        ');
         return $stmt->execute([
             $datos['nombre'],
             $datos['slug'],
@@ -83,7 +83,7 @@ class Juego extends BaseModel
             $datos['icono'] ?? '🎮',
             $datos['orden'] ?? 0,
             $datos['activo'] ?? 1,
-            $id
+            $id,
         ]);
     }
 
@@ -92,7 +92,7 @@ class Juego extends BaseModel
      */
     public function eliminar($id)
     {
-        $stmt = $this->db->prepare("DELETE FROM juegos WHERE id = ?");
+        $stmt = $this->db->prepare('DELETE FROM juegos WHERE id = ?');
         return $stmt->execute([$id]);
     }
 
@@ -101,7 +101,9 @@ class Juego extends BaseModel
      */
     public function toggleActivo($id)
     {
-        $stmt = $this->db->prepare("UPDATE juegos SET activo = NOT activo WHERE id = ?");
+        $stmt = $this->db->prepare(
+            'UPDATE juegos SET activo = NOT activo WHERE id = ?',
+        );
         return $stmt->execute([$id]);
     }
 

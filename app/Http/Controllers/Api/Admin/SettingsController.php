@@ -36,7 +36,9 @@ final class SettingsController
         $metodo = trim((string) ($data->metodo ?? ''));
 
         if (!in_array($metodo, self::METODOS, true)) {
-            Flight::json(['message' => 'Método inválido. Usa pagomovil o binance.'], 422);
+            Flight::json([
+                'message' => 'Método inválido. Usa pagomovil o binance.',
+            ], 422);
             return;
         }
 
@@ -47,7 +49,9 @@ final class SettingsController
         foreach (self::CAMPOS[$metodo] as $campo) {
             $valor = trim((string) ($data->{$campo} ?? ''));
             if ($valor === '') {
-                Flight::json(['message' => "El campo {$campo} es obligatorio."], 422);
+                Flight::json([
+                    'message' => "El campo {$campo} es obligatorio.",
+                ], 422);
                 return;
             }
             $payload[$campo] = $valor;
@@ -69,7 +73,9 @@ final class SettingsController
         $rate = Flight::request()->data->exchange_rate_usd_bs ?? null;
 
         if (!is_numeric($rate) || (float) $rate <= 0) {
-            Flight::json(['message' => 'La tasa de cambio debe ser un número mayor a 0.'], 422);
+            Flight::json([
+                'message' => 'La tasa de cambio debe ser un número mayor a 0.',
+            ], 422);
             return;
         }
 

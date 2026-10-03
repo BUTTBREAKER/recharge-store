@@ -26,23 +26,23 @@
     </div>
 </div>
 
-<?php if (isset($_GET['success'])) : ?>
+<?php if (isset($_GET['success'])): ?>
 <div class="bg-green-500/10 border-l-4 border-green-500 p-4 mb-6 rounded-r-xl">
     <div class="flex items-center">
         <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
         <p class="text-green-500 font-medium">
-            <?php if ($_GET['success'] == 'verified') :
-                ?>Pago verificado correctamente<?php
-            endif; ?>
-            <?php if ($_GET['success'] == 'completed') :
-                ?>Recarga completada correctamente<?php
-            endif; ?>
-            <?php if ($_GET['success'] == 'rejected') :
-                ?>Pago rechazado<?php
-            endif; ?>
-            <?php if ($_GET['success'] == 'updated') :
-                ?>Estado del pedido actualizado correctamente<?php
-            endif; ?>
+            <?php if (
+                $_GET['success'] == 'verified'
+            ): ?>Pago verificado correctamente<?php endif; ?>
+            <?php if (
+                $_GET['success'] == 'completed'
+            ): ?>Recarga completada correctamente<?php endif; ?>
+            <?php if (
+                $_GET['success'] == 'rejected'
+            ): ?>Pago rechazado<?php endif; ?>
+            <?php if (
+                $_GET['success'] == 'updated'
+            ): ?>Estado del pedido actualizado correctamente<?php endif; ?>
         </p>
     </div>
 </div>
@@ -51,33 +51,45 @@
 <!-- Tabs de Filtro -->
 <div class="bg-card rounded-2xl shadow-lg border border-border p-4 mb-6">
     <div class="flex flex-wrap gap-3">
-        <a href="./admin/orders?estado=pendiente" class="px-5 py-2.5 rounded-xl text-sm font-bold transition relative <?= $filtro == 'pendiente' ? 'bg-yellow-500/10 text-yellow-500 shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80' ?>">
+        <a href="./admin/orders?estado=pendiente" class="px-5 py-2.5 rounded-xl text-sm font-bold transition relative <?= $filtro
+            == 'pendiente'
+                ? 'bg-yellow-500/10 text-yellow-500 shadow-md'
+                : 'bg-muted text-muted-foreground hover:bg-muted/80' ?>">
             Pendientes
-            <?php if ($contadores['pendiente'] > 0) : ?>
+            <?php if ($contadores['pendiente'] > 0): ?>
                 <span class="absolute -top-2 -right-2 bg-yellow-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
                     <?= $contadores['pendiente'] ?>
                 </span>
             <?php endif; ?>
         </a>
-        <a href="./admin/orders?estado=confirmado" class="px-5 py-2.5 rounded-xl text-sm font-bold transition relative <?= $filtro == 'confirmado' ? 'bg-blue-500/10 text-blue-500 shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80' ?>">
+        <a href="./admin/orders?estado=confirmado" class="px-5 py-2.5 rounded-xl text-sm font-bold transition relative <?= $filtro
+            == 'confirmado'
+                ? 'bg-blue-500/10 text-blue-500 shadow-md'
+                : 'bg-muted text-muted-foreground hover:bg-muted/80' ?>">
             Confirmados
-            <?php if ($contadores['confirmado'] > 0) : ?>
+            <?php if ($contadores['confirmado'] > 0): ?>
                 <span class="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
                     <?= $contadores['confirmado'] ?>
                 </span>
             <?php endif; ?>
         </a>
-        <a href="./admin/orders?estado=realizada" class="px-5 py-2.5 rounded-xl text-sm font-bold transition relative <?= $filtro == 'realizada' ? 'bg-green-500/10 text-green-500 shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80' ?>">
+        <a href="./admin/orders?estado=realizada" class="px-5 py-2.5 rounded-xl text-sm font-bold transition relative <?= $filtro
+            == 'realizada'
+                ? 'bg-green-500/10 text-green-500 shadow-md'
+                : 'bg-muted text-muted-foreground hover:bg-muted/80' ?>">
             Realizadas
-            <?php if ($contadores['realizada'] > 0) : ?>
+            <?php if ($contadores['realizada'] > 0): ?>
                 <span class="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
                     <?= $contadores['realizada'] ?>
                 </span>
             <?php endif; ?>
         </a>
-        <a href="./admin/orders?estado=cancelado" class="px-5 py-2.5 rounded-xl text-sm font-bold transition relative <?= $filtro == 'cancelado' ? 'bg-red-500/10 text-red-500 shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80' ?>">
+        <a href="./admin/orders?estado=cancelado" class="px-5 py-2.5 rounded-xl text-sm font-bold transition relative <?= $filtro
+            == 'cancelado'
+                ? 'bg-red-500/10 text-red-500 shadow-md'
+                : 'bg-muted text-muted-foreground hover:bg-muted/80' ?>">
             Cancelados
-            <?php if ($contadores['cancelado'] > 0) : ?>
+            <?php if ($contadores['cancelado'] > 0): ?>
                 <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
                     <?= $contadores['cancelado'] ?>
                 </span>
@@ -102,13 +114,20 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-border">
-                <?php foreach ($pedidos as $p) : ?>
+                <?php foreach ($pedidos as $p): ?>
                 <tr class="hover:bg-muted/50 transition">
-                    <td class="px-6 py-4 font-mono text-sm text-muted-foreground">#<?= str_pad($p['id'], 5, '0', STR_PAD_LEFT) ?></td>
+                    <td class="px-6 py-4 font-mono text-sm text-muted-foreground">#<?= str_pad(
+                        $p['id'],
+                        5,
+                        '0',
+                        STR_PAD_LEFT,
+                    ) ?></td>
                     <td class="px-6 py-4">
                         <div class="flex items-center">
                             <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mr-3 text-lg">
-                                <?= $p['juego'] == 'Mobile Legends' ? '📱' : '🎮' ?>
+                                <?= $p['juego'] == 'Mobile Legends'
+                                    ? '📱'
+                                    : '🎮' ?>
                             </div>
                             <div>
                                 <div class="font-bold text-foreground"><?= $p['juego'] ?></div>
@@ -121,18 +140,29 @@
                         <div class="text-xs text-muted-foreground">Server: <?= $p['server_id'] ?></div>
                     </td>
                     <td class="px-6 py-4">
-                        <span class="inline-block px-2 py-1 rounded-full text-xs font-bold <?= $p['metodo_pago'] == 'pagomovil' ? 'bg-blue-500/10 text-blue-500' : 'bg-yellow-500/10 text-yellow-500' ?>">
-                            <?= $p['metodo_pago'] == 'pagomovil' ? '📱 Pago Móvil' : '₿ Binance' ?>
+                        <span class="inline-block px-2 py-1 rounded-full text-xs font-bold <?= $p['metodo_pago']
+                            == 'pagomovil'
+                                ? 'bg-blue-500/10 text-blue-500'
+                                : 'bg-yellow-500/10 text-yellow-500' ?>">
+                            <?= $p['metodo_pago'] == 'pagomovil'
+                                ? '📱 Pago Móvil'
+                                : '₿ Binance' ?>
                         </span>
                     </td>
-                    <td class="px-6 py-4 font-bold text-foreground">$<?= number_format($p['monto'], 2) ?></td>
+                    <td class="px-6 py-4 font-bold text-foreground">$<?= number_format(
+                        $p['monto'],
+                        2,
+                    ) ?></td>
                     <td class="px-6 py-4 text-sm text-muted-foreground">
                         <?= date('d/m/Y', strtotime($p['fecha'])) ?><br>
-                        <span class="text-xs text-muted-foreground/60"><?= date('H:i', strtotime($p['fecha'])) ?></span>
+                        <span class="text-xs text-muted-foreground/60"><?= date(
+                            'H:i',
+                            strtotime($p['fecha']),
+                        ) ?></span>
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex items-center justify-end gap-2">
-                            <?php if ($p['estado'] == 'pendiente') : ?>
+                            <?php if ($p['estado'] == 'pendiente'): ?>
                                 <form action="./admin/orders/verify/<?= $p['id'] ?>" method="POST" style="display: inline;" onsubmit="return confirm('¿Verificar este pago?');">
                                     <?php csrf_field() ?>
                                     <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1">
@@ -149,7 +179,7 @@
                                 </form>
                             <?php endif; ?>
                             
-                            <?php if ($p['estado'] == 'confirmado') : ?>
+                            <?php if ($p['estado'] == 'confirmado'): ?>
                                 <form action="./admin/orders/complete/<?= $p['id'] ?>" method="POST" style="display: inline;" onsubmit="return confirm('¿Marcar esta recarga como completada?');">
                                     <?php csrf_field() ?>
                                     <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1">
@@ -169,23 +199,17 @@
             </tbody>
         </table>
         
-        <?php if (empty($pedidos)) : ?>
+        <?php if (empty($pedidos)): ?>
             <div class="text-center py-16">
                 <div class="text-6xl mb-4 grayscale opacity-20">
-                    <?php if ($filtro == 'pendiente') :
-                        ?>⏳<?php
-                    endif; ?>
-                    <?php if ($filtro == 'confirmado') :
-                        ?>🔄<?php
-                    endif; ?>
-                    <?php if ($filtro == 'realizada') :
-                        ?>✅<?php
-                    endif; ?>
-                    <?php if ($filtro == 'cancelado') :
-                        ?>❌<?php
-                    endif; ?>
+                    <?php if ($filtro == 'pendiente'): ?>⏳<?php endif; ?>
+                    <?php if ($filtro == 'confirmado'): ?>🔄<?php endif; ?>
+                    <?php if ($filtro == 'realizada'): ?>✅<?php endif; ?>
+                    <?php if ($filtro == 'cancelado'): ?>❌<?php endif; ?>
                 </div>
-                <h3 class="text-muted-foreground font-medium">No hay pedidos en estado "<?= ucfirst($filtro) ?>"</h3>
+                <h3 class="text-muted-foreground font-medium">No hay pedidos en estado "<?= ucfirst(
+                    $filtro,
+                ) ?>"</h3>
             </div>
         <?php endif; ?>
     </div>

@@ -1,4 +1,5 @@
 <?php
+
 // Dark Mode Toggle Component - v0 style with proper .dark class toggle
 ?>
 <div 

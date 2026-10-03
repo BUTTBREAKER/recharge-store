@@ -13,7 +13,10 @@ Flight::route('POST /procesar-pago', MainController::procesarPago(...));
 
 // Rutas de Pago (se implementarán en la siguiente fase)
 Flight::route('/pago/pagomovil/@id', PaymentController::pagomovil(...));
-Flight::route('POST /pago/pagomovil/confirmar', PaymentController::confirmarPagomovil(...));
+Flight::route(
+    'POST /pago/pagomovil/confirmar',
+    PaymentController::confirmarPagomovil(...),
+);
 Flight::route('/pago/binance/@id', PaymentController::binance(...));
 Flight::route('/pago/estado/@id', PaymentController::estado(...));
 
@@ -78,31 +81,58 @@ Flight::group('/admin', function () {
     Flight::route('/users', AdminController::usersIndex(...));
     Flight::route('/users/edit/@id', AdminController::userEdit(...));
     Flight::route('POST /users/update', AdminController::userUpdate(...));
-    Flight::route('POST /users/change-password', AdminController::userChangePassword(...));
-    Flight::route('POST /users/make-admin', AdminController::userMakeAdmin(...));
+    Flight::route(
+        'POST /users/change-password',
+        AdminController::userChangePassword(...),
+    );
+    Flight::route(
+        'POST /users/make-admin',
+        AdminController::userMakeAdmin(...),
+    );
     Flight::route('POST /users/make-user', AdminController::userMakeUser(...));
     Flight::route('POST /users/delete', AdminController::userDelete(...));
 
     // Payment Configuration
     Flight::route('/payments', AdminController::managePayments(...));
-    Flight::route('POST /payments/update', AdminController::updatePaymentData(...));
+    Flight::route(
+        'POST /payments/update',
+        AdminController::updatePaymentData(...),
+    );
 
     // Profile
     Flight::route('/profile', AdminController::profile(...));
     Flight::route('POST /profile/update', AdminController::updateProfile(...));
-    Flight::route('POST /profile/password', AdminController::changePassword(...));
+    Flight::route(
+        'POST /profile/password',
+        AdminController::changePassword(...),
+    );
 
     // Order Management
     Flight::route('/orders', AdminController::ordersManagement(...));
-    Flight::route('POST /orders/verify/@id', AdminController::verifyPayment(...));
-    Flight::route('POST /orders/complete/@id', AdminController::completeOrder(...));
-    Flight::route('POST /orders/reject/@id', AdminController::rejectPayment(...));
+    Flight::route(
+        'POST /orders/verify/@id',
+        AdminController::verifyPayment(...),
+    );
+    Flight::route(
+        'POST /orders/complete/@id',
+        AdminController::completeOrder(...),
+    );
+    Flight::route(
+        'POST /orders/reject/@id',
+        AdminController::rejectPayment(...),
+    );
 
     // System Configuration
     Flight::route('/config', AdminController::systemConfig(...));
-    Flight::route('POST /config/exchange-rate', AdminController::updateExchangeRate(...));
+    Flight::route(
+        'POST /config/exchange-rate',
+        AdminController::updateExchangeRate(...),
+    );
 
     // Order Management (existing)
     Flight::route('/pedido/@id', AdminController::verPedido(...));
-    Flight::route('POST /pedido/actualizar', AdminController::actualizarEstado(...));
+    Flight::route(
+        'POST /pedido/actualizar',
+        AdminController::actualizarEstado(...),
+    );
 });

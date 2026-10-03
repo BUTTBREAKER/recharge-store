@@ -7,10 +7,15 @@ class Notificacion extends BaseModel
     /**
      * Crear una nueva notificación
      */
-    public function crear($userId, $titulo, $mensaje, $tipo = 'pedido_actualizado', $link = null)
-    {
-        $sql = "INSERT INTO notificaciones (user_id, titulo, mensaje, tipo, link) 
-                VALUES (?, ?, ?, ?, ?)";
+    public function crear(
+        $userId,
+        $titulo,
+        $mensaje,
+        $tipo = 'pedido_actualizado',
+        $link = null,
+    ) {
+        $sql = 'INSERT INTO notificaciones (user_id, titulo, mensaje, tipo, link) 
+                VALUES (?, ?, ?, ?, ?)';
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$userId, $titulo, $mensaje, $tipo, $link]);
     }
@@ -20,10 +25,10 @@ class Notificacion extends BaseModel
      */
     public function obtenerPorUsuario($userId, $limit = 20)
     {
-        $sql = "SELECT * FROM notificaciones 
+        $sql = 'SELECT * FROM notificaciones 
                 WHERE user_id = ? 
                 ORDER BY created_at DESC 
-                LIMIT " . intval($limit);
+                LIMIT ' . intval($limit);
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$userId]);
         return $stmt->fetchAll();
@@ -34,8 +39,8 @@ class Notificacion extends BaseModel
      */
     public function contarSinLeer($userId)
     {
-        $sql = "SELECT COUNT(*) as total FROM notificaciones 
-                WHERE user_id = ? AND leido = 0";
+        $sql = 'SELECT COUNT(*) as total FROM notificaciones 
+                WHERE user_id = ? AND leido = 0';
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$userId]);
         $result = $stmt->fetch();
@@ -47,7 +52,7 @@ class Notificacion extends BaseModel
      */
     public function marcarTodasComoLeidas($userId)
     {
-        $sql = "UPDATE notificaciones SET leido = 1 WHERE user_id = ?";
+        $sql = 'UPDATE notificaciones SET leido = 1 WHERE user_id = ?';
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$userId]);
     }
@@ -57,7 +62,7 @@ class Notificacion extends BaseModel
      */
     public function limpiarAntiguas($userId, $dias = 30)
     {
-        $sql = "DELETE FROM notificaciones WHERE user_id = ? AND created_at < DATE_SUB(NOW(), INTERVAL ? DAY)";
+        $sql = 'DELETE FROM notificaciones WHERE user_id = ? AND created_at < DATE_SUB(NOW(), INTERVAL ? DAY)';
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$userId, $dias]);
     }

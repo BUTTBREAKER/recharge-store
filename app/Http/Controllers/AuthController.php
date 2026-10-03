@@ -21,7 +21,7 @@ class AuthController
         Flight::render('auth/login', [], 'content');
 
         Flight::render('layout', [
-            'title' => "Iniciar Sesión - {$_ENV['APP_NAME']}"
+            'title' => "Iniciar Sesión - {$_ENV['APP_NAME']}",
         ]);
     }
 
@@ -73,13 +73,11 @@ class AuthController
         }
 
         $userModel = new User();
-        if (
-            $userModel->register([
-                'name' => $data->name,
-                'email' => $data->email,
-                'password' => $data->password
-            ])
-        ) {
+        if ($userModel->register([
+            'name' => $data->name,
+            'email' => $data->email,
+            'password' => $data->password,
+        ])) {
             // Auto login
             $user = $userModel->login($data->email, $data->password);
             Session::set('user_id', $user['id']);
@@ -106,7 +104,7 @@ class AuthController
         Flight::render('auth/forgot_password', [], 'content');
 
         Flight::render('layout', [
-            'title' => "Recuperar Contraseña - {$_ENV['APP_NAME']}"
+            'title' => "Recuperar Contraseña - {$_ENV['APP_NAME']}",
         ]);
     }
 
@@ -121,7 +119,7 @@ class AuthController
 
             // Guardar token en DB (Usando clase anónima o modelo simple por ahora)
             // Idealmente crear PasswordReset Model, pero por brevedad usaremos PDO directo del userModel
-            $db = Flight::db(); // Asumiendo que Flight::db() devuelve la conexión PDO si está registrada, 
+            $db = Flight::db(); // Asumiendo que Flight::db() devuelve la conexión PDO si está registrada,
             // O podemos usar el UserModel para acceder a la DB
 
             // Vamos a usar una consulta directa rápida

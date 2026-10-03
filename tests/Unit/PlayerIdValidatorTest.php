@@ -18,8 +18,10 @@ final class PlayerIdValidatorTest extends TestCase
      * @param string|int $serverId
      */
     #[DataProvider('validIdProvider')]
-    public function test_valid_ids_pass(string|int $playerId, string|int $serverId): void
-    {
+    public function test_valid_ids_pass(
+        string|int $playerId,
+        string|int $serverId,
+    ): void {
         $result = PlayerIdValidator::validate($playerId, $serverId);
 
         $this->assertTrue($result['success']);
@@ -41,8 +43,10 @@ final class PlayerIdValidatorTest extends TestCase
     }
 
     #[DataProvider('emptyIdProvider')]
-    public function test_empty_ids_fail_as_obligatorio(string|int $playerId, string|int $serverId): void
-    {
+    public function test_empty_ids_fail_as_obligatorio(
+        string|int $playerId,
+        string|int $serverId,
+    ): void {
         $result = PlayerIdValidator::validate($playerId, $serverId);
 
         $this->assertFalse($result['success']);

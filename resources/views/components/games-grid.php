@@ -6,7 +6,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 $db = Container::getInstance()->get(Db::class);
 
-$games = $db->query('select distinct juego as game from productos')->fetchAll() ?: [];
+$games = $db->query('select distinct juego as game from productos')->fetchAll()
+?: [];
 $slug = Container::getInstance()->get(SluggerInterface::class)->slug(...);
 
 ?>
@@ -22,22 +23,25 @@ $slug = Container::getInstance()->get(SluggerInterface::class)->slug(...);
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <?php foreach ($games as $game) : ?>
+        <?php foreach ($games as $game): ?>
             <div class="group relative bg-card border-2 border-border hover:border-primary/50 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-primary/20 hover:scale-105">
                 <!-- Image Container -->
                 <div class="relative h-48 w-full overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10">
                     <?php
+
                     $gameSlug = $slug($game['game']);
                     $iconPath = "assets/images/games/{$gameSlug}/icon.png";
-                    $hasIcon = file_exists(__DIR__ . '/../../../public/' . $iconPath);
+                    $hasIcon = file_exists(
+                        __DIR__ . '/../../../public/' . $iconPath,
+                    );
                     ?>
-                    <?php if ($hasIcon) : ?>
+                    <?php if ($hasIcon): ?>
                         <img 
                             src="/<?= $iconPath ?>" 
                             alt="<?= $game['game'] ?>" 
                             class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                         >
-                    <?php else : ?>
+                    <?php else: ?>
                         <div class="flex items-center justify-center h-full bg-gradient-to-br from-primary to-accent">
                             <span class="text-7xl drop-shadow-lg filter group-hover:scale-110 transition-transform duration-300">🎮</span>
                         </div>

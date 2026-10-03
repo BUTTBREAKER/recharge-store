@@ -55,7 +55,8 @@ abstract class ApiTestCase extends TestCase
         Database::truncateAll();
         Database::seed();
 
-        $this->api = new ApiClient('http://127.0.0.1:' . TestServer::DEFAULT_PORT);
+        $this->api = new ApiClient('http://127.0.0.1:'
+        . TestServer::DEFAULT_PORT);
     }
 
     protected function tearDown(): void
@@ -88,7 +89,11 @@ abstract class ApiTestCase extends TestCase
             'password' => $password,
         ]);
 
-        $this->assertSame(200, $res['status'], 'Login failed: ' . json_encode($res['body']));
+        $this->assertSame(
+            200,
+            $res['status'],
+            'Login failed: ' . json_encode($res['body']),
+        );
         $this->assertIsArray($res['body']);
 
         return $res['body'];
@@ -132,7 +137,11 @@ abstract class ApiTestCase extends TestCase
         }
 
         foreach (scandir($dir) ?: [] as $entry) {
-            if ($entry === '.' || $entry === '..' || in_array($entry, $snapshot, true)) {
+            if (
+                $entry === '.'
+                || $entry === '..'
+                || in_array($entry, $snapshot, true)
+            ) {
                 continue;
             }
             self::removePath($dir . '/' . $entry);

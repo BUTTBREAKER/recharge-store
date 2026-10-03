@@ -1,4 +1,5 @@
 <?php
+
 // Stats Section - Social proof with metrics
 ?>
 

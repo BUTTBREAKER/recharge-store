@@ -22,12 +22,20 @@ class MainController
     {
         $exchangeRate = Container::getInstance()->get(SystemConfig::class)->getExchangeRate();
         $db = Container::getInstance()->get(Db::class);
-        $packages = $db->select('productos')->where('juego', '?')->bind(str_replace('-', ' ', $slug))->fetchAll();
+        $packages = $db
+            ->select('productos')
+            ->where('juego', '?')
+            ->bind(str_replace('-', ' ', $slug))
+            ->fetchAll();
 
-        Flight::render('pages/game', compact('exchangeRate', 'packages', 'slug'), 'content');
+        Flight::render(
+            'pages/game',
+            compact('exchangeRate', 'packages', 'slug'),
+            'content',
+        );
 
         Flight::render('layout', [
-            'title' => "Mobile Legends - {$_ENV['APP_NAME']}"
+            'title' => "Mobile Legends - {$_ENV['APP_NAME']}",
         ]);
     }
 
@@ -36,11 +44,16 @@ class MainController
         $data = Flight::request()->data;
 
         // Validar Player ID y Server ID
-        $validation = \App\Validators\PlayerIdValidator::validate($data->player_id, $data->server_id);
+        $validation = \App\Validators\PlayerIdValidator::validate(
+            $data->player_id,
+            $data->server_id,
+        );
         if (!$validation['success']) {
             // Redirigir de vuelta al juego con el error
             $slug = $data->slug ?? 'mobile-legends';
-            Flight::redirect("/juego/{$slug}?error=" . urlencode($validation['message']));
+            Flight::redirect(
+                "/juego/{$slug}?error=" . urlencode($validation['message']),
+            );
             return;
         }
 
@@ -59,7 +72,7 @@ class MainController
             'paquete' => $data->paquete,
             'monto' => $data->monto,
             'metodo_pago' => 'pagomovil', // Temporal, se actualiza en el siguiente paso
-            'telefono' => $data->telefono
+            'telefono' => $data->telefono,
         ];
 
         // Agregar user_id si el usuario está logueado
@@ -73,7 +86,7 @@ class MainController
         Flight::render('checkout', ['pedido' => $pedido], 'content');
 
         Flight::render('layout', [
-            'title' => "Checkout - {$_ENV['APP_NAME']}"
+            'title' => "Checkout - {$_ENV['APP_NAME']}",
         ]);
     }
 
@@ -93,7 +106,7 @@ class MainController
 
         // Actualizar método de pago final
         $db = Container::getInstance()->get(PDO::class);
-        $stmt = $db->prepare("UPDATE pedidos SET metodo_pago = ? WHERE id = ?");
+        $stmt = $db->prepare('UPDATE pedidos SET metodo_pago = ? WHERE id = ?');
         $stmt->execute([$metodo, $pedidoId]);
 
         if ($metodo === 'pagomovil') {
@@ -144,13 +157,17 @@ class MainController
         $pedidoModel = new Pedido();
         $pedidos = $pedidoModel->obtenerPorUsuario($userId, 5);
 
-        Flight::render('notifications', [
-            'notificaciones' => $notificaciones,
-            'pedidos' => $pedidos
-        ], 'content');
+        Flight::render(
+            'notifications',
+            [
+                'notificaciones' => $notificaciones,
+                'pedidos' => $pedidos,
+            ],
+            'content',
+        );
 
         Flight::render('layout', [
-            'title' => "Mis Notificaciones - {$_ENV['APP_NAME']}"
+            'title' => "Mis Notificaciones - {$_ENV['APP_NAME']}",
         ]);
     }
 
@@ -159,7 +176,7 @@ class MainController
         Flight::render('soporte', [], 'content');
 
         Flight::render('layout', [
-            'title' => "Soporte - {$_ENV['APP_NAME']}"
+            'title' => "Soporte - {$_ENV['APP_NAME']}",
         ]);
     }
 
@@ -168,7 +185,7 @@ class MainController
         Flight::render('terminos', [], 'content');
 
         Flight::render('layout', [
-            'title' => "Términos de Servicio - {$_ENV['APP_NAME']}"
+            'title' => "Términos de Servicio - {$_ENV['APP_NAME']}",
         ]);
     }
 
@@ -177,7 +194,7 @@ class MainController
         Flight::render('privacidad', [], 'content');
 
         Flight::render('layout', [
-            'title' => "Política de Privacidad - {$_ENV['APP_NAME']}"
+            'title' => "Política de Privacidad - {$_ENV['APP_NAME']}",
         ]);
     }
 
@@ -196,9 +213,13 @@ class MainController
         Flight::response()->status(404);
         Flight::render('404', [], 'content');
 
-        Flight::render('layout', [
-            'title' => "Página no encontrada - {$_ENV['APP_NAME']}"
-        ], 'output');
+        Flight::render(
+            'layout',
+            [
+                'title' => "Página no encontrada - {$_ENV['APP_NAME']}",
+            ],
+            'output',
+        );
 
         Flight::response()->write((string) Flight::view()->get('output'));
     }

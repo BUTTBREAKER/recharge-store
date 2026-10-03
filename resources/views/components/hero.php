@@ -1,4 +1,5 @@
 <?php
+
 // Hero Component - v0 style with dark mode support
 ?>
 

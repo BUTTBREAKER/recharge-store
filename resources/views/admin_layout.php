@@ -67,41 +67,76 @@ use Leaf\Http\Session;
             <nav class="flex-1 overflow-y-auto p-4 space-y-1">
                 <div class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-2 mt-2">Principal</div>
                 
-                <a href="/admin/dashboard" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos($_SERVER['REQUEST_URI'], '/admin/dashboard') !== false ? 'bg-primary/10 text-primary' : 'text-muted-foreground' ?>">
+                <a href="/admin/dashboard" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos(
+                    $_SERVER['REQUEST_URI'],
+                    '/admin/dashboard',
+                ) !== false
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground' ?>">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
                     Dashboard
                 </a>
 
                 <div class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-2 mt-6">Gestión</div>
 
-                <a href="/admin/orders" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos($_SERVER['REQUEST_URI'], '/admin/orders') !== false ? 'bg-primary/10 text-primary' : 'text-muted-foreground' ?>">
+                <a href="/admin/orders" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos(
+                    $_SERVER['REQUEST_URI'],
+                    '/admin/orders',
+                ) !== false
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground' ?>">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                     Pedidos
                 </a>
 
-                <a href="/admin/prices" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos($_SERVER['REQUEST_URI'], '/admin/prices') !== false ? 'bg-primary/10 text-primary' : 'text-muted-foreground' ?>">
+                <a href="/admin/prices" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos(
+                    $_SERVER['REQUEST_URI'],
+                    '/admin/prices',
+                ) !== false
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground' ?>">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
                     Productos
                 </a>
 
-                <a href="/admin/games" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos($_SERVER['REQUEST_URI'], '/admin/games') !== false ? 'bg-primary/10 text-primary' : 'text-muted-foreground' ?>">
+                <a href="/admin/games" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos(
+                    $_SERVER['REQUEST_URI'],
+                    '/admin/games',
+                ) !== false
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground' ?>">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
                     Juegos
                 </a>
 
-                <a href="/admin/users" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos($_SERVER['REQUEST_URI'], '/admin/users') !== false ? 'bg-primary/10 text-primary' : 'text-muted-foreground' ?>">
+                <a href="/admin/users" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos(
+                    $_SERVER['REQUEST_URI'],
+                    '/admin/users',
+                ) !== false
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground' ?>">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     Usuarios
                 </a>
 
                 <div class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-2 mt-6">Sistema</div>
 
-                <a href="/admin/payments" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos($_SERVER['REQUEST_URI'], '/admin/payments') !== false ? 'bg-primary/10 text-primary' : 'text-muted-foreground' ?>">
+                <a href="/admin/payments" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos(
+                    $_SERVER['REQUEST_URI'],
+                    '/admin/payments',
+                ) !== false
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground' ?>">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
                     Métodos de Pago
                 </a>
 
-                <a href="/admin/config" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos($_SERVER['REQUEST_URI'], '/admin/config') !== false ? 'bg-primary/10 text-primary' : 'text-muted-foreground' ?>">
+                <a href="/admin/config" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary <?= strpos(
+                    $_SERVER['REQUEST_URI'],
+                    '/admin/config',
+                ) !== false
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground' ?>">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
                     Configuración
                 </a>
@@ -110,10 +145,16 @@ use Leaf\Http\Session;
             <div class="p-4 border-t border-border mt-auto">
                 <a href="/admin/profile" class="flex items-center gap-3 p-3 rounded-xl hover:bg-muted transition-colors mb-2">
                     <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                        <?= strtoupper(substr(Session::get('user_name') ?? 'Admin', 0, 1)) ?>
+                        <?= strtoupper(substr(
+                            Session::get('user_name') ?? 'Admin',
+                            0,
+                            1,
+                        )) ?>
                     </div>
                     <div>
-                        <div class="text-sm font-bold text-foreground"><?= Session::get('user_name') ?></div>
+                        <div class="text-sm font-bold text-foreground"><?= Session::get(
+                            'user_name',
+                        ) ?></div>
                         <div class="text-xs text-muted-foreground">Admin</div>
                     </div>
                 </a>
@@ -168,7 +209,8 @@ use Leaf\Http\Session;
             <main class="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth relative">
                 <!-- Top Bar for Desktop -->
                  <div class="hidden md:flex justify-between items-center mb-8">
-                    <h1 class="text-2xl font-bold text-foreground"><?= $title ?? 'Admin' ?></h1>
+                    <h1 class="text-2xl font-bold text-foreground"><?= $title
+                        ?? 'Admin' ?></h1>
                     
                     <div class="flex items-center gap-4">
                         <button @click="toggleTheme()" class="p-2 rounded-full bg-muted text-muted-foreground hover:bg-muted/80 transition-colors">

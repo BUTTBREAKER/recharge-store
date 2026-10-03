@@ -78,7 +78,10 @@ final class CatalogTest extends ApiTestCase
         $this->assertIsArray($res['body']);
         // Seeded value (see Database::seed) — deliberately NOT the 36.50
         // hardcoded fallback, so a broken DB read fails this assertion.
-        $this->assertSame(42.5, (float) $res['body']['data']['exchange_rate_usd_bs']);
+        $this->assertSame(
+            42.5,
+            (float) $res['body']['data']['exchange_rate_usd_bs'],
+        );
     }
 
     // ------------------------------------------------------------------
@@ -102,7 +105,11 @@ final class CatalogTest extends ApiTestCase
     {
         $admin = $this->loginAs('admin@sisifo.store', 'admin123');
 
-        $res = $this->api->post('/api/admin/products', $this->newProduct(), $admin);
+        $res = $this->api->post(
+            '/api/admin/products',
+            $this->newProduct(),
+            $admin,
+        );
 
         $this->assertSame(201, $res['status']);
         $this->assertIsArray($res['body']);
@@ -117,7 +124,11 @@ final class CatalogTest extends ApiTestCase
         $admin = $this->loginAs('admin@sisifo.store', 'admin123');
         $productId = $this->createProduct($admin);
 
-        $res = $this->api->put("/api/admin/products/{$productId}/price", ['precio' => 3.5], $admin);
+        $res = $this->api->put(
+            "/api/admin/products/{$productId}/price",
+            ['precio' => 3.5],
+            $admin,
+        );
 
         $this->assertSame(200, $res['status']);
         $this->assertIsArray($res['body']);
@@ -134,7 +145,11 @@ final class CatalogTest extends ApiTestCase
         $admin = $this->loginAs('admin@sisifo.store', 'admin123');
         $productId = $this->createProduct($admin);
 
-        $res = $this->api->put("/api/admin/products/{$productId}/price", ['precio' => -1], $admin);
+        $res = $this->api->put(
+            "/api/admin/products/{$productId}/price",
+            ['precio' => -1],
+            $admin,
+        );
 
         $this->assertSame(422, $res['status']);
         $this->assertIsArray($res['body']);
@@ -146,7 +161,11 @@ final class CatalogTest extends ApiTestCase
         $admin = $this->loginAs('admin@sisifo.store', 'admin123');
         $productId = $this->createProduct($admin);
 
-        $res = $this->api->post("/api/admin/products/{$productId}/toggle", [], $admin);
+        $res = $this->api->post(
+            "/api/admin/products/{$productId}/toggle",
+            [],
+            $admin,
+        );
 
         $this->assertSame(200, $res['status']);
         $this->assertIsArray($res['body']);
@@ -160,7 +179,11 @@ final class CatalogTest extends ApiTestCase
         $admin = $this->loginAs('admin@sisifo.store', 'admin123');
         $productId = $this->createProduct($admin);
 
-        $res = $this->api->put("/api/admin/products/{$productId}", ['nombre' => 'T8 Item v2'], $admin);
+        $res = $this->api->put(
+            "/api/admin/products/{$productId}",
+            ['nombre' => 'T8 Item v2'],
+            $admin,
+        );
 
         $this->assertSame(200, $res['status']);
         $this->assertIsArray($res['body']);
@@ -173,12 +196,19 @@ final class CatalogTest extends ApiTestCase
         $admin = $this->loginAs('admin@sisifo.store', 'admin123');
         $productId = $this->createProduct($admin);
 
-        $delete = $this->api->delete("/api/admin/products/{$productId}", $admin);
+        $delete = $this->api->delete(
+            "/api/admin/products/{$productId}",
+            $admin,
+        );
         $this->assertSame(200, $delete['status']);
         $this->assertIsArray($delete['body']);
         $this->assertArrayHasKey('message', $delete['body']);
 
-        $update = $this->api->put("/api/admin/products/{$productId}", ['nombre' => 'x'], $admin);
+        $update = $this->api->put(
+            "/api/admin/products/{$productId}",
+            ['nombre' => 'x'],
+            $admin,
+        );
         $this->assertSame(404, $update['status']);
         $this->assertIsArray($update['body']);
         $this->assertArrayHasKey('message', $update['body']);
@@ -188,7 +218,11 @@ final class CatalogTest extends ApiTestCase
     {
         $admin = $this->loginAs('admin@sisifo.store', 'admin123');
 
-        $res = $this->api->put('/api/admin/products/999999', ['nombre' => 'x'], $admin);
+        $res = $this->api->put(
+            '/api/admin/products/999999',
+            ['nombre' => 'x'],
+            $admin,
+        );
 
         $this->assertSame(404, $res['status']);
         $this->assertIsArray($res['body']);
@@ -208,14 +242,21 @@ final class CatalogTest extends ApiTestCase
         $this->assertSame(200, $res['status']);
         $this->assertIsArray($res['body']);
         $this->assertIsArray($res['body']['data']);
-        $this->assertContains('mobile-legends', array_column($res['body']['data'], 'slug'));
+        $this->assertContains('mobile-legends', array_column(
+            $res['body']['data'],
+            'slug',
+        ));
     }
 
     public function testAdminCreatesGameWithoutActivoDefaultsActive(): void
     {
         $admin = $this->loginAs('admin@sisifo.store', 'admin123');
 
-        $res = $this->api->post('/api/admin/games', ['nombre' => 'T8 Game'], $admin);
+        $res = $this->api->post(
+            '/api/admin/games',
+            ['nombre' => 'T8 Game'],
+            $admin,
+        );
 
         $this->assertSame(201, $res['status']);
         $this->assertIsArray($res['body']);
@@ -232,7 +273,11 @@ final class CatalogTest extends ApiTestCase
 
         // t8: "admin game sin activo conserva" — a partial update that does
         // not send `activo` must not flip it.
-        $res = $this->api->put("/api/admin/games/{$gameId}", ['icono' => '🚀'], $admin);
+        $res = $this->api->put(
+            "/api/admin/games/{$gameId}",
+            ['icono' => '🚀'],
+            $admin,
+        );
 
         $this->assertSame(200, $res['status']);
         $this->assertIsArray($res['body']);
@@ -245,7 +290,11 @@ final class CatalogTest extends ApiTestCase
         $admin = $this->loginAs('admin@sisifo.store', 'admin123');
         $gameId = $this->createGame($admin);
 
-        $res = $this->api->put("/api/admin/games/{$gameId}", ['activo' => false], $admin);
+        $res = $this->api->put(
+            "/api/admin/games/{$gameId}",
+            ['activo' => false],
+            $admin,
+        );
 
         $this->assertSame(200, $res['status']);
         $this->assertIsArray($res['body']);
@@ -315,8 +364,16 @@ final class CatalogTest extends ApiTestCase
 
     private function createProduct(string $adminToken): int
     {
-        $res = $this->api->post('/api/admin/products', $this->newProduct(), $adminToken);
-        $this->assertSame(201, $res['status'], 'Could not create the test product.');
+        $res = $this->api->post(
+            '/api/admin/products',
+            $this->newProduct(),
+            $adminToken,
+        );
+        $this->assertSame(
+            201,
+            $res['status'],
+            'Could not create the test product.',
+        );
         $this->assertIsArray($res['body']);
 
         return (int) $res['body']['data']['id'];
@@ -324,8 +381,16 @@ final class CatalogTest extends ApiTestCase
 
     private function createGame(string $adminToken): int
     {
-        $res = $this->api->post('/api/admin/games', ['nombre' => 'T8 Game'], $adminToken);
-        $this->assertSame(201, $res['status'], 'Could not create the test game.');
+        $res = $this->api->post(
+            '/api/admin/games',
+            ['nombre' => 'T8 Game'],
+            $adminToken,
+        );
+        $this->assertSame(
+            201,
+            $res['status'],
+            'Could not create the test game.',
+        );
         $this->assertIsArray($res['body']);
 
         return (int) $res['body']['data']['id'];

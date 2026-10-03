@@ -9,7 +9,7 @@
     </a>
 </div>
 
-<?php if (isset($_GET['success'])) : ?>
+<?php if (isset($_GET['success'])): ?>
 <div class="bg-green-500/10 border-l-4 border-green-500 p-4 mb-6 rounded-r-xl">
     <div class="flex items-center">
         <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
@@ -18,7 +18,7 @@
 </div>
 <?php endif; ?>
 
-<?php if (isset($_GET['error'])) : ?>
+<?php if (isset($_GET['error'])): ?>
 <div class="bg-destructive/10 border-l-4 border-destructive p-4 mb-6 rounded-r-xl">
     <div class="flex items-center">
         <svg class="w-5 h-5 text-destructive mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
@@ -74,15 +74,24 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-card rounded-lg p-4 text-center border border-border shadow-sm">
                     <p class="text-sm text-muted-foreground mb-1">Paquete $2.00</p>
-                    <p class="text-xl font-bold text-foreground" id="preview_2">Bs <?= number_format(2 * $exchangeRate, 2) ?></p>
+                    <p class="text-xl font-bold text-foreground" id="preview_2">Bs <?= number_format(
+                        2 * $exchangeRate,
+                        2,
+                    ) ?></p>
                 </div>
                 <div class="bg-card rounded-lg p-4 text-center border border-border shadow-sm">
                     <p class="text-sm text-muted-foreground mb-1">Paquete $10.00</p>
-                    <p class="text-xl font-bold text-foreground" id="preview_10">Bs <?= number_format(10 * $exchangeRate, 2) ?></p>
+                    <p class="text-xl font-bold text-foreground" id="preview_10">Bs <?= number_format(
+                        10 * $exchangeRate,
+                        2,
+                    ) ?></p>
                 </div>
                 <div class="bg-card rounded-lg p-4 text-center border border-border shadow-sm">
                     <p class="text-sm text-muted-foreground mb-1">Paquete $45.00</p>
-                    <p class="text-xl font-bold text-foreground" id="preview_45">Bs <?= number_format(45 * $exchangeRate, 2) ?></p>
+                    <p class="text-xl font-bold text-foreground" id="preview_45">Bs <?= number_format(
+                        45 * $exchangeRate,
+                        2,
+                    ) ?></p>
                 </div>
             </div>
         </div>

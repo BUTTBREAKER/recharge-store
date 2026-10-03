@@ -1,6 +1,8 @@
 <?php
+
 // Navbar Component - v0 style with dark mode support
 use Leaf\Http\Session;
+
 ?>
 
 <nav class="sticky top-0 z-50 w-full border-b border-border/40 bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
@@ -67,10 +69,16 @@ use Leaf\Http\Session;
                         class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-muted transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring"
                     >
                         <?php if (Session::has('user_avatar')): ?>
-                            <img src="./<?= Session::get('user_avatar') ?>" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-primary/20">
+                            <img src="./<?= Session::get(
+                                'user_avatar',
+                            ) ?>" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-primary/20">
                         <?php else: ?>
                             <div class="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm">
-                                <?= strtoupper(substr(Session::get('user_name') ?? 'U', 0, 1)) ?>
+                                <?= strtoupper(substr(
+                                    Session::get('user_name') ?? 'U',
+                                    0,
+                                    1,
+                                )) ?>
                             </div>
                         <?php endif; ?>
                     </button>
@@ -87,7 +95,9 @@ use Leaf\Http\Session;
                         class="absolute right-0 mt-2 w-56 bg-card/95 backdrop-blur-sm border border-border rounded-2xl shadow-xl py-2 z-50"
                     >
                         <div class="px-4 py-3 border-b border-border">
-                            <p class="text-sm font-semibold text-foreground"><?= Session::get('user_name') ?></p>
+                            <p class="text-sm font-semibold text-foreground"><?= Session::get(
+                                'user_name',
+                            ) ?></p>
                             <p class="text-xs text-muted-foreground">Jugador</p>
                         </div>
                         <a href="./profile" class="block px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors flex items-center gap-2">

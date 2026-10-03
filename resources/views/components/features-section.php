@@ -1,4 +1,5 @@
 <?php
+
 // Features Section - Modern benefits showcase
 ?>
 

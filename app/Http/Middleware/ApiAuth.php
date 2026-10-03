@@ -53,14 +53,11 @@ final readonly class ApiAuth implements BeforeMiddleware
 
     public static function issueToken(array $user): string
     {
-        $payload = json_encode(
-            [
-                'uid' => (int) $user['id'],
-                'role' => (string) ($user['role'] ?? 'user'),
-                'exp' => time() + self::TOKEN_TTL,
-            ],
-            JSON_UNESCAPED_SLASHES,
-        );
+        $payload = json_encode([
+            'uid' => (int) $user['id'],
+            'role' => (string) ($user['role'] ?? 'user'),
+            'exp' => time() + self::TOKEN_TTL,
+        ], JSON_UNESCAPED_SLASHES);
 
         return self::base64UrlEncode($payload) . '.' . self::sign($payload);
     }
@@ -96,11 +93,7 @@ final readonly class ApiAuth implements BeforeMiddleware
 
     private static function sign(string $data): string
     {
-        return hash_hmac(
-            'sha256',
-            $data,
-            $_ENV['TOKEN_SECRET'] ?? '',
-        );
+        return hash_hmac('sha256', $data, $_ENV['TOKEN_SECRET'] ?? '');
     }
 
     private static function base64UrlEncode(string $data): string
@@ -149,13 +142,10 @@ final readonly class ApiAuth implements BeforeMiddleware
         }
 
         if ($user === null) {
-            Flight::jsonHalt(
-                [
-                    'message' => 'No autenticado.',
-                    'hint' => 'Envía la cabecera Authorization: Bearer <token>.',
-                ],
-                401,
-            );
+            Flight::jsonHalt([
+                'message' => 'No autenticado.',
+                'hint' => 'Envía la cabecera Authorization: Bearer <token>.',
+            ], 401);
         }
 
         if ($this->requireAdmin && ($user['role'] ?? '') !== 'admin') {
@@ -184,10 +174,7 @@ final readonly class ApiAuth implements BeforeMiddleware
         $user = self::user();
 
         if ($user === null) {
-            Flight::jsonHalt(
-                ['message' => 'No autenticado.'],
-                401,
-            );
+            Flight::jsonHalt(['message' => 'No autenticado.'], 401);
         }
 
         return $user;

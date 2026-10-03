@@ -21,7 +21,12 @@ function getEstadoBadge($estado)
         'realizada' => '<span class="px-3 py-1 bg-green-500/10 text-green-600 dark:text-green-400 rounded-full text-xs font-bold ring-1 ring-green-500/20">✅ Completado</span>',
         'cancelado' => '<span class="px-3 py-1 bg-destructive/10 text-destructive rounded-full text-xs font-bold ring-1 ring-destructive/20">❌ Cancelado</span>',
     ];
-    return $badges[$estado] ?? '<span class="px-3 py-1 bg-muted text-muted-foreground rounded-full text-xs font-semibold">' . $estado . '</span>';
+    return (
+        $badges[$estado]
+        ?? '<span class="px-3 py-1 bg-muted text-muted-foreground rounded-full text-xs font-semibold">'
+        . $estado
+        . '</span>'
+    );
 }
 
 ?>
@@ -65,11 +70,21 @@ function getEstadoBadge($estado)
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <?php
+
         $stats = [
             'total' => count($pedidos),
-            'pendiente' => count(array_filter($pedidos, fn($p) => $p['estado'] === 'pendiente')),
-            'confirmado' => count(array_filter($pedidos, fn($p) => $p['estado'] === 'confirmado')),
-            'realizada' => count(array_filter($pedidos, fn($p) => $p['estado'] === 'realizada')),
+            'pendiente' => count(array_filter(
+                $pedidos,
+                fn($p) => $p['estado'] === 'pendiente',
+            )),
+            'confirmado' => count(array_filter(
+                $pedidos,
+                fn($p) => $p['estado'] === 'confirmado',
+            )),
+            'realizada' => count(array_filter(
+                $pedidos,
+                fn($p) => $p['estado'] === 'realizada',
+            )),
         ];
         ?>
         <div class="bg-card rounded-xl shadow-sm p-6 border border-border">
@@ -111,7 +126,7 @@ function getEstadoBadge($estado)
     </div>
 
     <!-- Orders Table -->
-    <?php if (empty($pedidos)) : ?>
+    <?php if (empty($pedidos)): ?>
         <div class="bg-card rounded-2xl shadow-sm p-12 text-center border border-border">
             <div class="text-6xl mb-4 opacity-50 filter grayscale">🛒</div>
             <h3 class="text-xl font-bold text-foreground mb-2">No tienes pedidos aún</h3>
@@ -120,7 +135,7 @@ function getEstadoBadge($estado)
                 Ver Juegos Disponibles
             </a>
         </div>
-    <?php else : ?>
+    <?php else: ?>
         <div class="bg-card rounded-2xl shadow-sm border border-border overflow-hidden">
             <!-- Desktop Table -->
             <div class="hidden md:block overflow-x-auto">
@@ -137,10 +152,15 @@ function getEstadoBadge($estado)
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-border">
-                        <?php foreach ($pedidos as $pedido) : ?>
+                        <?php foreach ($pedidos as $pedido): ?>
                             <tr class="hover:bg-muted/30 transition-colors">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-foreground">
-                                    #<?= str_pad($pedido['id'], 4, '0', STR_PAD_LEFT) ?>
+                                    #<?= str_pad(
+                                        $pedido['id'],
+                                        4,
+                                        '0',
+                                        STR_PAD_LEFT,
+                                    ) ?>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
                                     <?= htmlspecialchars($pedido['juego']) ?>
@@ -149,7 +169,11 @@ function getEstadoBadge($estado)
                                     <?= htmlspecialchars($pedido['paquete']) ?>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-muted-foreground">
-                                    <?= htmlspecialchars($pedido['player_id']) ?> (<?= htmlspecialchars($pedido['server_id']) ?>)
+                                    <?= htmlspecialchars(
+                                        $pedido['player_id'],
+                                    ) ?> (<?= htmlspecialchars(
+                                        $pedido['server_id'],
+                                    ) ?>)
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-foreground">
                                     $<?= number_format($pedido['monto'], 2) ?>
@@ -158,7 +182,10 @@ function getEstadoBadge($estado)
                                     <?= getEstadoBadge($pedido['estado']) ?>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
-                                    <?= date('d/m/Y H:i', strtotime($pedido['fecha'])) ?>
+                                    <?= date(
+                                        'd/m/Y H:i',
+                                        strtotime($pedido['fecha']),
+                                    ) ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -168,31 +195,48 @@ function getEstadoBadge($estado)
 
             <!-- Mobile Cards -->
             <div class="md:hidden divide-y divide-border">
-                <?php foreach ($pedidos as $pedido) : ?>
+                <?php foreach ($pedidos as $pedido): ?>
                     <div class="p-6 hover:bg-muted/30 transition-colors">
                         <div class="flex justify-between items-start mb-3">
                             <div>
-                                <p class="font-mono text-sm text-muted-foreground">#<?= str_pad($pedido['id'], 4, '0', STR_PAD_LEFT) ?></p>
-                                <h3 class="font-bold text-foreground"><?= htmlspecialchars($pedido['juego']) ?></h3>
+                                <p class="font-mono text-sm text-muted-foreground">#<?= str_pad(
+                                    $pedido['id'],
+                                    4,
+                                    '0',
+                                    STR_PAD_LEFT,
+                                ) ?></p>
+                                <h3 class="font-bold text-foreground"><?= htmlspecialchars(
+                                    $pedido['juego'],
+                                ) ?></h3>
                             </div>
                             <?= getEstadoBadge($pedido['estado']) ?>
                         </div>
                         <div class="space-y-2 text-sm">
                             <div class="flex justify-between">
                                 <span class="text-muted-foreground">Paquete:</span>
-                                <span class="font-medium text-foreground"><?= htmlspecialchars($pedido['paquete']) ?></span>
+                                <span class="font-medium text-foreground"><?= htmlspecialchars(
+                                    $pedido['paquete'],
+                                ) ?></span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-muted-foreground">Player ID:</span>
-                                <span class="font-mono text-foreground"><?= htmlspecialchars($pedido['player_id']) ?></span>
+                                <span class="font-mono text-foreground"><?= htmlspecialchars(
+                                    $pedido['player_id'],
+                                ) ?></span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-muted-foreground">Monto:</span>
-                                <span class="font-bold text-foreground">$<?= number_format($pedido['monto'], 2) ?></span>
+                                <span class="font-bold text-foreground">$<?= number_format(
+                                    $pedido['monto'],
+                                    2,
+                                ) ?></span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-muted-foreground">Fecha:</span>
-                                <span class="text-foreground/80"><?= date('d/m/Y H:i', strtotime($pedido['fecha'])) ?></span>
+                                <span class="text-foreground/80"><?= date(
+                                    'd/m/Y H:i',
+                                    strtotime($pedido['fecha']),
+                                ) ?></span>
                             </div>
                         </div>
                     </div>

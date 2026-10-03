@@ -90,10 +90,11 @@ final class ApiAuthTest extends TestCase
 
     public function test_expired_token_is_rejected(): void
     {
-        $payload = json_encode(
-            ['uid' => 1, 'role' => 'user', 'exp' => time() - 10],
-            JSON_UNESCAPED_SLASHES,
-        );
+        $payload = json_encode([
+            'uid' => 1,
+            'role' => 'user',
+            'exp' => time() - 10,
+        ], JSON_UNESCAPED_SLASHES);
         $token = self::base64UrlEncode($payload) . '.' . self::sign($payload);
 
         $this->assertNull(ApiAuth::verify($token));
@@ -134,7 +135,10 @@ final class ApiAuthTest extends TestCase
 
     public function test_payload_without_exp_is_rejected(): void
     {
-        $payload = json_encode(['uid' => 3, 'role' => 'user'], JSON_UNESCAPED_SLASHES);
+        $payload = json_encode([
+            'uid' => 3,
+            'role' => 'user',
+        ], JSON_UNESCAPED_SLASHES);
         $token = self::base64UrlEncode($payload) . '.' . self::sign($payload);
 
         $this->assertNull(ApiAuth::verify($token));
@@ -164,6 +168,10 @@ final class ApiAuthTest extends TestCase
 
     private static function sign(string $data): string
     {
-        return hash_hmac('sha256', $data, (string) ($_ENV['TOKEN_SECRET'] ?? ''));
+        return hash_hmac(
+            'sha256',
+            $data,
+            (string) ($_ENV['TOKEN_SECRET'] ?? ''),
+        );
     }
 }

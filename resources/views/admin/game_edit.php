@@ -1,11 +1,14 @@
 <?php
+
 // Game Edit View
 ?>
 
 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 animate-fade-in">
     <div>
         <h1 class="text-3xl font-extrabold text-foreground">Editar Juego</h1>
-        <p class="text-muted-foreground mt-1">Modificar <?= htmlspecialchars($juego['nombre']) ?></p>
+        <p class="text-muted-foreground mt-1">Modificar <?= htmlspecialchars(
+            $juego['nombre'],
+        ) ?></p>
     </div>
     <a href="./admin/games" class="bg-muted text-muted-foreground hover:bg-muted/80 px-5 py-2.5 rounded-xl font-bold transition flex items-center">
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
@@ -43,7 +46,9 @@
                         <input 
                             type="text" 
                             name="icono" 
-                            value="<?= htmlspecialchars($juego['icono'] ?? '🎮') ?>"
+                            value="<?= htmlspecialchars(
+                                $juego['icono'] ?? '🎮',
+                            ) ?>"
                             class="w-full px-4 py-3 text-center text-2xl bg-input border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-foreground"
                         >
                     </div>
@@ -76,7 +81,9 @@
                         name="descripcion" 
                         rows="3"
                         class="w-full px-4 py-3 bg-input border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-foreground resize-none"
-                    ><?= htmlspecialchars($juego['descripcion'] ?? '') ?></textarea>
+                    ><?= htmlspecialchars(
+                        $juego['descripcion'] ?? '',
+                    ) ?></textarea>
                 </div>
                 
                 <div>
@@ -101,7 +108,9 @@
                 </div>
                 
                 <div class="flex items-center">
-                    <input type="checkbox" name="activo" id="activo" value="1" <?= $juego['activo'] ? 'checked' : '' ?> class="w-5 h-5 text-primary rounded border-border focus:ring-primary">
+                    <input type="checkbox" name="activo" id="activo" value="1" <?= $juego['activo']
+                            ? 'checked'
+                            : '' ?> class="w-5 h-5 text-primary rounded border-border focus:ring-primary">
                     <label for="activo" class="ml-3 text-sm font-medium text-foreground">Juego activo</label>
                 </div>
                 
@@ -128,15 +137,23 @@
                 <!-- Preview -->
                 <div class="p-4 bg-muted rounded-xl text-center">
                     <span class="text-5xl"><?= $juego['icono'] ?? '🎮' ?></span>
-                    <p class="font-bold text-foreground mt-2"><?= htmlspecialchars($juego['nombre']) ?></p>
-                    <p class="text-xs text-muted-foreground font-mono">/juego/<?= htmlspecialchars($juego['slug']) ?></p>
+                    <p class="font-bold text-foreground mt-2"><?= htmlspecialchars(
+                        $juego['nombre'],
+                    ) ?></p>
+                    <p class="text-xs text-muted-foreground font-mono">/juego/<?= htmlspecialchars(
+                        $juego['slug'],
+                    ) ?></p>
                 </div>
                 
                 <!-- Estado -->
                 <div class="p-4 bg-muted rounded-xl">
                     <p class="text-sm text-muted-foreground mb-2">Estado actual</p>
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold <?= $juego['activo'] ? 'bg-green-500/10 text-green-500' : 'bg-muted text-muted-foreground' ?>">
-                        <span class="w-2 h-2 rounded-full mr-2 <?= $juego['activo'] ? 'bg-green-500' : 'bg-muted-foreground' ?>"></span>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold <?= $juego['activo']
+                            ? 'bg-green-500/10 text-green-500'
+                            : 'bg-muted text-muted-foreground' ?>">
+                        <span class="w-2 h-2 rounded-full mr-2 <?= $juego['activo']
+                                ? 'bg-green-500'
+                                : 'bg-muted-foreground' ?>"></span>
                         <?= $juego['activo'] ? 'Activo' : 'Inactivo' ?>
                     </span>
                 </div>

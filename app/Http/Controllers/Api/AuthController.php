@@ -22,7 +22,9 @@ final class AuthController
         $password = (string) ($data->password ?? '');
 
         if ($email === '' || $password === '') {
-            Flight::json(['message' => 'Email y contraseña son obligatorios.'], 422);
+            Flight::json([
+                'message' => 'Email y contraseña son obligatorios.',
+            ], 422);
             return;
         }
 
@@ -48,7 +50,9 @@ final class AuthController
         $confirm = (string) ($data->confirm_password ?? '');
 
         if ($name === '' || $email === '' || $password === '') {
-            Flight::json(['message' => 'Nombre, email y contraseña son obligatorios.'], 422);
+            Flight::json([
+                'message' => 'Nombre, email y contraseña son obligatorios.',
+            ], 422);
             return;
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -56,7 +60,9 @@ final class AuthController
             return;
         }
         if (strlen($password) < 8) {
-            Flight::json(['message' => 'La contraseña debe tener al menos 8 caracteres.'], 422);
+            Flight::json([
+                'message' => 'La contraseña debe tener al menos 8 caracteres.',
+            ], 422);
             return;
         }
         if ($password !== $confirm) {
@@ -88,7 +94,9 @@ final class AuthController
     {
         // Tokens stateless: el cliente (Next.js) descarta el token.
         // En modo estricto el grupo /api/logout exige Bearer válido.
-        Flight::json(['message' => 'Sesión cerrada. Descarta el token en el cliente.']);
+        Flight::json([
+            'message' => 'Sesión cerrada. Descarta el token en el cliente.',
+        ]);
     }
 
     // === Recuperación de contraseña ===
@@ -103,12 +111,18 @@ final class AuthController
         }
 
         // Siempre la misma respuesta: no revelamos si el email existe.
-        $response = ['message' => 'Si el email existe, recibirás un enlace de recuperación.'];
+        $response = [
+            'message' => 'Si el email existe, recibirás un enlace de recuperación.',
+        ];
 
         $userModel = new User();
         if ($userModel->exists($email)) {
             $token = bin2hex(random_bytes(32));
-            $userModel->guardarTokenReset($email, $token, date('Y-m-d H:i:s', time() + 3600));
+            $userModel->guardarTokenReset(
+                $email,
+                $token,
+                date('Y-m-d H:i:s', time() + 3600),
+            );
 
             // Sin mailer real en el MVP: se devuelve el link para poder
             // probar el flujo completo. Eliminar en producción.
@@ -126,11 +140,15 @@ final class AuthController
         $confirm = (string) ($data->confirm_password ?? '');
 
         if ($token === '' || $password === '') {
-            Flight::json(['message' => 'Token y contraseña son obligatorios.'], 422);
+            Flight::json([
+                'message' => 'Token y contraseña son obligatorios.',
+            ], 422);
             return;
         }
         if (strlen($password) < 8) {
-            Flight::json(['message' => 'La contraseña debe tener al menos 8 caracteres.'], 422);
+            Flight::json([
+                'message' => 'La contraseña debe tener al menos 8 caracteres.',
+            ], 422);
             return;
         }
         if ($password !== $confirm) {
@@ -140,7 +158,10 @@ final class AuthController
 
         $userModel = new User();
         $email = $userModel->verificarTokenReset($token);
-        $user = $email !== false && $email !== null ? $userModel->obtenerPorEmail($email) : false;
+        $user =
+            $email !== false && $email !== null
+                ? $userModel->obtenerPorEmail($email)
+                : false;
 
         if (!$user) {
             Flight::json(['message' => 'Token inválido o expirado.'], 422);
@@ -150,7 +171,9 @@ final class AuthController
         $userModel->cambiarPassword($user['id'], $password);
         $userModel->borrarTokenReset($token);
 
-        Flight::json(['message' => 'Contraseña actualizada. Ya podés iniciar sesión.']);
+        Flight::json([
+            'message' => 'Contraseña actualizada. Ya podés iniciar sesión.',
+        ]);
     }
 
     /** Expone solo los campos públicos del usuario (nunca el hash). */

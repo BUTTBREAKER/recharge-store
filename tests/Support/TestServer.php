@@ -42,7 +42,15 @@ final class TestServer
         // would hit the dev database. With E, the environment we pass below
         // (DB_DATABASE=recharge_test) is visible in $_ENV first, and Dotenv never
         // overrides an already-set variable.
-        $command = ['php', '-d', 'variables_order=EGPCS', '-S', "127.0.0.1:{$port}", '-t', 'public'];
+        $command = [
+            'php',
+            '-d',
+            'variables_order=EGPCS',
+            '-S',
+            "127.0.0.1:{$port}",
+            '-t',
+            'public',
+        ];
 
         // Inherited environment plus API_AUTH_STRICT=true (production-like).
         $env = getenv(); // full process environment (keeps PATH for execvp)
@@ -59,24 +67,26 @@ final class TestServer
         //      sets it when bootstrap loads .env, and Dotenv uses that list to
         //      decide which vars it "owns" — inheriting it would make Dotenv
         //      override DB_DATABASE back to the .env value (recharge_db).
-		unset($env['SYMFONY_DOTENV_VARS']);
-		$env['DB_DATABASE'] = 'recharge_test';
+        unset($env['SYMFONY_DOTENV_VARS']);
+        $env['DB_DATABASE'] = 'recharge_test';
 
-		// Invariant: the dev database must be unreachable by construction.
-		// A reordering of the lines above (or dropping the unset) would
-		// silently retarget recharge_db — assert so a future edit fails loud.
-		if (($env['DB_DATABASE'] ?? null) !== Database::NAME) {
-			throw new RuntimeException(
-				'Test server env invariant violated: DB_DATABASE must be ' . Database::NAME . '.'
-			);
-		}
-		if (array_key_exists('SYMFONY_DOTENV_VARS', $env)) {
-			throw new RuntimeException(
-				'Test server env invariant violated: SYMFONY_DOTENV_VARS must be unset.'
-			);
-		}
+        // Invariant: the dev database must be unreachable by construction.
+        // A reordering of the lines above (or dropping the unset) would
+        // silently retarget recharge_db — assert so a future edit fails loud.
+        if (($env['DB_DATABASE'] ?? null) !== Database::NAME) {
+            throw new RuntimeException(
+                'Test server env invariant violated: DB_DATABASE must be '
+                . Database::NAME
+                . '.',
+            );
+        }
+        if (array_key_exists('SYMFONY_DOTENV_VARS', $env)) {
+            throw new RuntimeException(
+                'Test server env invariant violated: SYMFONY_DOTENV_VARS must be unset.',
+            );
+        }
 
-		$process = proc_open(
+        $process = proc_open(
             $command,
             [
                 0 => ['file', '/dev/null', 'r'],
@@ -89,7 +99,9 @@ final class TestServer
         );
 
         if (!is_resource($process)) {
-            throw new RuntimeException("Failed to start test server on port {$port}.");
+            throw new RuntimeException(
+                "Failed to start test server on port {$port}.",
+            );
         }
 
         self::$process = $process;
@@ -120,7 +132,11 @@ final class TestServer
     {
         $url = "http://127.0.0.1:{$port}/api/health";
         $context = stream_context_create([
-            'http' => ['method' => 'GET', 'timeout' => 1, 'ignore_errors' => true],
+            'http' => [
+                'method' => 'GET',
+                'timeout' => 1,
+                'ignore_errors' => true,
+            ],
         ]);
 
         for ($attempt = 0; $attempt < 50; $attempt++) {
@@ -132,6 +148,8 @@ final class TestServer
         }
 
         self::stop();
-        throw new RuntimeException("Test server did not become ready at {$url}.");
+        throw new RuntimeException(
+            "Test server did not become ready at {$url}.",
+        );
     }
 }

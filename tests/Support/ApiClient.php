@@ -24,9 +24,9 @@ final class ApiClient
     /** @var list<string> local paths of every file sent via postFile() */
     private array $sentFiles = [];
 
-    public function __construct(private readonly string $baseUrl)
-    {
-    }
+    public function __construct(
+        private readonly string $baseUrl,
+    ) {}
 
     /**
      * @return array{status: int, body: array|string, contentType: string}
@@ -39,16 +39,22 @@ final class ApiClient
     /**
      * @return array{status: int, body: array|string, contentType: string}
      */
-    public function post(string $path, array $json = [], ?string $token = null): array
-    {
+    public function post(
+        string $path,
+        array $json = [],
+        ?string $token = null,
+    ): array {
         return $this->request('POST', $path, $json, $token);
     }
 
     /**
      * @return array{status: int, body: array|string, contentType: string}
      */
-    public function put(string $path, array $json = [], ?string $token = null): array
-    {
+    public function put(
+        string $path,
+        array $json = [],
+        ?string $token = null,
+    ): array {
         return $this->request('PUT', $path, $json, $token);
     }
 
@@ -72,15 +78,23 @@ final class ApiClient
      *        (used to send a file with a deliberately bad extension).
      * @return array{status: int, body: array|string, contentType: string}
      */
-    public function postFile(string $path, array $fields = [], array $files = [], ?string $token = null): array
-    {
+    public function postFile(
+        string $path,
+        array $fields = [],
+        array $files = [],
+        ?string $token = null,
+    ): array {
         $multipart = [];
         foreach ($fields as $name => $value) {
             $multipart[(string) $name] = $value;
         }
         foreach ($files as $name => $spec) {
             if (is_array($spec)) {
-                $file = new \CURLFile($spec['path'], $spec['mime'] ?? null, $spec['name'] ?? null);
+                $file = new \CURLFile(
+                    $spec['path'],
+                    $spec['mime'] ?? null,
+                    $spec['name'] ?? null,
+                );
                 $this->sentFiles[] = $spec['path'];
             } else {
                 $file = new \CURLFile($spec);
@@ -108,8 +122,12 @@ final class ApiClient
      * @param array|null $json payload encoded as JSON when not null
      * @return array{status: int, body: array|string, contentType: string}
      */
-    private function request(string $method, string $path, ?array $json, ?string $token): array
-    {
+    private function request(
+        string $method,
+        string $path,
+        ?array $json,
+        ?string $token,
+    ): array {
         return $this->send($method, $path, $json, $token, multipart: false);
     }
 
@@ -118,8 +136,13 @@ final class ApiClient
      *        $multipart; null for a bodyless request
      * @return array{status: int, body: array|string, contentType: string}
      */
-    private function send(string $method, string $path, ?array $payload, ?string $token, bool $multipart): array
-    {
+    private function send(
+        string $method,
+        string $path,
+        ?array $payload,
+        ?string $token,
+        bool $multipart,
+    ): array {
         $ch = curl_init($this->baseUrl . $path);
         if ($ch === false) {
             throw new \RuntimeException('curl_init failed.');
@@ -141,7 +164,9 @@ final class ApiClient
             CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_TIMEOUT => 10,
-            CURLOPT_HEADERFUNCTION => static function ($ch, string $line) use (&$contentType): int {
+            CURLOPT_HEADERFUNCTION => static function ($ch, string $line) use (
+                &$contentType,
+            ): int {
                 $length = strlen($line);
                 if (stripos($line, 'Content-Type:') === 0) {
                     $contentType = trim(substr($line, strlen('Content-Type:')));
@@ -155,7 +180,9 @@ final class ApiClient
             curl_setopt(
                 $ch,
                 CURLOPT_POSTFIELDS,
-                $multipart ? $payload : json_encode($payload, JSON_UNESCAPED_SLASHES)
+                $multipart
+                    ? $payload
+                    : json_encode($payload, JSON_UNESCAPED_SLASHES),
             );
         }
 
@@ -163,7 +190,9 @@ final class ApiClient
         if ($raw === false) {
             $error = curl_error($ch);
             curl_close($ch);
-            throw new \RuntimeException("HTTP {$method} {$path} failed: {$error}");
+            throw new \RuntimeException(
+                "HTTP {$method} {$path} failed: {$error}",
+            );
         }
 
         $status = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);

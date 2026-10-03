@@ -1,4 +1,5 @@
 <?php
+
 // Enhanced Hero Component - Modern landing page hero
 ?>
 

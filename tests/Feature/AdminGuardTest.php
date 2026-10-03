@@ -56,25 +56,35 @@ final class AdminGuardTest extends ApiTestCase
         $verify = $this->api->post(
             "/api/admin/orders/{$orderId}/verify",
             [],
-            $this->adminToken()
+            $this->adminToken(),
         );
         $this->assertSame(200, $verify['status']);
         $this->assertIsArray($verify['body']);
-        $this->assertSame('confirmado', $verify['body']['data']['pedido']['estado']);
+        $this->assertSame(
+            'confirmado',
+            $verify['body']['data']['pedido']['estado'],
+        );
 
         $complete = $this->api->post(
             "/api/admin/orders/{$orderId}/complete",
             [],
-            $this->adminToken()
+            $this->adminToken(),
         );
         $this->assertSame(200, $complete['status']);
         $this->assertIsArray($complete['body']);
-        $this->assertSame('realizada', $complete['body']['data']['pedido']['estado']);
+        $this->assertSame(
+            'realizada',
+            $complete['body']['data']['pedido']['estado'],
+        );
     }
 
     public function testAdminRejectUnknownOrderReturns404(): void
     {
-        $res = $this->api->post('/api/admin/orders/999999/reject', [], $this->adminToken());
+        $res = $this->api->post(
+            '/api/admin/orders/999999/reject',
+            [],
+            $this->adminToken(),
+        );
 
         $this->assertSame(404, $res['status']);
         $this->assertIsArray($res['body']);
@@ -88,7 +98,7 @@ final class AdminGuardTest extends ApiTestCase
         $res = $this->api->put(
             "/api/admin/orders/{$orderId}/estado",
             ['estado' => 'raro'],
-            $this->adminToken()
+            $this->adminToken(),
         );
 
         $this->assertSame(422, $res['status']);
@@ -104,7 +114,7 @@ final class AdminGuardTest extends ApiTestCase
         $res = $this->api->put(
             "/api/admin/users/{$adminId}/role",
             ['role' => 'user'],
-            (string) $admin['token']
+            (string) $admin['token'],
         );
 
         $this->assertSame(403, $res['status']);
@@ -119,7 +129,7 @@ final class AdminGuardTest extends ApiTestCase
 
         $res = $this->api->delete(
             "/api/admin/users/{$adminId}",
-            (string) $admin['token']
+            (string) $admin['token'],
         );
 
         $this->assertSame(403, $res['status']);
@@ -137,7 +147,7 @@ final class AdminGuardTest extends ApiTestCase
 
         $res = $this->api->delete(
             "/api/admin/users/{$testUserId}",
-            $this->adminToken()
+            $this->adminToken(),
         );
 
         $this->assertSame(409, $res['status']);
@@ -158,7 +168,10 @@ final class AdminGuardTest extends ApiTestCase
         $this->assertIsArray($registered['body']);
         $newUserId = (int) $registered['body']['user']['id'];
 
-        $res = $this->api->delete("/api/admin/users/{$newUserId}", $this->adminToken());
+        $res = $this->api->delete(
+            "/api/admin/users/{$newUserId}",
+            $this->adminToken(),
+        );
 
         $this->assertSame(200, $res['status']);
         $this->assertIsArray($res['body']);
@@ -173,7 +186,7 @@ final class AdminGuardTest extends ApiTestCase
         $res = $this->api->put(
             "/api/admin/users/{$testUserId}/role",
             ['role' => 'zzz'],
-            $this->adminToken()
+            $this->adminToken(),
         );
 
         $this->assertSame(422, $res['status']);
@@ -186,7 +199,7 @@ final class AdminGuardTest extends ApiTestCase
         $res = $this->api->put(
             '/api/admin/users/999999/role',
             ['role' => 'user'],
-            $this->adminToken()
+            $this->adminToken(),
         );
 
         $this->assertSame(404, $res['status']);
@@ -206,16 +219,24 @@ final class AdminGuardTest extends ApiTestCase
     {
         $testUser = $this->loginResponse('test@test.com', 'password123');
 
-        $res = $this->api->post('/api/orders', [
-            'juego' => 'Mobile Legends',
-            'player_id' => '987654321',
-            'server_id' => '4321',
-            'paquete' => '172 Diamantes',
-            'monto' => 3,
-            'telefono' => '04147654321',
-        ], (string) $testUser['token']);
+        $res = $this->api->post(
+            '/api/orders',
+            [
+                'juego' => 'Mobile Legends',
+                'player_id' => '987654321',
+                'server_id' => '4321',
+                'paquete' => '172 Diamantes',
+                'monto' => 3,
+                'telefono' => '04147654321',
+            ],
+            (string) $testUser['token'],
+        );
 
-        $this->assertSame(201, $res['status'], 'Could not create the test order.');
+        $this->assertSame(
+            201,
+            $res['status'],
+            'Could not create the test order.',
+        );
         $this->assertIsArray($res['body']);
 
         return (int) $res['body']['data']['id'];

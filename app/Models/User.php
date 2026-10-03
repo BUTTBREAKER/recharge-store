@@ -10,7 +10,9 @@ class User extends BaseModel
 
     public function login($email, $password)
     {
-        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE email = ?");
+        $stmt = $this->db->prepare(
+            "SELECT * FROM {$this->table} WHERE email = ?",
+        );
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -27,17 +29,21 @@ class User extends BaseModel
             return false;
         }
 
-        $stmt = $this->db->prepare("INSERT INTO {$this->table} (name, email, password, role) VALUES (?, ?, ?, 'user')");
+        $stmt = $this->db->prepare(
+            "INSERT INTO {$this->table} (name, email, password, role) VALUES (?, ?, ?, 'user')",
+        );
         return $stmt->execute([
             $data['name'],
             $data['email'],
-            password_hash($data['password'], PASSWORD_BCRYPT)
+            password_hash($data['password'], PASSWORD_BCRYPT),
         ]);
     }
 
     public function exists($email)
     {
-        $stmt = $this->db->prepare("SELECT id FROM {$this->table} WHERE email = ?");
+        $stmt = $this->db->prepare(
+            "SELECT id FROM {$this->table} WHERE email = ?",
+        );
         $stmt->execute([$email]);
         return $stmt->fetchColumn();
     }
@@ -51,15 +57,22 @@ class User extends BaseModel
 
     public function actualizarPerfil($id, $datos)
     {
-        $fields = ["name = :name", "email = :email"];
-        $params = ['name' => $datos['name'], 'email' => $datos['email'], 'id' => $id];
+        $fields = ['name = :name', 'email = :email'];
+        $params = [
+            'name' => $datos['name'],
+            'email' => $datos['email'],
+            'id' => $id,
+        ];
 
         if (isset($datos['avatar_url'])) {
-            $fields[] = "avatar_url = :avatar_url";
+            $fields[] = 'avatar_url = :avatar_url';
             $params['avatar_url'] = $datos['avatar_url'];
         }
 
-        $sql = "UPDATE {$this->table} SET " . implode(', ', $fields) . " WHERE id = :id";
+        $sql =
+            "UPDATE {$this->table} SET "
+            . implode(', ', $fields)
+            . ' WHERE id = :id';
         $stmt = $this->db->prepare($sql);
         return $stmt->execute($params);
     }
@@ -67,13 +80,17 @@ class User extends BaseModel
     public function cambiarPassword($id, $newPassword)
     {
         $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
-        $stmt = $this->db->prepare("UPDATE {$this->table} SET password = ? WHERE id = ?");
+        $stmt = $this->db->prepare(
+            "UPDATE {$this->table} SET password = ? WHERE id = ?",
+        );
         return $stmt->execute([$hashedPassword, $id]);
     }
 
     public function obtenerPorEmail($email)
     {
-        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE email = ?");
+        $stmt = $this->db->prepare(
+            "SELECT * FROM {$this->table} WHERE email = ?",
+        );
         $stmt->execute([$email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -83,22 +100,30 @@ class User extends BaseModel
     public function guardarTokenReset($email, $token, $expires)
     {
         // Borrar tokens anteriores
-        $this->db->prepare("DELETE FROM password_resets WHERE email = ?")->execute([$email]);
+        $this->db
+            ->prepare('DELETE FROM password_resets WHERE email = ?')
+            ->execute([$email]);
 
-        $stmt = $this->db->prepare("INSERT INTO password_resets (email, token, expires_at) VALUES (?, ?, ?)");
+        $stmt = $this->db->prepare(
+            'INSERT INTO password_resets (email, token, expires_at) VALUES (?, ?, ?)',
+        );
         return $stmt->execute([$email, $token, $expires]);
     }
 
     public function verificarTokenReset($token)
     {
-        $stmt = $this->db->prepare("SELECT email FROM password_resets WHERE token = ? AND expires_at > NOW()");
+        $stmt = $this->db->prepare(
+            'SELECT email FROM password_resets WHERE token = ? AND expires_at > NOW()',
+        );
         $stmt->execute([$token]);
         return $stmt->fetchColumn();
     }
 
     public function borrarTokenReset($token)
     {
-        $stmt = $this->db->prepare("DELETE FROM password_resets WHERE token = ?");
+        $stmt = $this->db->prepare(
+            'DELETE FROM password_resets WHERE token = ?',
+        );
         return $stmt->execute([$token]);
     }
 
@@ -118,7 +143,7 @@ class User extends BaseModel
             $sql .= " WHERE role = 'user'";
         }
 
-        $sql .= " ORDER BY created_at DESC";
+        $sql .= ' ORDER BY created_at DESC';
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
@@ -131,10 +156,14 @@ class User extends BaseModel
     public function contarPorRol($rol = null)
     {
         if ($rol) {
-            $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM {$this->table} WHERE role = ?");
+            $stmt = $this->db->prepare(
+                "SELECT COUNT(*) as total FROM {$this->table} WHERE role = ?",
+            );
             $stmt->execute([$rol]);
         } else {
-            $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM {$this->table}");
+            $stmt = $this->db->prepare(
+                "SELECT COUNT(*) as total FROM {$this->table}",
+            );
             $stmt->execute();
         }
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -146,12 +175,14 @@ class User extends BaseModel
      */
     public function actualizarCompleto($id, $datos)
     {
-        $stmt = $this->db->prepare("UPDATE {$this->table} SET name = ?, email = ?, role = ? WHERE id = ?");
+        $stmt = $this->db->prepare(
+            "UPDATE {$this->table} SET name = ?, email = ?, role = ? WHERE id = ?",
+        );
         return $stmt->execute([
             $datos['name'],
             $datos['email'],
             $datos['role'],
-            $id
+            $id,
         ]);
     }
 
@@ -160,7 +191,9 @@ class User extends BaseModel
      */
     public function cambiarRol($id, $nuevoRol)
     {
-        $stmt = $this->db->prepare("UPDATE {$this->table} SET role = ? WHERE id = ?");
+        $stmt = $this->db->prepare(
+            "UPDATE {$this->table} SET role = ? WHERE id = ?",
+        );
         return $stmt->execute([$nuevoRol, $id]);
     }
 

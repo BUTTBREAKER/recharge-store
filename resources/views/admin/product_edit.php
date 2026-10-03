@@ -1,4 +1,5 @@
 <?php
+
 // Product Edit View
 ?>
 
@@ -41,7 +42,11 @@
                     <label class="block text-sm font-bold text-foreground mb-2">Juego</label>
                     <select name="juego" required class="w-full px-4 py-3 bg-input border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary font-medium text-foreground">
                         <?php foreach ($juegos as $juego): ?>
-                        <option value="<?= htmlspecialchars($juego) ?>" <?= $producto['juego'] == $juego ? 'selected' : '' ?>><?= htmlspecialchars($juego) ?></option>
+                        <option value="<?= htmlspecialchars(
+                            $juego,
+                        ) ?>" <?= $producto['juego'] == $juego
+                            ? 'selected'
+                            : '' ?>><?= htmlspecialchars($juego) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -114,7 +119,9 @@
                 </div>
                 
                 <div class="flex items-center">
-                    <input type="checkbox" name="activo" id="activo" value="1" <?= $producto['activo'] ? 'checked' : '' ?> class="w-5 h-5 text-primary rounded border-border focus:ring-primary">
+                    <input type="checkbox" name="activo" id="activo" value="1" <?= $producto['activo']
+                            ? 'checked'
+                            : '' ?> class="w-5 h-5 text-primary rounded border-border focus:ring-primary">
                     <label for="activo" class="ml-3 text-sm font-medium text-foreground">Producto activo (visible en tienda)</label>
                 </div>
                 
@@ -141,8 +148,12 @@
                 <!-- Estado -->
                 <div class="p-4 bg-muted rounded-xl">
                     <p class="text-sm text-muted-foreground mb-2">Estado actual</p>
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold <?= $producto['activo'] ? 'bg-green-500/10 text-green-500' : 'bg-muted text-muted-foreground' ?>">
-                        <span class="w-2 h-2 rounded-full mr-2 <?= $producto['activo'] ? 'bg-green-500' : 'bg-muted-foreground' ?>"></span>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold <?= $producto['activo']
+                            ? 'bg-green-500/10 text-green-500'
+                            : 'bg-muted text-muted-foreground' ?>">
+                        <span class="w-2 h-2 rounded-full mr-2 <?= $producto['activo']
+                                ? 'bg-green-500'
+                                : 'bg-muted-foreground' ?>"></span>
                         <?= $producto['activo'] ? 'Activo' : 'Inactivo' ?>
                     </span>
                 </div>
@@ -150,13 +161,23 @@
                 <!-- Info -->
                 <div class="p-4 bg-muted rounded-xl">
                     <p class="text-sm text-muted-foreground mb-1">Creado</p>
-                    <p class="font-medium text-foreground"><?= isset($producto['created_at']) ? date('d/m/Y H:i', strtotime($producto['created_at'])) : 'N/A' ?></p>
+                    <p class="font-medium text-foreground"><?= isset(
+                        $producto['created_at'],
+                    )
+                            ? date(
+                                'd/m/Y H:i',
+                                strtotime($producto['created_at']),
+                            )
+                            : 'N/A' ?></p>
                 </div>
                 
                 <?php if (isset($producto['updated_at'])): ?>
                 <div class="p-4 bg-muted rounded-xl">
                     <p class="text-sm text-muted-foreground mb-1">Última actualización</p>
-                    <p class="font-medium text-foreground"><?= date('d/m/Y H:i', strtotime($producto['updated_at'])) ?></p>
+                    <p class="font-medium text-foreground"><?= date(
+                        'd/m/Y H:i',
+                        strtotime($producto['updated_at']),
+                    ) ?></p>
                 </div>
                 <?php endif; ?>
                 

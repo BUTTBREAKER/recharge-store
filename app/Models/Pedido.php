@@ -9,10 +9,13 @@ class Pedido extends BaseModel
     public function crear($data)
     {
         $hasUserId = isset($data['user_id']);
-        $sql = "INSERT INTO pedidos (juego, player_id, server_id, paquete, monto, metodo_pago, telefono, estado"
-            . ($hasUserId ? ", user_id" : "") . ") "
+        $sql =
+            'INSERT INTO pedidos (juego, player_id, server_id, paquete, monto, metodo_pago, telefono, estado'
+            . ($hasUserId ? ', user_id' : '')
+            . ') '
             . "VALUES (:juego, :player_id, :server_id, :paquete, :monto, :metodo_pago, :telefono, 'pendiente'"
-            . ($hasUserId ? ", :user_id" : "") . ")";
+            . ($hasUserId ? ', :user_id' : '')
+            . ')';
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($data);
@@ -21,44 +24,48 @@ class Pedido extends BaseModel
 
     public function obtenerPorId($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM pedidos WHERE id = ?");
+        $stmt = $this->db->prepare('SELECT * FROM pedidos WHERE id = ?');
         $stmt->execute([$id]);
         return $stmt->fetch();
     }
 
     public function actualizarEstado($id, $estado)
     {
-        $stmt = $this->db->prepare("UPDATE pedidos SET estado = ? WHERE id = ?");
+        $stmt = $this->db->prepare(
+            'UPDATE pedidos SET estado = ? WHERE id = ?',
+        );
         return $stmt->execute([$estado, $id]);
     }
 
     public function actualizarMetodoPago($id, $metodo)
     {
-        $stmt = $this->db->prepare("UPDATE pedidos SET metodo_pago = ? WHERE id = ?");
+        $stmt = $this->db->prepare(
+            'UPDATE pedidos SET metodo_pago = ? WHERE id = ?',
+        );
         return $stmt->execute([$metodo, $id]);
     }
 
     public function listarTodos($filters = [], $limit = null)
     {
-        $sql = "SELECT * FROM pedidos WHERE 1=1";
+        $sql = 'SELECT * FROM pedidos WHERE 1=1';
         $params = [];
 
         if (!empty($filters['estado'])) {
-            $sql .= " AND estado = :estado";
+            $sql .= ' AND estado = :estado';
             $params['estado'] = $filters['estado'];
         }
 
         if (!empty($filters['search'])) {
             // Nota: pedidos no tiene columna 'comprobante' (vivía en pagos);
             // se buscaba por paquete que es lo que el admin filtra.
-            $sql .= " AND (id LIKE :search OR player_id LIKE :search OR telefono LIKE :search OR paquete LIKE :search)";
+            $sql .= ' AND (id LIKE :search OR player_id LIKE :search OR telefono LIKE :search OR paquete LIKE :search)';
             $params['search'] = '%' . $filters['search'] . '%';
         }
 
-        $sql .= " ORDER BY fecha DESC";
+        $sql .= ' ORDER BY fecha DESC';
 
         if ($limit) {
-            $sql .= " LIMIT " . intval($limit);
+            $sql .= ' LIMIT ' . intval($limit);
         }
 
         $stmt = $this->db->prepare($sql);
@@ -71,7 +78,9 @@ class Pedido extends BaseModel
      */
     public function contarPorEstado($estado)
     {
-        $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM pedidos WHERE estado = ?");
+        $stmt = $this->db->prepare(
+            'SELECT COUNT(*) as total FROM pedidos WHERE estado = ?',
+        );
         $stmt->execute([$estado]);
         $result = $stmt->fetch();
         return $result['total'] ?? 0;
@@ -85,23 +94,23 @@ class Pedido extends BaseModel
     {
         // Verificar si la columna user_id existe
         try {
-            $sql = "SELECT * FROM pedidos WHERE user_id = :user_id";
+            $sql = 'SELECT * FROM pedidos WHERE user_id = :user_id';
             $params = ['user_id' => $userId];
 
             if (!empty($filters['search'])) {
-                $sql .= " AND (id LIKE :search OR player_id LIKE :search OR paquete LIKE :search)";
+                $sql .= ' AND (id LIKE :search OR player_id LIKE :search OR paquete LIKE :search)';
                 $params['search'] = '%' . $filters['search'] . '%';
             }
 
             if (!empty($filters['estado'])) {
-                $sql .= " AND estado = :estado";
+                $sql .= ' AND estado = :estado';
                 $params['estado'] = $filters['estado'];
             }
 
-            $sql .= " ORDER BY fecha DESC";
+            $sql .= ' ORDER BY fecha DESC';
 
             if ($limit) {
-                $sql .= " LIMIT " . intval($limit);
+                $sql .= ' LIMIT ' . intval($limit);
             }
 
             $stmt = $this->db->prepare($sql);
@@ -120,8 +129,8 @@ class Pedido extends BaseModel
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT COUNT(*) as total FROM pedidos WHERE user_id = ?"
-                . " AND estado IN ('pendiente', 'confirmado')"
+                'SELECT COUNT(*) as total FROM pedidos WHERE user_id = ?'
+                . " AND estado IN ('pendiente', 'confirmado')",
             );
             $stmt->execute([$userId]);
             $result = $stmt->fetch();

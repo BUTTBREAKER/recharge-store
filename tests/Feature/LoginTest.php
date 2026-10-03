@@ -79,7 +79,10 @@ final class LoginTest extends ApiTestCase
         $this->assertIsArray($res['body']);
         $this->assertArrayHasKey('token', $res['body']);
         $this->assertArrayHasKey('user', $res['body']);
-        $this->assertSame('new-customer@test.com', $res['body']['user']['email']);
+        $this->assertSame(
+            'new-customer@test.com',
+            $res['body']['user']['email'],
+        );
         $this->assertSame('user', $res['body']['user']['role']);
     }
 

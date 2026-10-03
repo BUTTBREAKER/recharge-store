@@ -6,12 +6,14 @@
             <p class="text-muted-foreground text-sm">Ingresa tu correo para restablecer tu contraseña</p>
         </div>
         
-        <?php if (isset($_GET['success'])) : ?>
+        <?php if (isset($_GET['success'])): ?>
             <div class="bg-green-500/10 text-green-600 p-4 rounded-xl mb-6 text-sm text-center border border-green-500/20">
                 <p>Te hemos enviado un enlace de recuperación.</p>
                 <?php if (\Leaf\Http\Session::has('demo_reset_link')): ?>
                     <div class="mt-2 p-2 bg-black/10 rounded text-xs break-all cursor-text select-all">
-                        DEMO LINK: <a href="<?= \Leaf\Http\Session::get('demo_reset_link') ?>" class="underline">Click Aquí</a>
+                        DEMO LINK: <a href="<?= \Leaf\Http\Session::get(
+                            'demo_reset_link',
+                        ) ?>" class="underline">Click Aquí</a>
                     </div>
                 <?php endif; ?>
             </div>

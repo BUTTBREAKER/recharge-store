@@ -108,8 +108,8 @@ class Analytics extends BaseModel
             WHERE estado IN ('confirmado', 'realizada')
             GROUP BY paquete, juego
             ORDER BY total_ventas DESC
-            LIMIT " . $limit . "
-        ";
+            LIMIT " . $limit . '
+        ';
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

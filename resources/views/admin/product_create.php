@@ -1,4 +1,5 @@
 <?php
+
 // Product Create View
 ?>
 
@@ -29,7 +30,9 @@
             <select name="juego" required class="w-full px-4 py-3 bg-input border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary font-medium text-foreground">
                 <option value="">Seleccionar juego...</option>
                 <?php foreach ($juegos as $juego): ?>
-                <option value="<?= htmlspecialchars($juego) ?>"><?= htmlspecialchars($juego) ?></option>
+                <option value="<?= htmlspecialchars(
+                    $juego,
+                ) ?>"><?= htmlspecialchars($juego) ?></option>
                 <?php endforeach; ?>
             </select>
         </div>

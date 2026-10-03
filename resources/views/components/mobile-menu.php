@@ -8,12 +8,12 @@ use Leaf\Http\Session;
     class="md:hidden bg-card border-t border-border/40 absolute w-full z-50 shadow-xl"
     :class="{ hidden: !mobileMenuOpen }">
     <div class="px-4 pt-2 pb-4 space-y-2">
-        <?php foreach ($links ?? [] as $link) : ?>
+        <?php foreach ($links ?? [] as $link): ?>
             <?php Flight::render('components/mobile-menu-link', $link) ?>
         <?php endforeach ?>
 
-        <?php if (Session::has('user_id')) : ?>
-            <?php if (Session::get('user_role') === 'admin') : ?>
+        <?php if (Session::has('user_id')): ?>
+            <?php if (Session::get('user_role') === 'admin'): ?>
                 <a
                     href="./admin/dashboard"
                     class="block px-3 py-2 rounded-md text-base font-bold text-primary bg-primary/10">
@@ -28,10 +28,15 @@ use Leaf\Http\Session;
                     <?= Session::get('user_name') ?? 'Usuario' ?>
                 </span>
 
-                <?php Flight::render('components/notifications', compact('notificationLink', 'notificationCount')) ?>
+                <?php Flight::render('components/notifications', compact(
+                    'notificationLink',
+                    'notificationCount',
+                )) ?>
 
                 <a
-                    href="<?= Session::get('user_role') === 'admin' ? './admin/profile' : './profile' ?>"
+                    href="<?= Session::get('user_role') === 'admin'
+                        ? './admin/profile'
+                        : './profile' ?>"
                     class="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:bg-muted">
                     Mi Perfil
                 </a>
@@ -42,7 +47,7 @@ use Leaf\Http\Session;
                     Cerrar Sesión
                 </a>
             </div>
-        <?php else : ?>
+        <?php else: ?>
             <div class="grid grid-cols-2 gap-4 mt-4">
                 <a
                     href="./login"

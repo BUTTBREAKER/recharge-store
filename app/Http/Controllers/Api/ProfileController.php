@@ -15,7 +15,11 @@ use Flight;
  */
 final class ProfileController
 {
-    private const ALLOWED_AVATAR_MIMES = ['image/jpeg', 'image/png', 'image/webp'];
+    private const ALLOWED_AVATAR_MIMES = [
+        'image/jpeg',
+        'image/png',
+        'image/webp',
+    ];
 
     private const MAX_AVATAR_SIZE = 2 * 1024 * 1024; // 2 MB
 
@@ -42,7 +46,9 @@ final class ProfileController
         $email = trim((string) ($data->email ?? ''));
 
         if ($name === '' || $email === '') {
-            Flight::json(['message' => 'Nombre y email son obligatorios.'], 422);
+            Flight::json([
+                'message' => 'Nombre y email son obligatorios.',
+            ], 422);
             return;
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -60,13 +66,21 @@ final class ProfileController
         $profile = ['name' => $name, 'email' => $email];
 
         $files = Flight::request()->files;
-        if (isset($files['avatar']) && $files['avatar']['error'] !== UPLOAD_ERR_NO_FILE) {
-            $profile['avatar_url'] = self::storeAvatar((int) $auth['uid'], $files['avatar']);
+        if (
+            isset($files['avatar'])
+            && $files['avatar']['error'] !== UPLOAD_ERR_NO_FILE
+        ) {
+            $profile['avatar_url'] = self::storeAvatar(
+                (int) $auth['uid'],
+                $files['avatar'],
+            );
         }
 
         $userModel->actualizarPerfil($auth['uid'], $profile);
 
-        Flight::json(['data' => self::present($userModel->obtenerPorId($auth['uid']))]);
+        Flight::json([
+            'data' => self::present($userModel->obtenerPorId($auth['uid'])),
+        ]);
     }
 
     /** PUT /api/profile/password */
@@ -80,11 +94,15 @@ final class ProfileController
         $confirm = (string) ($data->confirm_password ?? '');
 
         if ($current === '' || $new === '') {
-            Flight::json(['message' => 'Contraseña actual y nueva son obligatorias.'], 422);
+            Flight::json([
+                'message' => 'Contraseña actual y nueva son obligatorias.',
+            ], 422);
             return;
         }
         if (strlen($new) < 8) {
-            Flight::json(['message' => 'La contraseña debe tener al menos 8 caracteres.'], 422);
+            Flight::json([
+                'message' => 'La contraseña debe tener al menos 8 caracteres.',
+            ], 422);
             return;
         }
         if ($new !== $confirm) {
@@ -95,7 +113,9 @@ final class ProfileController
         $userModel = new User();
         $user = $userModel->obtenerPorId($auth['uid']);
         if (!$user || !password_verify($current, $user['password'])) {
-            Flight::json(['message' => 'La contraseña actual es incorrecta.'], 422);
+            Flight::json([
+                'message' => 'La contraseña actual es incorrecta.',
+            ], 422);
             return;
         }
 
@@ -114,7 +134,10 @@ final class ProfileController
             'estado' => $query->estado ?? null,
         ]);
 
-        Flight::json(['data' => array_map([OrderController::class, 'present'], $pedidos)]);
+        Flight::json(['data' => array_map(
+            [OrderController::class, 'present'],
+            $pedidos,
+        )]);
     }
 
     // ------------------------------------------------------------------
@@ -127,30 +150,56 @@ final class ProfileController
     private static function storeAvatar(int $userId, array $file): string
     {
         if ($file['error'] !== UPLOAD_ERR_OK) {
-            Flight::jsonHalt(['message' => 'Error al subir el avatar (código ' . $file['error'] . ').'], 422);
+            Flight::jsonHalt([
+                'message' =>
+                    'Error al subir el avatar (código ' . $file['error'] . ').',
+            ], 422);
         }
 
         $mime = mime_content_type($file['tmp_name']);
         if (!in_array($mime, self::ALLOWED_AVATAR_MIMES, true)) {
-            Flight::jsonHalt(['message' => 'El avatar debe ser JPG, PNG o WEBP.'], 422);
+            Flight::jsonHalt([
+                'message' => 'El avatar debe ser JPG, PNG o WEBP.',
+            ], 422);
         }
         if ($file['size'] > self::MAX_AVATAR_SIZE) {
-            Flight::jsonHalt(['message' => 'El avatar supera el máximo de 2 MB.'], 422);
+            Flight::jsonHalt([
+                'message' => 'El avatar supera el máximo de 2 MB.',
+            ], 422);
         }
 
-        $extension = strtolower(pathinfo((string) $file['name'], PATHINFO_EXTENSION));
-        if ($extension === '' || !in_array($extension, ['jpg', 'jpeg', 'png', 'webp'], true)) {
-            Flight::jsonHalt(['message' => 'Extensión de avatar no permitida.'], 422);
+        $extension = strtolower(pathinfo(
+            (string) $file['name'],
+            PATHINFO_EXTENSION,
+        ));
+        if (
+            $extension === ''
+            || !in_array($extension, ['jpg', 'jpeg', 'png', 'webp'], true)
+        ) {
+            Flight::jsonHalt([
+                'message' => 'Extensión de avatar no permitida.',
+            ], 422);
         }
 
         $directory = dirname(__DIR__, 4) . '/public/uploads/avatars';
-        if (!is_dir($directory) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
-            Flight::jsonHalt(['message' => 'No se pudo crear el directorio de avatares.'], 500);
+        if (
+            !is_dir($directory)
+            && !mkdir($directory, 0755, true)
+            && !is_dir($directory)
+        ) {
+            Flight::jsonHalt([
+                'message' => 'No se pudo crear el directorio de avatares.',
+            ], 500);
         }
 
         $filename = 'avatar_' . $userId . '_' . time() . '.' . $extension;
-        if (!move_uploaded_file($file['tmp_name'], $directory . '/' . $filename)) {
-            Flight::jsonHalt(['message' => 'No se pudo guardar el avatar.'], 500);
+        if (!move_uploaded_file(
+            $file['tmp_name'],
+            $directory . '/' . $filename,
+        )) {
+            Flight::jsonHalt([
+                'message' => 'No se pudo guardar el avatar.',
+            ], 500);
         }
 
         // Ruta absoluta para que el frontend pueda cargarla tal cual.
@@ -161,7 +210,11 @@ final class ProfileController
     {
         $avatar = $user['avatar_url'] ?? null;
         // Registros viejos guardan 'uploads/...' (relativo): normalizamos.
-        if (is_string($avatar) && $avatar !== '' && !str_starts_with($avatar, '/')) {
+        if (
+            is_string($avatar)
+            && $avatar !== ''
+            && !str_starts_with($avatar, '/')
+        ) {
             $avatar = '/' . ltrim($avatar, '/');
         }
 

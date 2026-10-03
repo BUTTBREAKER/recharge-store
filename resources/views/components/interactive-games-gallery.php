@@ -6,7 +6,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 $db = Container::getInstance()->get(Db::class);
 
-$games = $db->query('select distinct juego as game from productos')->fetchAll() ?: [];
+$games = $db->query('select distinct juego as game from productos')->fetchAll()
+?: [];
 $slug = Container::getInstance()->get(SluggerInterface::class)->slug(...);
 
 // Game images from stock search for marquee
@@ -33,22 +34,27 @@ $gameImages = [
 
         <!-- Interactive Gallery with Hover Effects -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-            <?php foreach ($games as $index => $game) : ?>
+            <?php foreach ($games as $index => $game): ?>
                 <?php
+
                 $gameSlug = $slug($game['game']);
                 $iconPath = "assets/images/games/{$gameSlug}/icon.png";
-                $hasIcon = file_exists(__DIR__ . '/../../../public/' . $iconPath);
+                $hasIcon = file_exists(
+                    __DIR__ . '/../../../public/' . $iconPath,
+                );
                 ?>
-                <a href="./juego/<?= $slug($game['game']) ?>" class="group block relative overflow-hidden rounded-3xl aspect-[4/3] shadow-xl hover:shadow-2xl transition-all duration-500">
+                <a href="./juego/<?= $slug(
+                    $game['game'],
+                ) ?>" class="group block relative overflow-hidden rounded-3xl aspect-[4/3] shadow-xl hover:shadow-2xl transition-all duration-500">
                     <!-- Base Image -->
                     <div class="absolute inset-0">
-                        <?php if ($hasIcon) : ?>
+                        <?php if ($hasIcon): ?>
                             <img 
                                 src="/<?= $iconPath ?>" 
                                 alt="<?= $game['game'] ?>" 
                                 class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                             >
-                        <?php else : ?>
+                        <?php else: ?>
                             <div class="w-full h-full bg-gradient-to-br from-primary via-accent to-secondary flex items-center justify-center">
                                 <span class="text-9xl drop-shadow-2xl filter transform group-hover:scale-110 transition-transform duration-700">🎮</span>
                             </div>

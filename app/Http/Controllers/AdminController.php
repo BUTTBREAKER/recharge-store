@@ -43,17 +43,21 @@ class AdminController
         // Últimos pedidos
         $ultimosPedidos = $pedidoModel->listarTodos(null, 10);
 
-        Flight::render('admin/dashboard', [
-            'ventasDiarias' => $ventasDiarias,
-            'ventasSemanales' => $ventasSemanales,
-            'ventasMensuales' => $ventasMensuales,
-            'resumen' => $resumen,
-            'topProductos' => $topProductos,
-            'ultimosPedidos' => $ultimosPedidos
-        ], 'content');
+        Flight::render(
+            'admin/dashboard',
+            [
+                'ventasDiarias' => $ventasDiarias,
+                'ventasSemanales' => $ventasSemanales,
+                'ventasMensuales' => $ventasMensuales,
+                'resumen' => $resumen,
+                'topProductos' => $topProductos,
+                'ultimosPedidos' => $ultimosPedidos,
+            ],
+            'content',
+        );
 
         Flight::render('admin_layout', [
-            'title' => "Dashboard Admin - {$_ENV['APP_NAME']}"
+            'title' => "Dashboard Admin - {$_ENV['APP_NAME']}",
         ]);
     }
 
@@ -69,11 +73,17 @@ class AdminController
 
         $productos = $productoModel->listarTodos($juego, false);
 
-        Flight::render('admin/manage_prices', [
-            'productos' => $productos,
-            'juegoFiltro' => $juego
-        ], 'content');
-        Flight::render('admin_layout', ['title' => 'Gestión de Precios - Admin']);
+        Flight::render(
+            'admin/manage_prices',
+            [
+                'productos' => $productos,
+                'juegoFiltro' => $juego,
+            ],
+            'content',
+        );
+        Flight::render('admin_layout', [
+            'title' => 'Gestión de Precios - Admin',
+        ]);
     }
 
     /**
@@ -128,11 +138,17 @@ class AdminController
             }
         }
 
-        Flight::render('admin/manage_payments', [
-            'pagoMovil' => $pagoMovil,
-            'binance' => $binance
-        ], 'content');
-        Flight::render('admin_layout', ['title' => 'Configuración de Pagos - Admin']);
+        Flight::render(
+            'admin/manage_payments',
+            [
+                'pagoMovil' => $pagoMovil,
+                'binance' => $binance,
+            ],
+            'content',
+        );
+        Flight::render('admin_layout', [
+            'title' => 'Configuración de Pagos - Admin',
+        ]);
     }
 
     /**
@@ -150,13 +166,13 @@ class AdminController
                 'banco' => Flight::request()->data->banco,
                 'telefono' => Flight::request()->data->telefono,
                 'cedula' => Flight::request()->data->cedula,
-                'titular' => Flight::request()->data->titular
+                'titular' => Flight::request()->data->titular,
             ]);
         } elseif ($metodo === 'binance') {
             $paymentModel->actualizarBinance([
                 'merchant_id' => Flight::request()->data->merchant_id,
                 'api_key' => Flight::request()->data->api_key,
-                'instrucciones' => Flight::request()->data->instrucciones
+                'instrucciones' => Flight::request()->data->instrucciones,
             ]);
         }
 
@@ -187,14 +203,20 @@ class AdminController
 
         $data = [
             'name' => Flight::request()->data->name,
-            'email' => Flight::request()->data->email
+            'email' => Flight::request()->data->email,
         ];
 
         // Manejar subida de Avatar
         $files = Flight::request()->files;
-        if (isset($files['avatar']) && $files['avatar']['error'] === UPLOAD_ERR_OK) {
+        if (
+            isset($files['avatar'])
+            && $files['avatar']['error'] === UPLOAD_ERR_OK
+        ) {
             $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-            if (in_array(mime_content_type($files['avatar']['tmp_name']), $allowedTypes)) {
+            if (in_array(
+                mime_content_type($files['avatar']['tmp_name']),
+                $allowedTypes,
+            )) {
                 $ext = pathinfo($files['avatar']['name'], PATHINFO_EXTENSION);
                 $filename = 'admin_' . $userId . '_' . time() . '.' . $ext;
                 $uploadPath = 'uploads/avatars/' . $filename;
@@ -204,7 +226,10 @@ class AdminController
                     mkdir($fullPath, 0777, true);
                 }
 
-                if (move_uploaded_file($files['avatar']['tmp_name'], $fullPath . $filename)) {
+                if (move_uploaded_file(
+                    $files['avatar']['tmp_name'],
+                    $fullPath . $filename,
+                )) {
                     $data['avatar_url'] = $uploadPath;
                     Session::set('user_avatar', $uploadPath);
                 }
@@ -258,9 +283,13 @@ class AdminController
             $juegos = ['Mobile Legends'];
         }
 
-        Flight::render('admin/product_create', [
-            'juegos' => $juegos
-        ], 'content');
+        Flight::render(
+            'admin/product_create',
+            [
+                'juegos' => $juegos,
+            ],
+            'content',
+        );
         Flight::render('admin_layout', ['title' => 'Nuevo Producto - Admin']);
     }
 
@@ -281,7 +310,7 @@ class AdminController
             'precio' => $data->precio,
             'precio_original' => $data->precio_original ?: null,
             'orden' => $data->orden ?: 0,
-            'activo' => isset($data->activo) ? 1 : 0
+            'activo' => isset($data->activo) ? 1 : 0,
         ]);
 
         Flight::redirect('/admin/prices?success=created');
@@ -306,10 +335,14 @@ class AdminController
         $productos = $productoModel->listarTodos(null, false);
         $juegos = array_unique(array_column($productos, 'juego'));
 
-        Flight::render('admin/product_edit', [
-            'producto' => $producto,
-            'juegos' => $juegos
-        ], 'content');
+        Flight::render(
+            'admin/product_edit',
+            [
+                'producto' => $producto,
+                'juegos' => $juegos,
+            ],
+            'content',
+        );
         Flight::render('admin_layout', ['title' => 'Editar Producto - Admin']);
     }
 
@@ -330,7 +363,7 @@ class AdminController
             'precio' => $data->precio,
             'precio_original' => $data->precio_original ?: null,
             'orden' => $data->orden ?: 0,
-            'activo' => isset($data->activo) ? 1 : 0
+            'activo' => isset($data->activo) ? 1 : 0,
         ]);
 
         Flight::redirect('/admin/products/edit/' . $data->id . '?success=1');
@@ -363,10 +396,16 @@ class AdminController
         $juegoModel = new \App\Models\Juego();
         $juegos = $juegoModel->listarTodos(false);
 
-        Flight::render('admin/games_index', [
-            'juegos' => $juegos
-        ], 'content');
-        Flight::render('admin_layout', ['title' => 'Gestión de Juegos - Admin']);
+        Flight::render(
+            'admin/games_index',
+            [
+                'juegos' => $juegos,
+            ],
+            'content',
+        );
+        Flight::render('admin_layout', [
+            'title' => 'Gestión de Juegos - Admin',
+        ]);
     }
 
     /**
@@ -397,7 +436,7 @@ class AdminController
             'imagen' => $data->imagen ?: null,
             'icono' => $data->icono ?: '🎮',
             'orden' => $data->orden ?: 0,
-            'activo' => isset($data->activo) ? 1 : 0
+            'activo' => isset($data->activo) ? 1 : 0,
         ]);
 
         Flight::redirect('/admin/games?success=created');
@@ -418,9 +457,13 @@ class AdminController
             return;
         }
 
-        Flight::render('admin/game_edit', [
-            'juego' => $juego
-        ], 'content');
+        Flight::render(
+            'admin/game_edit',
+            [
+                'juego' => $juego,
+            ],
+            'content',
+        );
         Flight::render('admin_layout', ['title' => 'Editar Juego - Admin']);
     }
 
@@ -441,7 +484,7 @@ class AdminController
             'imagen' => $data->imagen ?: null,
             'icono' => $data->icono ?: '🎮',
             'orden' => $data->orden ?: 0,
-            'activo' => isset($data->activo) ? 1 : 0
+            'activo' => isset($data->activo) ? 1 : 0,
         ]);
 
         Flight::redirect('/admin/games/edit/' . $data->id . '?success=1');
@@ -493,15 +536,21 @@ class AdminController
         $contadores = [
             'total' => $userModel->contarPorRol(),
             'admin' => $userModel->contarPorRol('admin'),
-            'user' => $userModel->contarPorRol('user')
+            'user' => $userModel->contarPorRol('user'),
         ];
 
-        Flight::render('admin/users_index', [
-            'usuarios' => $usuarios,
-            'filtro' => $filtro,
-            'contadores' => $contadores
-        ], 'content');
-        Flight::render('admin_layout', ['title' => 'Gestión de Usuarios - Admin']);
+        Flight::render(
+            'admin/users_index',
+            [
+                'usuarios' => $usuarios,
+                'filtro' => $filtro,
+                'contadores' => $contadores,
+            ],
+            'content',
+        );
+        Flight::render('admin_layout', [
+            'title' => 'Gestión de Usuarios - Admin',
+        ]);
     }
 
     /**
@@ -529,10 +578,14 @@ class AdminController
             // Si falla, solo mostrar 0
         }
 
-        Flight::render('admin/user_edit', [
-            'usuario' => $usuario,
-            'pedidosCount' => $pedidosCount
-        ], 'content');
+        Flight::render(
+            'admin/user_edit',
+            [
+                'usuario' => $usuario,
+                'pedidosCount' => $pedidosCount,
+            ],
+            'content',
+        );
         Flight::render('admin_layout', ['title' => 'Editar Usuario - Admin']);
     }
 
@@ -548,7 +601,7 @@ class AdminController
         $userModel = new User();
         // Solo permitimos actualizar el rol por políticas de privacidad
         $userModel->actualizarCompleto($data->id, [
-            'role' => $data->role
+            'role' => $data->role,
         ]);
 
         Flight::redirect('/admin/users/edit/' . $data->id . '?success=1');
@@ -621,7 +674,11 @@ class AdminController
         $pedido = $pedidoModel->obtenerPorId($id);
         $pago = $pagoModel->obtenerPorPedido($id);
 
-        Flight::render('admin/pedido_detalle', ['pedido' => $pedido, 'pago' => $pago], 'content');
+        Flight::render(
+            'admin/pedido_detalle',
+            ['pedido' => $pedido, 'pago' => $pago],
+            'content',
+        );
         Flight::render('admin_layout', ['title' => 'Detalle de Pedido']);
     }
 
@@ -634,7 +691,9 @@ class AdminController
         $pedidoModel = new Pedido();
         $pedidoModel->actualizarEstado($id, $estado);
 
-        Flight::redirect('/admin/orders?estado=' . $estado . '&success=updated');
+        Flight::redirect(
+            '/admin/orders?estado=' . $estado . '&success=updated',
+        );
     }
 
     // === Gestión de Pedidos/Recargas ===
@@ -652,7 +711,7 @@ class AdminController
         $pedidoModel = new Pedido();
         $pedidos = $pedidoModel->listarTodos([
             'estado' => $filtro,
-            'search' => $search
+            'search' => $search,
         ]);
 
         // Contar por estado para badges
@@ -660,15 +719,21 @@ class AdminController
             'pendiente' => $pedidoModel->contarPorEstado('pendiente'),
             'confirmado' => $pedidoModel->contarPorEstado('confirmado'),
             'realizada' => $pedidoModel->contarPorEstado('realizada'),
-            'cancelado' => $pedidoModel->contarPorEstado('cancelado')
+            'cancelado' => $pedidoModel->contarPorEstado('cancelado'),
         ];
 
-        Flight::render('admin/orders_management', [
-            'pedidos' => $pedidos,
-            'filtro' => $filtro,
-            'contadores' => $contadores
-        ], 'content');
-        Flight::render('admin_layout', ['title' => 'Gestión de Recargas - Admin']);
+        Flight::render(
+            'admin/orders_management',
+            [
+                'pedidos' => $pedidos,
+                'filtro' => $filtro,
+                'contadores' => $contadores,
+            ],
+            'content',
+        );
+        Flight::render('admin_layout', [
+            'title' => 'Gestión de Recargas - Admin',
+        ]);
     }
 
     /**
@@ -692,7 +757,7 @@ class AdminController
                     '✅ Pago Verificado',
                     "Tu pago por el paquete {$pedido['paquete']} ha sido verificado. Estamos procesando tu recarga.",
                     'pedido_actualizado',
-                    '/notifications'
+                    '/notifications',
                 );
             }
         }
@@ -721,7 +786,7 @@ class AdminController
                     '💎 Recarga Completada',
                     "¡Felicidades! Tu recarga de {$pedido['paquete']} ha sido enviada exitosamente. Revisa tu cuenta en el juego.",
                     'pedido_actualizado',
-                    '/notifications'
+                    '/notifications',
                 );
             }
         }
@@ -750,7 +815,7 @@ class AdminController
                     '❌ Problema con el Pago',
                     "No pudimos verificar tu pago para el paquete {$pedido['paquete']}. Por favor, contacta a soporte.",
                     'pedido_actualizado',
-                    '/notifications'
+                    '/notifications',
                 );
             }
         }
@@ -768,10 +833,16 @@ class AdminController
         $configModel = new SystemConfig();
         $exchangeRate = $configModel->getExchangeRate();
 
-        Flight::render('admin/system_config', [
-            'exchangeRate' => $exchangeRate
-        ], 'content');
-        Flight::render('admin_layout', ['title' => 'Configuración del Sistema - Admin']);
+        Flight::render(
+            'admin/system_config',
+            [
+                'exchangeRate' => $exchangeRate,
+            ],
+            'content',
+        );
+        Flight::render('admin_layout', [
+            'title' => 'Configuración del Sistema - Admin',
+        ]);
     }
 
     /**

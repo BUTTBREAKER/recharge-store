@@ -25,7 +25,10 @@
                 </div>
                 <div class="text-right">
                     <p class="text-sm text-muted-foreground">Total a pagar</p>
-                    <p class="font-bold text-2xl text-primary">$<?= number_format($pedido['monto'], 2) ?></p>
+                    <p class="font-bold text-2xl text-primary">$<?= number_format(
+                        $pedido['monto'],
+                        2,
+                    ) ?></p>
                 </div>
             </div>
         </div>

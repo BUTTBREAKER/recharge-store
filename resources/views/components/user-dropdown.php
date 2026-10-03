@@ -19,7 +19,15 @@ use Leaf\Http\Session;
     </button>
 
     <div class="absolute w-48 bg-card rounded-xl shadow-lg py-2 hidden group-hover:block border border-border animate-fade-in z-50">
-        <?php foreach ([['href' => Session::get('user_name') === 'admin' ? './admin/profile' : './profile', 'slot' => 'Mi Perfil'], ['href' => './logout', 'slot' => 'Cerrar Sesión']] as $link) : ?>
+        <?php foreach ([
+            [
+                'href' => Session::get('user_name') === 'admin'
+                    ? './admin/profile'
+                    : './profile',
+                'slot' => 'Mi Perfil',
+            ],
+            ['href' => './logout', 'slot' => 'Cerrar Sesión'],
+        ] as $link): ?>
             <?php Flight::render('components/user-dropdown-link', $link) ?>
         <?php endforeach ?>
     </div>

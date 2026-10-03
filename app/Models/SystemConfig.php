@@ -12,7 +12,9 @@ class SystemConfig extends BaseModel
     public function get($key)
     {
         try {
-            $stmt = $this->db->prepare("SELECT config_value FROM system_config WHERE config_key = ?");
+            $stmt = $this->db->prepare(
+                'SELECT config_value FROM system_config WHERE config_key = ?',
+            );
             $stmt->execute([$key]);
             $result = $stmt->fetch();
             return $result['config_value'] ?? null;
@@ -27,11 +29,11 @@ class SystemConfig extends BaseModel
     public function set($key, $value, $description = null)
     {
         try {
-            $stmt = $this->db->prepare("
+            $stmt = $this->db->prepare('
                 INSERT INTO system_config (config_key, config_value, description) 
                 VALUES (?, ?, ?)
                 ON DUPLICATE KEY UPDATE config_value = ?, updated_at = CURRENT_TIMESTAMP
-            ");
+            ');
             return $stmt->execute([$key, $value, $description, $value]);
         } catch (PDOException $e) {
             return false;
@@ -52,7 +54,11 @@ class SystemConfig extends BaseModel
      */
     public function setExchangeRate($rate)
     {
-        return $this->set('exchange_rate_usd_bs', $rate, 'Tasa de cambio USD a Bolívares para Pago Móvil');
+        return $this->set(
+            'exchange_rate_usd_bs',
+            $rate,
+            'Tasa de cambio USD a Bolívares para Pago Móvil',
+        );
     }
 
     /**

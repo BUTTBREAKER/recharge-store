@@ -6,15 +6,19 @@
             <p class="text-muted-foreground text-sm">Establece tu nueva clave de acceso</p>
         </div>
         
-        <?php if (isset($_GET['error'])) : ?>
+        <?php if (isset($_GET['error'])): ?>
             <div class="bg-destructive/10 text-destructive p-4 rounded-xl mb-6 text-sm text-center border border-destructive/20 animate-shake">
-                <?= $_GET['error'] == 'mismatch' ? 'Las contraseñas no coinciden' : 'Enlace inválido o expirado' ?>
+                <?= $_GET['error'] == 'mismatch'
+                    ? 'Las contraseñas no coinciden'
+                    : 'Enlace inválido o expirado' ?>
             </div>
         <?php endif; ?>
 
         <form action="./reset-password" method="POST" class="space-y-6">
             <?php csrf_field() ?>
-            <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+            <input type="hidden" name="token" value="<?= htmlspecialchars(
+                $token,
+            ) ?>">
             
             <div>
                 <label class="block text-sm font-bold text-foreground mb-2">Nueva Contraseña</label>

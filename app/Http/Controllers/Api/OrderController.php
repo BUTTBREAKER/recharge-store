@@ -34,7 +34,9 @@ final class OrderController
             return;
         }
         if ($paquete === '' || !is_numeric($monto) || (float) $monto <= 0) {
-            Flight::json(['message' => 'Paquete y monto son obligatorios.'], 422);
+            Flight::json([
+                'message' => 'Paquete y monto son obligatorios.',
+            ], 422);
             return;
         }
 
@@ -57,7 +59,9 @@ final class OrderController
         $pedidoModel = new Pedido();
         $pedidoId = $pedidoModel->crear($pedidoData);
 
-        Flight::json(['data' => self::present($pedidoModel->obtenerPorId($pedidoId))], 201);
+        Flight::json([
+            'data' => self::present($pedidoModel->obtenerPorId($pedidoId)),
+        ], 201);
     }
 
     /** POST /api/orders/@id/pay — define el método de pago y devuelve los datos para pagar. */
@@ -65,7 +69,9 @@ final class OrderController
     {
         $metodo = trim((string) (Flight::request()->data->metodo ?? ''));
         if (!in_array($metodo, ['pagomovil', 'binance'], true)) {
-            Flight::json(['message' => 'Método de pago inválido. Usa pagomovil o binance.'], 422);
+            Flight::json([
+                'message' => 'Método de pago inválido. Usa pagomovil o binance.',
+            ], 422);
             return;
         }
 
@@ -145,7 +151,8 @@ final class OrderController
     {
         return [
             'id' => (int) $pedido['id'],
-            'user_id' => isset($pedido['user_id']) && $pedido['user_id'] !== null
+            'user_id' => isset($pedido['user_id'])
+            && $pedido['user_id'] !== null
                 ? (int) $pedido['user_id']
                 : null,
             'juego' => $pedido['juego'],

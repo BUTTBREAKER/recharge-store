@@ -1,4 +1,5 @@
 <?php
+
 // Preparar datos para Chart.js
 $ventasDiariasLabels = [];
 $ventasDiariasData = [];
@@ -58,7 +59,10 @@ foreach ($ventasMensuales as $v) {
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-violet-100 text-sm font-medium mb-1">Total Ventas</p>
-                <h3 class="text-3xl font-bold">$<?= number_format($resumen['total_ventas'] ?? 0, 2) ?></h3>
+                <h3 class="text-3xl font-bold">$<?= number_format(
+                    $resumen['total_ventas'] ?? 0,
+                    2,
+                ) ?></h3>
             </div>
             <div class="bg-white/20 p-3 rounded-xl">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -71,7 +75,8 @@ foreach ($ventasMensuales as $v) {
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-blue-100 text-sm font-medium mb-1">Pedidos Hoy</p>
-                <h3 class="text-3xl font-bold"><?= $resumen['pedidos_hoy'] ?? 0 ?></h3>
+                <h3 class="text-3xl font-bold"><?= $resumen['pedidos_hoy']
+                    ?? 0 ?></h3>
             </div>
             <div class="bg-white/20 p-3 rounded-xl">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
@@ -84,7 +89,10 @@ foreach ($ventasMensuales as $v) {
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-green-100 text-sm font-medium mb-1">Promedio Venta</p>
-                <h3 class="text-3xl font-bold">$<?= number_format($resumen['promedio_venta'] ?? 0, 2) ?></h3>
+                <h3 class="text-3xl font-bold">$<?= number_format(
+                    $resumen['promedio_venta'] ?? 0,
+                    2,
+                ) ?></h3>
             </div>
             <div class="bg-white/20 p-3 rounded-xl">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
@@ -97,7 +105,8 @@ foreach ($ventasMensuales as $v) {
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-amber-100 text-sm font-medium mb-1">Total Pedidos</p>
-                <h3 class="text-3xl font-bold"><?= $resumen['total_pedidos'] ?? 0 ?></h3>
+                <h3 class="text-3xl font-bold"><?= $resumen['total_pedidos']
+                    ?? 0 ?></h3>
             </div>
             <div class="bg-white/20 p-3 rounded-xl">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
@@ -160,25 +169,44 @@ foreach ($ventasMensuales as $v) {
                 </tr>
             </thead>
             <tbody class="divide-y divide-border">
-                <?php foreach ($ultimosPedidos as $p) : ?>
+                <?php foreach ($ultimosPedidos as $p): ?>
                 <tr class="hover:bg-muted/50 transition">
-                    <td class="px-6 py-4 font-mono text-sm text-muted-foreground">#<?= str_pad($p['id'], 5, '0', STR_PAD_LEFT) ?></td>
+                    <td class="px-6 py-4 font-mono text-sm text-muted-foreground">#<?= str_pad(
+                        $p['id'],
+                        5,
+                        '0',
+                        STR_PAD_LEFT,
+                    ) ?></td>
                     <td class="px-6 py-4">
                         <div class="font-medium text-foreground"><?= $p['paquete'] ?></div>
                         <div class="text-xs text-muted-foreground"><?= $p['juego'] ?></div>
                     </td>
-                    <td class="px-6 py-4 font-bold text-foreground">$<?= number_format($p['monto'], 2) ?></td>
+                    <td class="px-6 py-4 font-bold text-foreground">$<?= number_format(
+                        $p['monto'],
+                        2,
+                    ) ?></td>
                     <td class="px-6 py-4">
                         <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold
-                            <?= $p['estado'] == 'pendiente' ? 'bg-yellow-500/10 text-yellow-500' : '' ?>
-                            <?= $p['estado'] == 'confirmado' ? 'bg-blue-500/10 text-blue-500' : '' ?>
-                            <?= $p['estado'] == 'realizada' ? 'bg-green-500/10 text-green-500' : '' ?>
-                            <?= $p['estado'] == 'cancelado' ? 'bg-red-500/10 text-red-500' : '' ?>
+                            <?= $p['estado'] == 'pendiente'
+                                ? 'bg-yellow-500/10 text-yellow-500'
+                                : '' ?>
+                            <?= $p['estado'] == 'confirmado'
+                                ? 'bg-blue-500/10 text-blue-500'
+                                : '' ?>
+                            <?= $p['estado'] == 'realizada'
+                                ? 'bg-green-500/10 text-green-500'
+                                : '' ?>
+                            <?= $p['estado'] == 'cancelado'
+                                ? 'bg-red-500/10 text-red-500'
+                                : '' ?>
                         ">
                             <?= ucfirst($p['estado']) ?>
                         </span>
                     </td>
-                    <td class="px-6 py-4 text-sm text-muted-foreground"><?= date('d/m/Y H:i', strtotime($p['fecha'])) ?></td>
+                    <td class="px-6 py-4 text-sm text-muted-foreground"><?= date(
+                        'd/m/Y H:i',
+                        strtotime($p['fecha']),
+                    ) ?></td>
                     <td class="px-6 py-4 text-right">
                         <a href="./admin/pedido/<?= $p['id'] ?>" class="text-primary hover:text-primary/80 font-medium text-sm">
                             Ver detalles →
