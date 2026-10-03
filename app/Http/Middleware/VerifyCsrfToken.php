@@ -1,20 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Leaf\Http\Session;
 use Flight;
 
-class VerifyCsrfToken
+final class VerifyCsrfToken
 {
     /**
      * Rutas excluidas de validación CSRF (ej: webhooks de pago)
      */
-    protected static $except = [
+    private static array $except = [
         '/api', // La API usa Bearer token, no cookies (ver ApiAuth)
         '/api/binance/webhook',
         '/pago/binance/callback',
-        '/ajax/settings/theme'
+        '/ajax/settings/theme',
     ];
 
     public static function handle(): void

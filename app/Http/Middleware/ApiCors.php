@@ -14,11 +14,12 @@ use Flight;
  * (default http://localhost:3000, el dev server de Next).
  * El preflight OPTIONS se responde aquí mismo con 204.
  */
-final class ApiCors
+final readonly class ApiCors
 {
     public static function handle(): void
     {
         $url = Flight::request()->url;
+
         if (!str_starts_with($url, '/api')) {
             return;
         }
@@ -28,8 +29,14 @@ final class ApiCors
         Flight::response()
             ->header('Access-Control-Allow-Origin', $origin)
             ->header('Access-Control-Allow-Credentials', 'true')
-            ->header('Access-Control-Allow-Headers', 'Authorization, Content-Type, X-Requested-With')
-            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            ->header(
+                'Access-Control-Allow-Headers',
+                'Authorization, Content-Type, X-Requested-With',
+            )
+            ->header(
+                'Access-Control-Allow-Methods',
+                'GET, POST, PUT, DELETE, OPTIONS',
+            );
 
         if (Flight::request()->method === 'OPTIONS') {
             Flight::halt(204, '');

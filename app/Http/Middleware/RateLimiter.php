@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Leaf\Http\Session;
 use Flight;
 
-class RateLimiter
+final readonly class RateLimiter
 {
     /**
      * Limita intentos por IP/Sesión
@@ -34,13 +36,17 @@ class RateLimiter
         }
     }
 
-    public static function registerAttempt()
+    public static function registerAttempt(): void
     {
-        Session::set('login_attempts', (Session::get('login_attempts') ?? 0) + 1);
+        Session::set(
+            'login_attempts',
+            (Session::get('login_attempts') ?? 0) + 1,
+        );
+
         Session::set('last_login_attempt', time());
     }
 
-    public static function resetAttempts()
+    public static function resetAttempts(): void
     {
         Session::set('login_attempts', 0);
         Session::set('last_login_attempt', null);
