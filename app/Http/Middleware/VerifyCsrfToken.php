@@ -56,16 +56,4 @@ final class VerifyCsrfToken
             }
         }
     }
-
-    /**
-     * Generar y obtener el token CSRF para la sesión actual
-     */
-    public static function generateToken(): string
-    {
-        if (!Session::has('_csrf_token')) {
-            Session::set('_csrf_token', bin2hex(random_bytes(32)));
-        }
-
-        return Session::get('_csrf_token');
-    }
 }
