@@ -138,32 +138,41 @@ Flight::before('start', static function (): void {
             }
         }
 
-        $token = $request->data->_csrf_token
-            ?? $request->query->_csrf_token
+        $token = $request->data['_csrf_token']
+            ?? $request->query['_csrf_token']
             ?? $request->getVar('HTTP_X_CSRF_TOKEN');
 
         if (!$token || $token !== Session::get('_csrf_token')) {
-            $isAjax = (
+            $isAjax =
                 $request->getVar('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest'
-                || str_contains($request->url, '/ajax/')
-            );
+                || str_contains($request->url, '/ajax/');
 
             if ($isAjax) {
+                $message = 'Tu sesión ha expirado. Por favor, recarga la página.';
+
                 Flight::halt(
                     403,
                     json_encode([
                         'error' => 'CSRF token mismatch',
-                        'message' => 'Tu sesión ha expirado. Por favor, recarga la página.'
+                        'message' => $message,
                     ]),
                 );
 
                 return;
             }
 
-            Flight::halt(
-                403,
-                "<h1>403 Forbidden</h1><p>CSRF token mismatch. Tu sesión ha expirado o la solicitud es inválida.</p><p><a href='" . ($request->referrer ?? '/') . "'>Volver</a></p>",
-            );
+            $referrer = $request->referrer ?? '/';
+
+            Flight::halt(403, <<<html
+            <h1>403 Forbidden</h1>
+            <p>
+                CSRF token mismatch.
+                Tu sesión ha expirado o la solicitud es inválida.
+            </p>
+            <p>
+                <a href="{$referrer}">Volver</a>
+            </p>
+            html);
         }
     }
 });
