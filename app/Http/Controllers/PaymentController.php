@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Flight;
 use App\Models\Pago;
 use App\Models\Pedido;
+use Flight;
 
 class PaymentController
 {

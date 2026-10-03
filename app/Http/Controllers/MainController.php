@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pedido;
+use App\Models\SystemConfig;
 use Flight;
 use flight\Container;
 use Leaf\Db;
 use Leaf\Http\Session;
 use PDO;
-use App\Models\Pedido;
-use App\Models\SystemConfig;
 
 class MainController
 {

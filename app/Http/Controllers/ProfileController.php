@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Flight;
-use Leaf\Http\Session;
 use App\Models\Pedido;
 use App\Models\User;
+use Flight;
+use Leaf\Http\Session;
 
 class ProfileController
 {
