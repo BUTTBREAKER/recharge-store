@@ -19,7 +19,7 @@ class AdminController
         if (!Session::has('user_id') || Session::get('user_role') !== 'admin') {
             Flight::redirect('/login');
 
-            exit;
+            exit();
         }
     }
 

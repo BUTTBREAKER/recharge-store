@@ -13,7 +13,7 @@ class ProfileController
     {
         if (!Session::has('user_id')) {
             Flight::redirect('/login');
-            exit;
+            exit();
         }
     }
 
