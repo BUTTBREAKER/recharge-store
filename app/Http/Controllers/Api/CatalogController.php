@@ -18,7 +18,7 @@ final class CatalogController
     /** GET /api/games */
     public static function games(): void
     {
-        $games = (new Juego())->listarTodos(true);
+        $games = new Juego()->listarTodos(true);
 
         Flight::json(['data' => array_map([self::class, 'presentGame'], $games)]);
     }
@@ -26,7 +26,7 @@ final class CatalogController
     /** GET /api/games/@slug */
     public static function game(string $slug): void
     {
-        $game = (new Juego())->obtenerPorSlug($slug);
+        $game = new Juego()->obtenerPorSlug($slug);
         if (!$game || empty($game['activo'])) {
             Flight::json(['message' => 'Juego no encontrado.'], 404);
             return;
@@ -38,21 +38,26 @@ final class CatalogController
     /** GET /api/games/@slug/products */
     public static function products(string $slug): void
     {
-        $game = (new Juego())->obtenerPorSlug($slug);
+        $game = new Juego()->obtenerPorSlug($slug);
         if (!$game || empty($game['activo'])) {
             Flight::json(['message' => 'Juego no encontrado.'], 404);
             return;
         }
 
-        $products = (new Producto())->obtenerPorJuego($game['nombre']);
-        Flight::json(['data' => array_map([self::class, 'presentProduct'], $products)]);
+        $products = new Producto()->obtenerPorJuego($game['nombre']);
+        Flight::json(['data' => array_map(
+            [self::class, 'presentProduct'],
+            $products,
+        )]);
     }
 
     /** GET /api/config/exchange-rate */
     public static function exchangeRate(): void
     {
         Flight::json([
-            'data' => ['exchange_rate_usd_bs' => (new SystemConfig())->getExchangeRate()],
+            'data' => [
+                'exchange_rate_usd_bs' => new SystemConfig()->getExchangeRate(),
+            ],
         ]);
     }
 

@@ -23,7 +23,7 @@ final class DashboardController
 
         $ultimosPedidos = array_map(
             [ApiOrderController::class, 'present'],
-            (new Pedido())->listarTodos([], 10),
+            new Pedido()->listarTodos([], 10),
         );
 
         Flight::json([

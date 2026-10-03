@@ -73,10 +73,12 @@ final class SettingsController
             return;
         }
 
-        (new SystemConfig())->setExchangeRate((float) $rate);
+        new SystemConfig()->setExchangeRate((float) $rate);
 
         Flight::json([
-            'data' => ['exchange_rate_usd_bs' => (new SystemConfig())->getExchangeRate()],
+            'data' => [
+                'exchange_rate_usd_bs' => new SystemConfig()->getExchangeRate(),
+            ],
         ]);
     }
 
@@ -86,7 +88,7 @@ final class SettingsController
     private static function metodos(): array
     {
         $out = [];
-        foreach ((new PaymentConfig())->obtenerTodas() as $row) {
+        foreach (new PaymentConfig()->obtenerTodas() as $row) {
             $out[$row['metodo']] = [
                 'id' => (int) $row['id'],
                 'metodo' => $row['metodo'],

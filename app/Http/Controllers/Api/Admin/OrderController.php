@@ -52,7 +52,7 @@ final class OrderController
     /** GET /api/admin/orders/@id — detalle con pago y comprobante. */
     public static function show(string $id): void
     {
-        $pedido = (new Pedido())->obtenerPorId($id);
+        $pedido = new Pedido()->obtenerPorId($id);
         if (!$pedido) {
             Flight::json(['message' => 'Pedido no encontrado.'], 404);
             return;
@@ -152,7 +152,7 @@ final class OrderController
         }
 
         if (!empty($pedido['user_id'])) {
-            (new Notificacion())->crear(
+            new Notificacion()->crear(
                 $pedido['user_id'],
                 $notificacionTitulo,
                 str_replace('{paquete}', (string) $pedido['paquete'], $notificacionMensaje),
@@ -171,7 +171,7 @@ final class OrderController
 
     private static function pagoFor(string $id): ?array
     {
-        $pago = (new Pago())->obtenerPorPedido($id);
+        $pago = new Pago()->obtenerPorPedido($id);
 
         return $pago ? ApiOrderController::presentPago($pago) : null;
     }

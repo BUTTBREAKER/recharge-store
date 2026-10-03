@@ -26,7 +26,7 @@ final class AuthController
             return;
         }
 
-        $user = (new User())->login($email, $password);
+        $user = new User()->login($email, $password);
         if (!$user) {
             Flight::json(['message' => 'Credenciales incorrectas.'], 401);
             return;

@@ -23,7 +23,7 @@ final class CatalogController
     {
         $juego = Flight::request()->query->juego ?? null;
 
-        $productos = (new Producto())->listarTodos($juego ?: null, false);
+        $productos = new Producto()->listarTodos($juego ?: null, false);
 
         Flight::json(['data' => array_map([self::class, 'presentProduct'], $productos)]);
     }
@@ -33,7 +33,7 @@ final class CatalogController
     {
         $payload = self::productPayload(Flight::request()->data);
 
-        $newId = (new Producto())->crear($payload);
+        $newId = new Producto()->crear($payload);
 
         Flight::json(['data' => self::presentProduct((new Producto())->obtenerPorId($newId))], 201);
     }
@@ -112,7 +112,7 @@ final class CatalogController
     /** GET /api/admin/games — incluye inactivos (también alimenta el select del form de productos). */
     public static function games(): void
     {
-        $juegos = (new Juego())->listarTodos(false);
+        $juegos = new Juego()->listarTodos(false);
 
         Flight::json(['data' => array_map([self::class, 'presentGame'], $juegos)]);
     }
@@ -131,7 +131,7 @@ final class CatalogController
         $slug = trim((string) ($data->slug ?? ''));
         $finalSlug = $slug !== '' ? $slug : Juego::generarSlug($nombre);
 
-        $newId = (new Juego())->crear([
+        $newId = new Juego()->crear([
             'nombre' => $nombre,
             'slug' => $finalSlug,
             'descripcion' => ($data->descripcion ?? '') !== '' ? $data->descripcion : null,
@@ -141,7 +141,9 @@ final class CatalogController
             'activo' => (int) self::activoFlag($data, true),
         ]);
 
-        Flight::json(['data' => self::presentGame((new Juego())->obtenerPorId($newId))], 201);
+        Flight::json([
+            'data' => self::presentGame(new Juego()->obtenerPorId($newId)),
+        ], 201);
     }
 
     /** PUT /api/admin/games/@id */

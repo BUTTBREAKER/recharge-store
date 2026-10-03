@@ -32,7 +32,7 @@ final class NotificationController
     {
         $auth = ApiAuth::requireUser();
 
-        (new Notificacion())->marcarTodasComoLeidas($auth['uid']);
+        new Notificacion()->marcarTodasComoLeidas($auth['uid']);
 
         Flight::json(['message' => 'Notificaciones marcadas como leídas.']);
     }

@@ -85,7 +85,7 @@ final class OrderController
         ];
 
         if ($metodo === 'pagomovil') {
-            $config = (new PaymentConfig())->obtenerConfig('pagomovil');
+            $config = new PaymentConfig()->obtenerConfig('pagomovil');
             $payload['beneficiary'] = $config['config_data'] ?? null;
         } else {
             $payload['binance'] = ['url' => self::binanceUrl((string) $id)];
@@ -97,13 +97,13 @@ final class OrderController
     /** GET /api/orders/@id/status — estado del pedido y su pago. */
     public static function status(string $id): void
     {
-        $pedido = (new Pedido())->obtenerPorId($id);
+        $pedido = new Pedido()->obtenerPorId($id);
         if (!$pedido) {
             Flight::json(['message' => 'Pedido no encontrado.'], 404);
             return;
         }
 
-        $pago = (new Pago())->obtenerPorPedido($id);
+        $pago = new Pago()->obtenerPorPedido($id);
 
         Flight::json([
             'data' => [
@@ -116,7 +116,7 @@ final class OrderController
     /** GET /api/orders/@id/binance — link simulado de Binance Pay (mismo que el sitio). */
     public static function binance(string $id): void
     {
-        $pedido = (new Pedido())->obtenerPorId($id);
+        $pedido = new Pedido()->obtenerPorId($id);
         if (!$pedido) {
             Flight::json(['message' => 'Pedido no encontrado.'], 404);
             return;

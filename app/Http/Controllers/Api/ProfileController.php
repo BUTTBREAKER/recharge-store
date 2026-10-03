@@ -24,7 +24,7 @@ final class ProfileController
     {
         $auth = ApiAuth::requireUser();
 
-        $user = (new User())->obtenerPorId($auth['uid']);
+        $user = new User()->obtenerPorId($auth['uid']);
         if (!$user) {
             Flight::jsonHalt(['message' => 'Usuario no encontrado.'], 404);
         }
@@ -109,7 +109,7 @@ final class ProfileController
         $auth = ApiAuth::requireUser();
         $query = Flight::request()->query;
 
-        $pedidos = (new Pedido())->obtenerPorUsuario($auth['uid'], null, [
+        $pedidos = new Pedido()->obtenerPorUsuario($auth['uid'], null, [
             'search' => $query->search ?? null,
             'estado' => $query->estado ?? null,
         ]);

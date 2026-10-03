@@ -49,7 +49,7 @@ final class UserController
     /** GET /api/admin/users/@id — detalle sin password + pedidos asociados. */
     public static function show(string $id): void
     {
-        $user = (new User())->obtenerPorId($id);
+        $user = new User()->obtenerPorId($id);
         if (!$user) {
             Flight::json(['message' => 'Usuario no encontrado.'], 404);
             return;
@@ -57,7 +57,7 @@ final class UserController
 
         $pedidosCount = 0;
         try {
-            $pedidosCount = count((new Pedido())->obtenerPorUsuario((int) $id));
+            $pedidosCount = count(new Pedido()->obtenerPorUsuario((int) $id));
         } catch (\Throwable) {
             // Si no se pueden contar los pedidos, el detalle sigue siendo útil con 0.
         }
@@ -114,7 +114,7 @@ final class UserController
         // La BD no impone FK sobre pedidos.user_id: la integridad se valida
         // aquí como regla de negocio (igual que la baja del admin web).
         try {
-            $pedidosCount = count((new Pedido())->obtenerPorUsuario((int) $id));
+            $pedidosCount = count(new Pedido()->obtenerPorUsuario((int) $id));
         } catch (\Throwable) {
             $pedidosCount = 0;
         }

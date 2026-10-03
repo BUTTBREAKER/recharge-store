@@ -32,7 +32,7 @@ final class PaymentController
             Flight::json(['message' => 'pedido_id y referencia son obligatorios.'], 422);
             return;
         }
-        if (!(new Pedido())->obtenerPorId($pedidoId)) {
+        if (!new Pedido()->obtenerPorId($pedidoId)) {
             Flight::json(['message' => 'Pedido no encontrado.'], 404);
             return;
         }
@@ -42,7 +42,7 @@ final class PaymentController
             $comprobantePath = self::storeComprobante($pedidoId, $files['comprobante']);
         }
 
-        (new Pago())->registrar([
+        new Pago()->registrar([
             'pedido_id' => $pedidoId,
             'referencia' => $referencia,
             'comprobante' => $comprobantePath,
