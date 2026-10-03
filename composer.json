@@ -14,19 +14,17 @@
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "^2.2",
         "phpunit/phpunit": "^13.3",
-        "squizlabs/php_codesniffer": "^4.0",
         "symfony/var-dumper": "^8.1"
     },
     "scripts": {
-        "post-autoload-dump": "cp .env.example .env",
+        "post-autoload-dump": "cp -n .env.example .env",
         "serve": "php -S localhost:61001 -t public",
-        "format": ["mago format", "phpcbf"],
+        "format": "mago format",
         "lint": [
             "mago lint",
             "mago analyze",
             "mago guard",
-            "phpstan --memory-limit=1G",
-            "phpcs"
+            "phpstan --memory-limit=1G"
         ],
         "test": "phpunit"
     },
