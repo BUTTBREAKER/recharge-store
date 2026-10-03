@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Middleware\RateLimiter;
-use App\Http\Middleware\VerifyCsrfToken;
 use flight\Container;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -54,10 +52,6 @@ Flight::set('flight.handle_errors', false);
 Flight::set('flight.log_errors', false);
 Flight::set('flight.content_length', true);
 Flight::set('flight.v2.output_buffering', false);
-
-// MIDDLEWARES
-Flight::before('start', RateLimiter::loginLimit(...));
-Flight::before('start', VerifyCsrfToken::handle(...));
 
 // LOAD ROUTES
 $routesPaths = glob(ROOT_FOLDER_PATH . '/routes/*.php');
